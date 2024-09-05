@@ -42,6 +42,9 @@ const NavLinks = (props) => {
       <li>
         <NavLink to="/offreEmploi">OFFRE D'EMPLOI</NavLink>
       </li>
+      <li>
+        <NavLink to="/listeEmploi">LISTE EMPLOI</NavLink>
+      </li>
     </ul>
   );
 };
