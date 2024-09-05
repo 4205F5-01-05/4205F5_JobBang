@@ -1,0 +1,6 @@
+{
+  "env": {
+    "PORT": 5000,
+    "MONGODB_URI": "mongodb+srv://admin:admin-4a5-WEB&BDD@bd-siterecette.yakqb61.mongodb.net/?retryWrites=true&w=majority&appName=BD-siteRecette"
+  }
+}
