@@ -37,10 +37,7 @@ const NavLinks = (props) => {
   return (
     <ul className="nav-links">
       <li>
-        <NavLink to="/Signup">CONNEXION</NavLink>
-      </li>
-      <li>
-        <NavLink to="/offreEmploi">OFFRE D'EMPLOI</NavLink>
+        <NavLink to="/Signup">Publier Offres/Entreprise</NavLink>
       </li>
     </ul>
   );

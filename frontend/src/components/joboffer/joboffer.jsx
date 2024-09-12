@@ -1,7 +1,9 @@
-import { useContext, useState } from "react";
+import React from 'react'
 
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/auth-context";
-import { FaUser } from "react-icons/fa";
-export default function offreEmploi() {}
+const joboffer = () => {
+  return (
+    <div>joboffer</div>
+  )
+}
+
+export default joboffer

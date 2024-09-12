@@ -1,71 +1,33 @@
 import React, { useState } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import RootLayout from "./containers/Roots";
 import RegisterLogin from "./components/loginRegister/RegisterLogin";
-import offreEmploi from "./components/joboffer/joboffer";
+import ListeEmplois from "./components/listeEmplois/ListeEmplois";
 import PublierOffre from "./components/publierOffre/PublierOffre";
 import MesOffres from "./components/mesOffres/MesOffres";
+import styled from "styled-components";
+import { Navigate } from "react-router-dom";
 import "./App.css";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <RootLayout />,
-    children: [
-      { path: "/Signup", element: <RegisterLogin /> },
-      { path: "/offreEmploi", element: <offreEmploi /> },
-    ],
-  },
-]);
-
-const routerLogin = createBrowserRouter([
-  {
-    path: "/",
-    element: <PublierOffre />,
-    children: [{ path: "/mesOffres", element: <MesOffres /> }],
-  },
-]);
+const Container = styled.div`
+  
+`;
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const login = useCallback(() => {
-    setIsLoggedIn(true);
-  }, []);
-
-  const logout = useCallback(() => {
-    setIsLoggedIn(false);
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-  }, []);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setIsLoggedIn(true);
-    }
-  }, []);
-  console.log("isLoggedIn", isLoggedIn);
-  if (isLoggedIn) {
-    console.log("User conn.");
-    return (
-      <AuthContext.Provider
-        value={{ isLoggedIn: isLoggedIn, login: login, logout: logout }}
-      >
-        <RouterProvider router={routerLogin} />
-      </AuthContext.Provider>
-    );
-  } else {
-    console.log("User deco");
-
-    return (
-      <AuthContext.Provider
-        value={{ isLoggedIn: isLoggedIn, login: login, logout: logout }}
-      >
-        <RouterProvider router={router} />
-      </AuthContext.Provider>
-    );
-  }
+  return (
+    <BrowserRouter>
+      <Container>
+        <RootLayout />
+        <Routes>
+          <Route path="/" exact element={<Navigate to="/offreEmploi" />} />
+          <Route path="/signup" exact element={<RegisterLogin />} />
+          <Route path="/offreEmploi" exact element={<ListeEmplois />} />
+          <Route path="/publierOffre" exact element={<PublierOffre />} />
+          <Route path="/mesOffres" exact element={<MesOffres />} />
+        </Routes>
+      </Container>
+    </BrowserRouter>
+  );
 };
 
 export default App;
