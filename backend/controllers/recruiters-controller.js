@@ -129,7 +129,7 @@ const loginRecruiter = async (req, res, next) => {
         {
           rId: existingRecruiter.id,
           email: existingRecruiter.email,
-          company: existingRecruiter.comapny,
+          company: existingRecruiter.company,
         },
         "jaifet,mvfpdb!",
         { expiresIn: "24h" }
