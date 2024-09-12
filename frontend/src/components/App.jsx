@@ -1,10 +1,13 @@
-import React from 'react'
-
+import React from "react";
+import Profil from "../components/profil";
+import ProfilEmployeur from "./profil/ProfilEmployeur";
 
 const App = () => {
   return (
-    <div>App</div>
-  )
-}
+    <div className="App">
+      <ProfilEmployeur />
+    </div>
+  );
+};
 
-export default App
+export default App;
