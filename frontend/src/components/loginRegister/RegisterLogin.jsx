@@ -21,7 +21,7 @@ export default function RegisterLogin() {
     event.preventDefault();
     try {
       const response = await sendRequest(
-        `http://localhost:5000/api/users/login`,
+        `http://localhost:3000/api/users/login`,
         "POST",
         JSON.stringify(entredValues),
         {
