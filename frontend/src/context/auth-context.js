@@ -4,22 +4,22 @@ export const AuthContext = createContext({
   isLoggedIn: false,
   userId: null,
   token: null,
+  isEmployer: false, // Added this property
   login: () => {},
   logout: () => {},
 });
 
-// Source: Jad Sabbagh
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    const token = localStorage.getItem("token");
+    const storedUser = localStorage.getItem("user");
+    const storedToken = localStorage.getItem("token");
 
-    if (user && token) {
-      setUser(JSON.parse(user));
-      setToken(token);
+    if (storedUser && storedToken) {
+      setUser(JSON.parse(storedUser));
+      setToken(storedToken);
     }
   }, []);
 
@@ -43,8 +43,20 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("token");
   };
 
+  // Derive `isEmployer` from user object or handle it separately
+  const isEmployer = user?.isEmployer || false;
+
   return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>
+    <AuthContext.Provider
+      value={{
+        isLoggedIn: !!user && !!token,
+        userId: user?.id || null,
+        token,
+        isEmployer,
+        login,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
