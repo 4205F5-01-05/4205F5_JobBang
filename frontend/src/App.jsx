@@ -7,11 +7,10 @@ import PublierOffre from "./components/publierOffre/PublierOffre";
 import MesOffres from "./components/mesOffres/MesOffres";
 import styled from "styled-components";
 import { Navigate } from "react-router-dom";
+import Profile from "./components/profil/ProfilEmployeur";
 import "./App.css";
 
-const Container = styled.div`
-  
-`;
+const Container = styled.div``;
 
 const App = () => {
   return (
@@ -24,6 +23,7 @@ const App = () => {
           <Route path="/offreEmploi" exact element={<ListeEmplois />} />
           <Route path="/publierOffre" exact element={<PublierOffre />} />
           <Route path="/mesOffres" exact element={<MesOffres />} />
+          <Route path="/profil" exact element={<Profile />} />
         </Routes>
       </Container>
     </BrowserRouter>
