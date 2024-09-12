@@ -7,7 +7,7 @@ const recruitersRoutes = require("./routes/recruiters-routes");
 
 // --- CRÉATION DE L'APP ---
 const app = express();
-app.use(express.json);
+app.use(express.json());
 
 // --- ROUTES ---
 app.use((req, res, next) => {
