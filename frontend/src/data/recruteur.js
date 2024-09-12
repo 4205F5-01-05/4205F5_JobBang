@@ -1,0 +1,51 @@
+const RECRUITERS = [
+  {
+    name: "Test",
+    company: "Test",
+    phone: "123-123-1231",
+    email: "test@test.com",
+    mdp: "12345",
+    companyAddress: "3 Rue Des potiers",
+  },
+  {
+    name: "Test",
+    company: "Test",
+    phone: "123-123-1231",
+    email: "test@test.com",
+    mdp: "12345",
+    companyAddress: "3 Rue Des potiers",
+  },
+  {
+    name: "Test",
+    company: "Test",
+    phone: "123-123-1231",
+    email: "test@test.com",
+    mdp: "12345",
+    companyAddress: "3 Rue Des potiers",
+  },
+  {
+    name: "Test",
+    company: "Test",
+    phone: "123-123-1231",
+    email: "test@test.com",
+    mdp: "12345",
+    companyAddress: "3 Rue Des potiers",
+  },
+  {
+    name: "Test",
+    company: "Test",
+    phone: "123-123-1231",
+    email: "test@test.com",
+    mdp: "12345",
+    companyAddress: "3 Rue Des potiers",
+  },
+  {
+    name: "Test",
+    company: "Test",
+    phone: "123-123-1231",
+    email: "test@test.com",
+    mdp: "12345",
+    companyAddress: "3 Rue Des potiers",
+  },
+];
+export default RECRUITERS;
