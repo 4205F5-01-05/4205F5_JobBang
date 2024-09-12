@@ -1,36 +1,30 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
+import DataEmployeur from "../../data/DataEmployeur";
+
 const UserProfile = () => {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
   useEffect(() => {
-    const fetchProfile = async () => {
+    const fetchProfile = () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/Profil",
-          "POST"
-        );
-        setProfile(response.data);
+        setTimeout(() => {
+          setProfile(DataEmployeur[0]);
+          setLoading(false);
+        }, 1000);
       } catch (error) {
-        setError(error);
-      } finally {
+        setError("Failed to load profile data");
         setLoading(false);
       }
     };
     fetchProfile();
   }, []);
   if (loading) return <p>Chargement...</p>;
-  if (error)
-    return (
-      <p>
-        Veuillez vous connecter pour accéder à votre profil: {error.message}
-      </p>
-    );
+  if (error) return <p>{error}</p>;
   return (
     <div>
       <h1>Mon Profil</h1>
-
       {profile ? (
         <div>
           <p>
@@ -39,8 +33,15 @@ const UserProfile = () => {
           <p>
             <strong>Email:</strong> {profile.email}
           </p>
-
-          {/* Ajoutez d'autres informations selon vos besoins */}
+          <p>
+            <strong>Entreprise:</strong> {profile.company}
+          </p>
+          <p>
+            <strong>Téléphone:</strong> {profile.phone}
+          </p>
+          <p>
+            <strong>Adresse de l'entreprise:</strong> {profile.companyAddress}
+          </p>
         </div>
       ) : (
         <p>Aucune information sur le profil disponible</p>
