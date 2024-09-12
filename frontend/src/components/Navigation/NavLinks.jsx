@@ -39,9 +39,6 @@ const NavLinks = (props) => {
       <li>
         <NavLink to="/Signup">Publier Offres/Entreprise</NavLink>
       </li>
-      <li>
-        <NavLink to="/listeEmploi">LISTE EMPLOI</NavLink>
-      </li>
     </ul>
   );
 };
