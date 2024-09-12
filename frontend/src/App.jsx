@@ -1,26 +1,33 @@
-import React from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import React, { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import RootLayout from "./containers/Roots";
 import RegisterLogin from "./components/loginRegister/RegisterLogin";
-import offreEmploi from "./components/joboffer/joboffer";
-import ListeEmploi from "./components/listeEmploi/listeEmploi";
-
+import ListeEmplois from "./components/listeEmplois/ListeEmplois";
+import PublierOffre from "./components/publierOffre/PublierOffre";
+import MesOffres from "./components/mesOffres/MesOffres";
+import styled from "styled-components";
+import { Navigate } from "react-router-dom";
 import "./App.css";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <RootLayout />,
-    children: [
-      { path: "/Signup", element: <RegisterLogin /> },
-      { path: "/offreEmploi", element: <offreEmploi /> },
-      { path: "/listeEmploi", element: <ListeEmploi /> },
-    ],
-  },
-]);
+const Container = styled.div`
+  
+`;
 
 const App = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <BrowserRouter>
+      <Container>
+        <RootLayout />
+        <Routes>
+          <Route path="/" exact element={<Navigate to="/offreEmploi" />} />
+          <Route path="/signup" exact element={<RegisterLogin />} />
+          <Route path="/offreEmploi" exact element={<ListeEmplois />} />
+          <Route path="/publierOffre" exact element={<PublierOffre />} />
+          <Route path="/mesOffres" exact element={<MesOffres />} />
+        </Routes>
+      </Container>
+    </BrowserRouter>
+  );
 };
 
 export default App;
