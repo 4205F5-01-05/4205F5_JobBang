@@ -49,11 +49,12 @@ const getJobOfferById = async (req, res, next) => {
 
 // --- CREATE JOB OFFER ---
 const createJobOffer = async (req, res, next) => {
-  const { region, description, rid } = req.body;
+  const { region, description, titre, rid } = req.body;
 
   const createdJobOffer = new JOBOFFERS({
     region,
     description,
+    titre,
     rid,
   });
 
@@ -72,7 +73,7 @@ const createJobOffer = async (req, res, next) => {
 // --- UPDATE JOB OFFER ---
 const updateJobOffer = async (req, res, next) => {
   const jId = req.params.jId;
-  const { region, description } = req.body;
+  const { region, titre, description } = req.body;
 
   let jobOffer;
   try {
@@ -92,6 +93,7 @@ const updateJobOffer = async (req, res, next) => {
 
   jobOffer.region = region;
   jobOffer.description = description;
+  jobOffer.titre = titre;
 
   try {
     await jobOffer.save();
