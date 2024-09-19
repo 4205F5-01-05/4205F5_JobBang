@@ -20,8 +20,6 @@ const MesOffres = () => {
             key={index}
             title={job.titre}
             description={job.description}
-            r_email={RECRUITERS[index % RECRUITERS.length]?.email}
-            r_phone={RECRUITERS[index % RECRUITERS.length]?.phone}
           />
         ))}
       </Box>
