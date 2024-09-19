@@ -24,7 +24,6 @@ app.use((req, res, next) => {
 app.use("/api/recruiters", recruitersRoutes);
 app.use("/api/jobOffers", jobOffersRoutes);
 
-
 // --- GESTION ERREURS ---
 app.use((req, res, next) => {
   const error = new Error("Page introuvable");
@@ -36,6 +35,8 @@ app.use(errorHandler);
 // --- DÉMARRAGE SERVEUR ---
 const port = 5000;
 const uri_melia = "mongodb://localhost:27017/JobBangLocal";
+const uri_cloud =
+  "mongodb+srv://admin:Jaiepabs,Cvnac...@jobbang.yb0ee.mongodb.net/?retryWrites=true&w=majority&appName=JobBang";
 
 const uri = uri_melia;
 
