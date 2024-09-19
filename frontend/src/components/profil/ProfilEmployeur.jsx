@@ -10,7 +10,7 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/profile", {
+        const response = await fetch("http://localhost:5000/api/recruiters", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -46,16 +46,16 @@ const UserProfile = () => {
             <strong>Nom d'utilisateur:</strong> {data.name}
           </p>
           <p>
-            <strong>Email:</strong> {profile.email}
+            <strong>Email:</strong> {data.email}
           </p>
           <p>
-            <strong>Entreprise:</strong> {profile.company}
+            <strong>Entreprise:</strong> {data.company}
           </p>
           <p>
-            <strong>Téléphone:</strong> {profile.phone}
+            <strong>Téléphone:</strong> {data.phone}
           </p>
           <p>
-            <strong>Adresse de l'entreprise:</strong> {profile.companyAddress}
+            <strong>Adresse de l'entreprise:</strong> {data.companyAddress}
           </p>
         </div>
       ) : (
