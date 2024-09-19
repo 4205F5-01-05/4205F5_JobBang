@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Recruiters = require("./Recruiters");
 
 const jobOffersSchema = new mongoose.Schema({
   region: { type: String, default: "Quebec" },

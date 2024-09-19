@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const errorHandler = require("./handler/error-handler");
 
 const recruitersRoutes = require("./routes/recruiters-routes");
+const jobOffersRoutes = require("./routes/jobOffers-routes");
 
 // --- CRÉATION DE L'APP ---
 const app = express();
@@ -21,6 +22,8 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/recruiters", recruitersRoutes);
+app.use("/api/jobOffers", jobOffersRoutes);
+
 
 // --- GESTION ERREURS ---
 app.use((req, res, next) => {

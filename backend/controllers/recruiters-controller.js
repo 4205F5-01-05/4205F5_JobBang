@@ -131,7 +131,7 @@ const loginRecruiter = async (req, res, next) => {
           email: existingRecruiter.email,
           company: existingRecruiter.company,
         },
-        "jaifet,mvfpdb!",
+        "secret key",
         { expiresIn: "24h" }
       );
     } catch (e) {

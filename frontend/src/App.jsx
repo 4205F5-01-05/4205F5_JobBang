@@ -1,32 +1,44 @@
-import React, { useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { useContext } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import RootLayout from "./containers/Roots";
 import RegisterLogin from "./components/loginRegister/RegisterLogin";
 import ListeEmplois from "./components/listeEmplois/ListeEmplois";
 import PublierOffre from "./components/publierOffre/PublierOffre";
 import MesOffres from "./components/mesOffres/MesOffres";
-import styled from "styled-components";
-import { Navigate } from "react-router-dom";
 import Profile from "./components/profil/ProfilEmployeur";
+import { AuthContext, AuthProvider } from "./context/auth-context";
+import styled from "styled-components";
 import "./App.css";
 
 const Container = styled.div``;
 
+// Component pour les routes protégées
+const ProtectedRoute = ({ element, ...rest }) => {
+  const { isLoggedIn, user, token } = useContext(AuthContext);
+  if (user === null && token === null) {
+    return <div>Loading...</div>;
+  }
+  return isLoggedIn ? element : <Navigate to="/signup" />;
+};
+
 const App = () => {
   return (
-    <BrowserRouter>
-      <Container>
-        <RootLayout />
-        <Routes>
-          <Route path="/" exact element={<Navigate to="/offreEmploi" />} />
-          <Route path="/signup" exact element={<RegisterLogin />} />
-          <Route path="/offreEmploi" exact element={<ListeEmplois />} />
-          <Route path="/publierOffre" exact element={<PublierOffre />} />
-          <Route path="/mesOffres" exact element={<MesOffres />} />
-          <Route path="/profil" exact element={<Profile />} />
-        </Routes>
-      </Container>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Container>
+          <RootLayout />
+          <Routes>
+            <Route path="/" element={<Navigate to="/offreEmploi" />} />
+            <Route path="/signup" element={<RegisterLogin />} />
+            <Route path="/offreEmploi" element={<ListeEmplois />} />
+            {/* Les routes protégées */}
+            <Route path="/publierOffre" element={<ProtectedRoute element={<PublierOffre />} />} />
+            <Route path="/mesOffres" element={<ProtectedRoute element={<MesOffres />} />} />
+            <Route path="/profil" element={<ProtectedRoute element={<Profile />} />} />
+          </Routes>
+        </Container>
+      </BrowserRouter>
+    </AuthProvider>
   );
 };
 
