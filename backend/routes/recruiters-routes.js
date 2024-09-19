@@ -11,9 +11,13 @@ router.post("/login", recruitersController.loginRecruiter);
 
 router.get("/", recruitersController.getAllRecruiters);
 
+
 // Routes accessibles seulement si connecté
 router.use(checkAuth);
 router.get("/:rId", recruitersController.getRecruiterById);
+router.patch("/:rId", recruitersController.updateRecruiter);
+router.delete("/:rId", recruitersController.deleteRecruiter);
+
 
 // --- EXPORTS ---
 module.exports = router;
