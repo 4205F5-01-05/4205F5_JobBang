@@ -12,31 +12,38 @@ export const AuthContext = createContext({
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [isLoggedIn, setIsLogging] = useState(null);
 
   useEffect(() => {
-    try{
+    try {
       const storedUser = localStorage.getItem("user");
       const storedToken = localStorage.getItem("token");
-
+  
       if (storedUser && storedToken) {
+        // Check if the storedUser is a valid JSON string before parsing
         setUser(JSON.parse(storedUser));
         setToken(storedToken);
       }
-  } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.error("Error parsing stored user data:", error);
+      // Clear the invalid data from localStorage
       localStorage.removeItem("user");
       localStorage.removeItem("token");
-  }
+    }
   }, []);
-
   const login = (user, token) => {
     if (!user || !token) {
       console.log("Invalid user or token");
       return;
     }
 
+    console.log("Logging in user:", user, "with token:", token);
+
     setUser(user);
     setToken(token);
+    setUserId(user.rId);  // Set the userId state
+    setIsLogging(true);  // Set the isLoggedIn state
 
     localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("token", token);
@@ -45,6 +52,8 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     setToken(null);
+    setUserId(null);
+    setIsLogging(false);
     localStorage.removeItem("user");
     localStorage.removeItem("token");
   };
@@ -56,7 +65,7 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         isLoggedIn: !!user && !!token,
-        userId: user?.id || null,
+        userId: user?.rId || null,
         token,
         isEmployer,
         login,

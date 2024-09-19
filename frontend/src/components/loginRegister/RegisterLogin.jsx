@@ -35,20 +35,21 @@ export default function RegisterLogin() {
         body: JSON.stringify(data),
       });
       const responseData = await response.json();
-      console.log(responseData);
+      console.log("Here is the reponseData", responseData);
       if (!response.ok) {
         throw new Error(responseData.message);
       }
       
-      auth.login(responseData.rId, responseData.token);
-      localStorage.setItem("user", responseData.rId);
-      localStorage.setItem("token", responseData.token);
+      auth.login(responseData, responseData.token);
+      
 
-      console.log(auth.userId);
-      console.log(auth.token);
-      console.log(auth.isLoggedIn);
+      console.log("User id " + auth.userId);
+      console.log("Token " + auth.token);
+      console.log("User is logged in " + auth.isLoggedIn);
+    
       const userSession = localStorage.getItem("user");
       console.log("User session " + userSession);
+
       navigate("/publierOffre");
     } catch (err) {
       console.error(err);
@@ -71,12 +72,10 @@ export default function RegisterLogin() {
       });
       const responseData = await response.json();
       console.log(responseData);
-      <Link to="/publierOffre" />;
       if (!response.ok) {
         throw new Error(responseData.message);
       }
-
-      auth.login();
+      console.log("User registered successfully");
     } catch (err) {
       setError(err.message || "Une erreur est survenue, essayez plus tard.");
       console.error(err);
