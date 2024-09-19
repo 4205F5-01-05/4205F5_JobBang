@@ -27,19 +27,30 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-
-.wrapper {
+.wrapperEmploi {
   position: relative;
-  width: 420px;
-  height: 450px;
-  background: transparent;
-  border-radius: 10px;
-  color: #000000;
+  margin-top: 20px;
+  width: 800px;
+  height: auto;
+  background-color: lightgray;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  overflow: hidden;
-  transition: height 0.2s ease;
 }
+
+.wrapper > * {
+  flex: 1;
+  margin: 0 10px;
+}
+.joboffers {
+  width: 800px;
+}
+.wrapper > :last-child {
+  margin-right: 0;
+}
+
 .wrapper.activer {
   height: 520px;
 }

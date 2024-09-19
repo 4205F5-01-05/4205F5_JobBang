@@ -1,9 +1,14 @@
-import React from 'react'
+import React from "react";
+import { Box, Typography } from "@mui/material";
+import "./joboffer.css"; // Import the CSS file
 
-const joboffer = () => {
+export default function Joboffer({ titre, description }) {
   return (
-    <div>joboffer</div>
-  )
+    <div className="joboffer">
+      <Box p={2} className="wrappeJobOffer">
+        <Typography variant="subtitle2">{titre}</Typography>
+        <Typography variant="subtitle1">{description}</Typography>
+      </Box>
+    </div>
+  );
 }
-
-export default joboffer

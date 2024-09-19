@@ -4,12 +4,21 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/auth-context";
 import { FaUser } from "react-icons/fa";
-import { MdOutlinePassword, MdOutlineAlternateEmail } from "react-icons/md";
+import {
+  MdOutlinePassword,
+  MdOutlineAlternateEmail,
+  MdOutlinePhoneIphone,
+  MdOutlineAddHome,
+  MdOutlineTableChart,
+} from "react-icons/md";
+import PublierOffre from "../publierOffre/PublierOffre";
 
 export default function RegisterLogin() {
   const [action, setAction] = useState("");
   const [error, setError] = useState(null);
   const auth = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const registerLink = () => {
     setAction(" active");
   };
@@ -19,32 +28,49 @@ export default function RegisterLogin() {
   //Function pour te login
   async function handleSubmitLogin(event) {
     event.preventDefault();
+    const fd = new FormData(event.target);
+    const data = Object.fromEntries(fd.entries());
+    console.log(data);
+    console.log(JSON.stringify(data));
     try {
-      const response = await sendRequest(
-        `http://localhost:3000/api/users/login`,
-        "POST",
-        JSON.stringify(entredValues),
+      const response = await fetch(
+        `http://localhost:5000/api/recruiters/login`,
         {
-          "Content-Type": "application/json",
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
         }
       );
+      const responseData = await response.json();
+      console.log("Here is the reponseData", responseData);
+      if (!response.ok) {
+        throw new Error(responseData.message);
+      }
 
-      auth.login(response.userId, response.token, response.admin);
-      localStorage.setItem(
-        "userSession",
-        JSON.stringify({
-          isLoggedIn: true,
-          userId: response.userId,
-          token: response.token,
-          admin: response.admin,
-        })
+      auth.login(responseData, responseData.token);
+
+      console.log("User logged in successfully");
+      console.log("User id " + auth.userId);
+      console.log("Token " + auth.token);
+      console.log("User is logged in " + auth.isLoggedIn);
+      const userSession = localStorage.getItem("user");
+      console.log("User session " + userSession);
+      console.log(
+        "User stored in localStorage: ",
+        localStorage.getItem("user")
       );
-      console.log(auth.admin);
-      const userSession = localStorage.getItem("userSession");
-      console.log("test utilisateur 111: " + userSession);
+      console.log(
+        "Token stored in localStorage: ",
+        localStorage.getItem("token")
+      );
+
+      navigate("/publierOffre");
     } catch (err) {
       console.error(err);
     }
+    event.target.reset();
   }
   //Function Qui Pour S'enregistrer
   async function handleSubmitRegister(event) {
@@ -53,20 +79,25 @@ export default function RegisterLogin() {
     const data = Object.fromEntries(fd.entries());
 
     try {
-      const response = await fetch(`http://localhost:5000/api/users/Register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", //pour que le bodyParser sache comment faire le parse
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        `http://localhost:5000/api/recruiters/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json", //pour que le bodyParser sache comment faire le parse
+          },
+          body: JSON.stringify(data),
+        }
+      );
       const responseData = await response.json();
       console.log(responseData);
       if (!response.ok) {
         throw new Error(responseData.message);
       }
-
-      auth.login();
+      console.log("User registered successfully");
+      // Login
+      auth.login(responseData.recruiter.id, responseData.token);
+      navigate("/publierOffre");
     } catch (err) {
       setError(err.message || "Une erreur est survenue, essayez plus tard.");
       console.error(err);
@@ -82,11 +113,33 @@ export default function RegisterLogin() {
         <form action="" onSubmit={handleSubmitLogin}>
           <h1>Connexion</h1>
           <div className="input-box">
-            <input type="text" placeholder="Nom d'utilisateur" required />
-            <FaUser className="icon" />
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="Email"
+              required
+            />
+            <MdOutlineAlternateEmail className="icon" />
           </div>
           <div className="input-box">
-            <input type="password" placeholder="Mot de passe" required />
+            <input
+              id="mdp"
+              name="mdp"
+              type="password"
+              placeholder="Mot de passe"
+              required
+            />
+            <MdOutlinePassword className="icon" />
+          </div>
+          <div className="input-box">
+            <input
+              id="company"
+              name="company"
+              type="text"
+              placeholder="Company"
+              required
+            />
             <MdOutlinePassword className="icon" />
           </div>
           <div className="remember-forgot">
@@ -116,7 +169,7 @@ export default function RegisterLogin() {
               type="text"
               id="name"
               name="name"
-              placeholder="Nom d'utilisateur"
+              placeholder="Nom"
               required
             />
             <FaUser className="icon" />
@@ -125,8 +178,8 @@ export default function RegisterLogin() {
             <input
               type="email"
               id="email"
-              placeholder="email"
-              name="courriel"
+              placeholder="Email"
+              name="email"
               required
             />
             <MdOutlineAlternateEmail className="icon" />
@@ -134,12 +187,42 @@ export default function RegisterLogin() {
           <div className="input-box">
             <input
               type="password"
-              id="password"
+              id="mdp"
               placeholder="Mot de passe"
-              name="password"
+              name="mdp"
               required
             />
             <MdOutlinePassword className="icon" />
+          </div>
+          <div className="input-box">
+            <input
+              type="text"
+              id="phone"
+              placeholder="Phone"
+              name="phone"
+              required
+            />
+            <MdOutlinePhoneIphone className="icon" />
+          </div>
+          <div className="input-box">
+            <input
+              type="text"
+              id="company"
+              placeholder="Company"
+              name="company"
+              required
+            />
+            <MdOutlineTableChart className="icon" />
+          </div>
+          <div className="input-box">
+            <input
+              type="text"
+              id="companyAddress"
+              placeholder="Company adress"
+              name="companyAddress"
+              required
+            />
+            <MdOutlineAddHome className="icon" />
           </div>
 
           <div className="remember-forgot">

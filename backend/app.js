@@ -4,10 +4,11 @@ const mongoose = require("mongoose");
 const errorHandler = require("./handler/error-handler");
 
 const recruitersRoutes = require("./routes/recruiters-routes");
+const jobOffersRoutes = require("./routes/jobOffers-routes");
 
 // --- CRÉATION DE L'APP ---
 const app = express();
-app.use(express.json);
+app.use(express.json());
 
 // --- ROUTES ---
 app.use((req, res, next) => {
@@ -21,6 +22,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/recruiters", recruitersRoutes);
+app.use("/api/jobOffers", jobOffersRoutes);
 
 // --- GESTION ERREURS ---
 app.use((req, res, next) => {
@@ -32,7 +34,9 @@ app.use(errorHandler);
 
 // --- DÉMARRAGE SERVEUR ---
 const port = 5000;
-const uri_melia = "mongodb://localhost/27017/JobBangLocal";
+const uri_melia = "mongodb://localhost:27017/JobBangLocal";
+const uri_cloud =
+  "mongodb+srv://admin:Jaiepabs,Cvnac...@jobbang.yb0ee.mongodb.net/?retryWrites=true&w=majority&appName=JobBang";
 
 const uri = uri_melia;
 
