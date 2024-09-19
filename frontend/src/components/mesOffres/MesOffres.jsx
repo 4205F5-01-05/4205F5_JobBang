@@ -18,9 +18,10 @@ const MesOffres = () => {
         {filteredJobs.map((job, index) => (
           <Joboffer
             key={index}
-            title={job.description}
-            company={RECRUITERS[index % RECRUITERS.length]?.company}
-            email={RECRUITERS[index % RECRUITERS.length]?.email}
+            title={job.titre}
+            description={job.description}
+            r_email={RECRUITERS[index % RECRUITERS.length]?.email}
+            r_phone={RECRUITERS[index % RECRUITERS.length]?.phone}
           />
         ))}
       </Box>
