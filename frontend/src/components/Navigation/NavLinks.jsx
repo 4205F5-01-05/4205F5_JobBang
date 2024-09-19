@@ -46,7 +46,9 @@ const NavLinks = (props) => {
       <li>
         <NavLink to="/Profil"> Mon Profil</NavLink>
       </li>
-
+      <li>
+        <NavLink to="/mesOffres"> Mes Offres</NavLink>
+      </li>
     </ul>
   );
 };
