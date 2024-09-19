@@ -4,7 +4,13 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/auth-context";
 import { FaUser } from "react-icons/fa";
-import { MdOutlinePassword, MdOutlineAlternateEmail, MdOutlinePhoneIphone, MdOutlineAddHome, MdOutlineTableChart } from "react-icons/md";
+import {
+  MdOutlinePassword,
+  MdOutlineAlternateEmail,
+  MdOutlinePhoneIphone,
+  MdOutlineAddHome,
+  MdOutlineTableChart,
+} from "react-icons/md";
 import PublierOffre from "../publierOffre/PublierOffre";
 
 export default function RegisterLogin() {
@@ -27,29 +33,38 @@ export default function RegisterLogin() {
     console.log(data);
     console.log(JSON.stringify(data));
     try {
-      const response = await fetch(`http://localhost:5000/api/recruiters/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        `http://localhost:5000/api/recruiters/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
       const responseData = await response.json();
       console.log("Here is the reponseData", responseData);
       if (!response.ok) {
         throw new Error(responseData.message);
       }
-      
+
       auth.login(responseData, responseData.token);
-      
+
       console.log("User logged in successfully");
       console.log("User id " + auth.userId);
       console.log("Token " + auth.token);
       console.log("User is logged in " + auth.isLoggedIn);
       const userSession = localStorage.getItem("user");
       console.log("User session " + userSession);
-      console.log("User stored in localStorage: ", localStorage.getItem("user"));
-      console.log("Token stored in localStorage: ", localStorage.getItem("token"));
+      console.log(
+        "User stored in localStorage: ",
+        localStorage.getItem("user")
+      );
+      console.log(
+        "Token stored in localStorage: ",
+        localStorage.getItem("token")
+      );
 
       navigate("/publierOffre");
     } catch (err) {
@@ -64,19 +79,25 @@ export default function RegisterLogin() {
     const data = Object.fromEntries(fd.entries());
 
     try {
-      const response = await fetch(`http://localhost:5000/api/recruiters/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", //pour que le bodyParser sache comment faire le parse
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        `http://localhost:5000/api/recruiters/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json", //pour que le bodyParser sache comment faire le parse
+          },
+          body: JSON.stringify(data),
+        }
+      );
       const responseData = await response.json();
       console.log(responseData);
       if (!response.ok) {
         throw new Error(responseData.message);
       }
       console.log("User registered successfully");
+      // Login
+      auth.login(responseData.id, responseData.token);
+      //loginAfterRegistering(event, responseData);
     } catch (err) {
       setError(err.message || "Une erreur est survenue, essayez plus tard.");
       console.error(err);
@@ -86,26 +107,63 @@ export default function RegisterLogin() {
     event.target.reset();
   }
 
+  /*async function loginAfterRegistering(event, responseData) {
+    event.preventDefault();
+
+    try {
+      const res = await fetch(`http://localhost:5000/api/recruiters/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: responseData["recruiter"],
+      });
+
+      const resData = await res.json();
+      if (!res.ok) {
+        throw new Error(resData.message);
+      }
+
+      auth.login();
+      navigate("/publierOffre");
+    } catch (e) {
+      console.log(e);
+    }
+  }*/
+
   return (
     <div className={`wrapper${action}`}>
       <div className="form-box login">
         <form action="" onSubmit={handleSubmitLogin}>
           <h1>Connexion</h1>
           <div className="input-box">
-            <input 
-              id="email" 
-              name="email" 
-              type="email" 
-              placeholder="Email" 
-              required />
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="Email"
+              required
+            />
             <MdOutlineAlternateEmail className="icon" />
           </div>
           <div className="input-box">
-            <input id="mdp" name="mdp" type="password" placeholder="Mot de passe" required />
+            <input
+              id="mdp"
+              name="mdp"
+              type="password"
+              placeholder="Mot de passe"
+              required
+            />
             <MdOutlinePassword className="icon" />
           </div>
           <div className="input-box">
-            <input id="company" name="company" type="text" placeholder="Company" required />
+            <input
+              id="company"
+              name="company"
+              type="text"
+              placeholder="Company"
+              required
+            />
             <MdOutlinePassword className="icon" />
           </div>
           <div className="remember-forgot">

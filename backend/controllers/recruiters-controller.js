@@ -90,6 +90,23 @@ const registerRecruiter = async (req, res, next) => {
     );
   }
 
+  // Connexion
+  /*let token;
+  try {
+    token = jwt.sign(
+      {
+        rId: createdRecruiter.id,
+        email: createdRecruiter.email,
+        company: createdRecruiter.company,
+      },
+      "JaiFes,Cqcl!",
+      { expiresIn: "24h" }
+    );
+  } catch (e) {
+    console.log("Connexion échouée suite à l'inscription.");
+    console.log(e);
+  }*/
+
   res
     .status(201)
     .json({ recruiter: createdRecruiter.toObject({ getters: true }) });
@@ -131,7 +148,7 @@ const loginRecruiter = async (req, res, next) => {
           email: existingRecruiter.email,
           company: existingRecruiter.company,
         },
-        "secret key",
+        "JaiFes,Cqcl!",
         { expiresIn: "24h" }
       );
     } catch (e) {
@@ -148,10 +165,8 @@ const loginRecruiter = async (req, res, next) => {
   }
 };
 
-// Modification du recruteur
-
+// --- MODIFICATION ---
 const updateRecruiter = async (req, res, next) => {
-
   const rId = req.params.rId;
   const { name, company, phone, email, mdp, companyAddress } = req.body;
 
@@ -159,8 +174,7 @@ const updateRecruiter = async (req, res, next) => {
 
   try {
     recruiter = await RECRUITERS.findById(rId);
-  }
-  catch (e) {
+  } catch (e) {
     console.log(e);
     return next(
       new HttpError("Échec lors de la récupération du recruteur", 500)
@@ -182,8 +196,7 @@ const updateRecruiter = async (req, res, next) => {
 
   try {
     await recruiter.save();
-  }
-  catch (e) {
+  } catch (e) {
     console.log(e);
     return next(
       new HttpError("Échec lors de la mise à jour du recruteur", 500)
@@ -193,19 +206,15 @@ const updateRecruiter = async (req, res, next) => {
   res.json({ recruiter: recruiter.toObject({ getters: true }) });
 };
 
-// Suppression du recruteur
-
+// --- SUPPRESSION ---
 const deleteRecruiter = async (req, res, next) => {
-
   const rId = req.params.rId;
 
   let recruiter;
 
   try {
-
     recruiter = await RECRUITERS.findById(rId);
-  }
-  catch (e) {
+  } catch (e) {
     console.log(e);
     return next(
       new HttpError("Échec lors de la récupération du recruteur", 500)
@@ -220,8 +229,7 @@ const deleteRecruiter = async (req, res, next) => {
 
   try {
     await recruiter.remove();
-  }
-  catch (e) {
+  } catch (e) {
     console.log(e);
     return next(
       new HttpError("Échec lors de la suppression du recruteur", 500)
@@ -229,10 +237,7 @@ const deleteRecruiter = async (req, res, next) => {
   }
 
   res.json({ message: "Recruteur supprimé." });
-
 };
-
-
 
 // --- EXPORTS ---
 exports.getAllRecruiters = getAllRecruiters;
