@@ -3,8 +3,9 @@ import { createContext, useEffect, useState } from "react";
 export const AuthContext = createContext({
   isLoggedIn: false,
   userId: null,
+  user: null,
   token: null,
-  isEmployer: false, // Added this property
+  isEmployer: false,
   login: () => {},
   logout: () => {},
 });
@@ -13,17 +14,24 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
-  const [isLoggedIn, setIsLogging] = useState(null);
+  
+  // No need for a separate `isLoggedIn` state, derive it from `user` and `token`
+  const isLoggedIn = !!user && !!token;
 
   useEffect(() => {
     try {
       const storedUser = localStorage.getItem("user");
       const storedToken = localStorage.getItem("token");
-  
+
+      console.log("Stored user in useEffect: ", storedUser);
+      console.log("Stored token in useEffect: ", storedToken);
+
       if (storedUser && storedToken) {
         // Check if the storedUser is a valid JSON string before parsing
-        setUser(JSON.parse(storedUser));
+        const parsedUser = JSON.parse(storedUser);
+        setUser(parsedUser);
         setToken(storedToken);
+        setUserId(parsedUser.rId);  // Set userId based on the user data
       }
     } catch (error) {
       console.error("Error parsing stored user data:", error);
@@ -32,6 +40,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.removeItem("token");
     }
   }, []);
+
   const login = (user, token) => {
     if (!user || !token) {
       console.log("Invalid user or token");
@@ -43,7 +52,6 @@ export const AuthProvider = ({ children }) => {
     setUser(user);
     setToken(token);
     setUserId(user.rId);  // Set the userId state
-    setIsLogging(true);  // Set the isLoggedIn state
 
     localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("token", token);
@@ -53,19 +61,18 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     setToken(null);
     setUserId(null);
-    setIsLogging(false);
     localStorage.removeItem("user");
     localStorage.removeItem("token");
   };
 
-  // Derive `isEmployer` from user object or handle it separately
   const isEmployer = user?.isEmployer || false;
 
   return (
     <AuthContext.Provider
       value={{
-        isLoggedIn: !!user && !!token,
+        isLoggedIn,
         userId: user?.rId || null,
+        user,
         token,
         isEmployer,
         login,

@@ -42,13 +42,14 @@ export default function RegisterLogin() {
       
       auth.login(responseData, responseData.token);
       
-
+      console.log("User logged in successfully");
       console.log("User id " + auth.userId);
       console.log("Token " + auth.token);
       console.log("User is logged in " + auth.isLoggedIn);
-    
       const userSession = localStorage.getItem("user");
       console.log("User session " + userSession);
+      console.log("User stored in localStorage: ", localStorage.getItem("user"));
+      console.log("Token stored in localStorage: ", localStorage.getItem("token"));
 
       navigate("/publierOffre");
     } catch (err) {
