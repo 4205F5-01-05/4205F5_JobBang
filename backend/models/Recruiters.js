@@ -31,5 +31,4 @@ const recruitersSchema = new Schema({
   companyAddress: { type: String, default: "" },
 });
 
-
 module.exports = mongoose.model("Recruiters", recruitersSchema);
