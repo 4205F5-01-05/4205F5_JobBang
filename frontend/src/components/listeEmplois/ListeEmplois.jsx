@@ -12,12 +12,13 @@ export default function ListeEmploi() {
         <p>Emploi</p>
 
         <Box className="joboffers">
-          {JOBS.map(
-            (job, index) => (
-              (<Joboffer key={index} title={job.titre} />),
-              (<Joboffer key={index} description={job.description} />)
-            )
-          )}
+          {JOBS.map((job, index) => (
+            <Joboffer
+              key={index}
+              titre={job.titre}
+              description={job.description}
+            />
+          ))}
         </Box>
       </form>
     </div>

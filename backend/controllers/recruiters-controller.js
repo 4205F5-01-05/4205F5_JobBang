@@ -148,9 +148,97 @@ const loginRecruiter = async (req, res, next) => {
   }
 };
 
+// Modification du recruteur
+
+const updateRecruiter = async (req, res, next) => {
+
+  const rId = req.params.rId;
+  const { name, company, phone, email, mdp, companyAddress } = req.body;
+
+  let recruiter;
+
+  try {
+    recruiter = await RECRUITERS.findById(rId);
+  }
+  catch (e) {
+    console.log(e);
+    return next(
+      new HttpError("Échec lors de la récupération du recruteur", 500)
+    );
+  }
+
+  if (!recruiter) {
+    return next(
+      new HttpError(`Le recruteur d'id ${rId} n'a pas été trouvé.`, 404)
+    );
+  }
+
+  recruiter.name = name;
+  recruiter.company = company;
+  recruiter.phone = phone;
+  recruiter.email = email;
+  recruiter.mdp = mdp;
+  recruiter.companyAddress = companyAddress;
+
+  try {
+    await recruiter.save();
+  }
+  catch (e) {
+    console.log(e);
+    return next(
+      new HttpError("Échec lors de la mise à jour du recruteur", 500)
+    );
+  }
+
+  res.json({ recruiter: recruiter.toObject({ getters: true }) });
+};
+
+// Suppression du recruteur
+
+const deleteRecruiter = async (req, res, next) => {
+
+  const rId = req.params.rId;
+
+  let recruiter;
+
+  try {
+
+    recruiter = await RECRUITERS.findById(rId);
+  }
+  catch (e) {
+    console.log(e);
+    return next(
+      new HttpError("Échec lors de la récupération du recruteur", 500)
+    );
+  }
+
+  if (!recruiter) {
+    return next(
+      new HttpError(`Le recruteur d'id ${rId} n'a pas été trouvé.`, 404)
+    );
+  }
+
+  try {
+    await recruiter.remove();
+  }
+  catch (e) {
+    console.log(e);
+    return next(
+      new HttpError("Échec lors de la suppression du recruteur", 500)
+    );
+  }
+
+  res.json({ message: "Recruteur supprimé." });
+
+};
+
+
+
 // --- EXPORTS ---
 exports.getAllRecruiters = getAllRecruiters;
 exports.getRecruiterById = getRecruiterById;
 
 exports.registerRecruiter = registerRecruiter;
 exports.loginRecruiter = loginRecruiter;
+exports.updateRecruiter = updateRecruiter;
+exports.deleteRecruiter = deleteRecruiter;

@@ -21,9 +21,9 @@ const NavLinks = (props) => {
             <NavLink to="/profil">Profil</NavLink>
           </li>
           <li>
-          <Link to="/offreEmploi">
+            <Link to="/offreEmploi">
               <button onClick={auth.logout}>Se déconnecter</button>
-              <FaUser className="icon"/>
+              <FaUser className="icon" />
             </Link>
           </li>
         </>
@@ -34,8 +34,7 @@ const NavLinks = (props) => {
             <NavLink to="/Signup">Publier Offres/Entreprise</NavLink>
           </li>
         </>
-      )}          
-
+      )}
     </ul>
   );
 };
