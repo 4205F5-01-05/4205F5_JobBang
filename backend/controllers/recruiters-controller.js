@@ -29,7 +29,6 @@ const getAllRecruiters = async (req, res, next) => {
 // --- GET SPECIFIC RECRUITER ---
 const getRecruiterById = async (req, res, next) => {
   const rId = req.params.rId;
-
   let recruiter;
   try {
     recruiter = await RECRUITERS.findById(rId);
@@ -107,12 +106,10 @@ const registerRecruiter = async (req, res, next) => {
     console.log(e);
   }
 
-  res
-    .status(201)
-    .json({
-      recruiter: createdRecruiter.toObject({ getters: true }),
-      token: token,
-    });
+  res.status(201).json({
+    recruiter: createdRecruiter.toObject({ getters: true }),
+    token: token,
+  });
 };
 
 // --- CONNEXION ---
