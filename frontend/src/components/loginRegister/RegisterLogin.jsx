@@ -34,22 +34,21 @@ export default function RegisterLogin() {
         },
         body: JSON.stringify(data),
       });
+      const responseData = await response.json();
+      console.log(responseData);
+      if (!response.ok) {
+        throw new Error(responseData.message);
+      }
+      
+      auth.login(responseData.rId, responseData.token);
+      localStorage.setItem("user", responseData.rId);
+      localStorage.setItem("token", responseData.token);
 
-      auth.login(response.userId, response.token, /*response.admin*/);
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          isLoggedIn: true,
-          userId: response.userId,
-          token: response.token
-          /*admin: response.admin,*/
-        })
-      );
       console.log(auth.userId);
       console.log(auth.token);
       console.log(auth.isLoggedIn);
       const userSession = localStorage.getItem("user");
-      console.log("test utilisateur 111: " + userSession);
+      console.log("User session " + userSession);
       navigate("/publierOffre");
     } catch (err) {
       console.error(err);

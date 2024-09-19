@@ -132,7 +132,7 @@ const loginRecruiter = async (req, res, next) => {
           company: existingRecruiter.company,
         },
         "secret key",
-        { expiresIn: "3h" }
+        { expiresIn: "24h" }
       );
     } catch (e) {
       console.log(e);
