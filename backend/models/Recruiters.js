@@ -31,28 +31,5 @@ const recruitersSchema = new Schema({
   companyAddress: { type: String, default: "" },
 });
 
-// Hash le mot de passe avant de sauvegarder l'employeur
-recruitersSchema.pre("save", async function (next) {
-  if (this.isModified("mdp") || this.isNew) {
-    try {
-      const salt = await bcrypt.genSalt(10);
-      this.mdp = await bcrypt.hash(this.mdp, salt);
-      next();
-    } catch (err) {
-      next(err);
-    }
-  } else {
-    return next();
-  }
-});
-
-// Méthode pour comparé les deux mot de passe
-recruitersSchema.methods.comparePassword = async function (candidatePassword) {
-  try {
-    return await bcrypt.compare(candidatePassword, this.mdp);
-  } catch (err) {
-    throw new Error("Password comparison failed");
-  }
-};
 
 module.exports = mongoose.model("Recruiters", recruitersSchema);
