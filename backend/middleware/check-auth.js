@@ -12,7 +12,7 @@ module.exports = (req, res, next) => {
       throw new Error("L'authentification a échoué.");
     }
 
-    const tokenDecode = jwt.verify(token, "secret key");
+    const tokenDecode = jwt.verify(token, "JaiFes,Cqcl!");
     req.userData = { userId: tokenDecode.userId };
     console.log("Validation de l'authentification: ", req.userData);
 
