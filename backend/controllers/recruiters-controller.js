@@ -91,7 +91,7 @@ const registerRecruiter = async (req, res, next) => {
   }
 
   // Connexion
-  /*let token;
+  let token;
   try {
     token = jwt.sign(
       {
@@ -105,11 +105,14 @@ const registerRecruiter = async (req, res, next) => {
   } catch (e) {
     console.log("Connexion échouée suite à l'inscription.");
     console.log(e);
-  }*/
+  }
 
   res
     .status(201)
-    .json({ recruiter: createdRecruiter.toObject({ getters: true }) });
+    .json({
+      recruiter: createdRecruiter.toObject({ getters: true }),
+      token: token,
+    });
 };
 
 // --- CONNEXION ---

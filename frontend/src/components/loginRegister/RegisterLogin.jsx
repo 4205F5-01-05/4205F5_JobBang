@@ -96,8 +96,8 @@ export default function RegisterLogin() {
       }
       console.log("User registered successfully");
       // Login
-      auth.login(responseData.id, responseData.token);
-      //loginAfterRegistering(event, responseData);
+      auth.login(responseData.recruiter.id, responseData.token);
+      navigate("/publierOffre");
     } catch (err) {
       setError(err.message || "Une erreur est survenue, essayez plus tard.");
       console.error(err);
@@ -106,30 +106,6 @@ export default function RegisterLogin() {
 
     event.target.reset();
   }
-
-  /*async function loginAfterRegistering(event, responseData) {
-    event.preventDefault();
-
-    try {
-      const res = await fetch(`http://localhost:5000/api/recruiters/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: responseData["recruiter"],
-      });
-
-      const resData = await res.json();
-      if (!res.ok) {
-        throw new Error(resData.message);
-      }
-
-      auth.login();
-      navigate("/publierOffre");
-    } catch (e) {
-      console.log(e);
-    }
-  }*/
 
   return (
     <div className={`wrapper${action}`}>
