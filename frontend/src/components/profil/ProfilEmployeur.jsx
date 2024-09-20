@@ -29,10 +29,8 @@ const UserProfile = () => {
         if (!response.ok) {
           throw new Error("Failed to fetch profile data");
         }
-        console.log("Reponse: ", response);
         const data = await response.json();
-        console.log(`data: ${data}`);
-        setProfile(data);
+        setProfile(data.recruiter);
       } catch (error) {
         setError("Failed to load profile data");
         console.log(error);
