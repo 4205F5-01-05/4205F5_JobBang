@@ -1,24 +1,69 @@
-import { useContext, useState } from "react";
+import { useEffect, useState } from "react";
 import "./listeEmploi.css";
 import { Box } from "@mui/material";
 import Joboffer from "../joboffer/joboffer";
-import JOBS from "../../data/job";
-import RECRUITERS from "../../data/recruteur";
 
 export default function ListeEmploi() {
+  const [jobOffers, setJobOffers] = useState([]); // Initialize as array
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchJobOffers = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/jobOffers/");
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+        console.log("Job Offers Data:", data); // Log the full response
+
+        // Change 'Joboffers' to 'jobOffers' to match the API response
+        if (Array.isArray(data.jobOffers)) {
+          setJobOffers(data.jobOffers);
+        } else {
+          console.error("jobOffers is not an array or is undefined");
+          setJobOffers([]); // fallback to an empty array
+        }
+      } catch (error) {
+        setError(error); // Handle the error
+        console.error("Error fetching job offers:", error); // Log the error for debugging
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchJobOffers();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
   return (
     <div>
       <form>
         <p>Emploi</p>
 
         <Box className="joboffers">
-          {JOBS.map((job, index) => (
-            <Joboffer
-              key={index}
-              titre={job.titre}
-              description={job.description}
-            />
-          ))}
+          {jobOffers.length > 0 ? (
+            jobOffers.map((job) => (
+              <Joboffer
+                key={job._id} // Use job._id as a key for a more stable identifier
+                titre={job.titre}
+                region={job.region}
+                description={job.description}
+              />
+            ))
+          ) : (
+            <div>No job offers found.</div>
+          )}
         </Box>
       </form>
     </div>

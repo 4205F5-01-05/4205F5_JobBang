@@ -1,6 +1,6 @@
-const JOBOFFERS = require("../models/JobOffers");   // Import the JobOffers model
-const HttpError = require("../util/http-error");    // Import the HttpError class
-const mongoose = require("mongoose");                // Import mongoose
+const JOBOFFERS = require("../models/JobOffers"); // Import the JobOffers model
+const HttpError = require("../util/http-error"); // Import the HttpError class
+const mongoose = require("mongoose"); // Import mongoose
 
 // --- GET ALL JOB OFFERS ---
 const getAllJobOffers = async (req, res, next) => {
@@ -106,7 +106,6 @@ const updateJobOffer = async (req, res, next) => {
 
   res.json({ jobOffer: jobOffer.toObject({ getters: true }) });
 };
-
 
 // --- DELETE JOB OFFER ---
 const deleteJobOffer = async (req, res, next) => {

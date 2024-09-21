@@ -1,52 +1,63 @@
 import { useContext, useState } from "react";
 import { Box } from "@mui/material";
 import Joboffer from "../joboffer/joboffer";
-import JOBS from "../../data/job"; // Ensure your path is correct
-import RECRUITERS from "../../data/recruteur"; // Ensure your path is correct
+import { AuthContext } from "../../context/auth-context";
 
 export default function PublierOffre() {
+  const auth = useContext(AuthContext);
   const [job, setJob] = useState({
-    rid: "", // Recruiter ID
-    company: "",
+    rid: auth.userId, // Recruiter ID
     region: "",
     titre: "",
     description: "",
   });
+  const [error, setError] = useState(""); // State for error handling
+  const [success, setSuccess] = useState(""); // Optional: To handle success messages
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setJob({ ...job, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Job offer submitted:", job);
-    // Here you would typically handle the submission to your backend or state
+
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/jobOffers/create`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${auth.token}`, // Add this line if using JWT token
+          },
+          body: JSON.stringify(job), // Send job directly
+        }
+      );
+      const responseData = await response.json();
+      if (!response.ok) {
+        throw new Error(responseData.message);
+      }
+      console.log("Job offer created successfully!");
+
+      // Optionally reset fields or show success messages
+      setJob({ rid: auth.userId, region: "", titre: "", description: "" }); // Reset the form
+      setSuccess("L'offre d'emploi a été publiée avec succès!");
+    } catch (err) {
+      setError(err.message || "Une erreur est survenue, essayez plus tard.");
+      console.error(err);
+    }
   };
 
   return (
-    <div>
-      <h1>Ajouter une offre d'emploi</h1>
+    <Box>
+      <h1>Ajouter une offre d'emploi :</h1>
+      {error && <p style={{ color: "red" }}>{error}</p>}{" "}
+      {/* Display error if any */}
+      {success && <p style={{ color: "green" }}>{success}</p>}{" "}
+      {/* Display success message */}
       <form onSubmit={handleSubmit}>
-        <select name="rid" value={job.rid} onChange={handleChange} required>
-          <option value="" disabled>
-            Choisir un recruteur
-          </option>
-          {RECRUITERS.map((recruiter) => (
-            <option key={recruiter.id} value={recruiter.id}>
-              {recruiter.name}{" "}
-              {/* Adjust this based on your recruiter object structure */}
-            </option>
-          ))}
-        </select>
-        <input
-          type="text"
-          name="company"
-          placeholder="Nom de l'entreprise"
-          value={job.company}
-          onChange={handleChange}
-          required
-        />
         <input
           type="text"
           name="region"
@@ -72,6 +83,6 @@ export default function PublierOffre() {
         />
         <button type="submit">Publier l'offre</button>
       </form>
-    </div>
+    </Box>
   );
 }
