@@ -125,12 +125,7 @@ const loginRecruiter = async (req, res, next) => {
     existingRecruiter.mdp !== mdp ||
     existingRecruiter.company !== company
   ) {
-    return next(
-      new HttpError(
-        "Connexion échouée, veuillez vérifier vos identifiants.",
-        401
-      )
-    );
+    return res.status(401).json({ message: "Connexion échouée. Verifiez vos identifiants" });
   } else {
     // Bons credentials
     let token;

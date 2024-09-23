@@ -46,6 +46,7 @@ export default function RegisterLogin() {
       const responseData = await response.json();
       console.log("Here is the reponseData", responseData);
       if (!response.ok) {
+        alert(responseData.message);
         throw new Error(responseData.message);
       }
 
