@@ -11,16 +11,21 @@ export default function ListeEmploi() {
   useEffect(() => {
     const fetchJobOffers = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/jobOffers/");
+        const response = await fetch("http://localhost:5000/api/jobOffers/", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error(response.message);
         }
 
         const data = await response.json();
-        console.log("Job Offers Data:", data); // Log the full response
+        console.log("Job Offers Data:", data);
 
-        // Change 'Joboffers' to 'jobOffers' to match the API response
+        // Assuming the API returns 'jobOffers', update the state
         if (Array.isArray(data.jobOffers)) {
           setJobOffers(data.jobOffers);
         } else {

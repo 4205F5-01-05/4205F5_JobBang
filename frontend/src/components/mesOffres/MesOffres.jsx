@@ -13,13 +13,14 @@ const MesOffres = () => {
     const fetchJobOffers = async () => {
       try {
         const response = await fetch("http://localhost:5000/api/jobOffers/", {
+          method: "GET",
           headers: {
             Authorization: `Bearer ${auth.token}`,
           },
         });
 
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error(response.message);
         }
 
         const data = await response.json();

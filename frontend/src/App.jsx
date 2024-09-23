@@ -31,7 +31,7 @@ const App = () => {
             <Route path="/" element={<Navigate to="/offreEmploi" />} />
             <Route path="/signup" element={<RegisterLogin />} />
             <Route path="/offreEmploi" element={<ListeEmplois />} />
-            {/* Les routes protégées */}
+            {/* Les routes protégées */}          
             <Route
               path="/publierOffre"
               element={<ProtectedRoute element={<PublierOffre />} />}
@@ -42,10 +42,6 @@ const App = () => {
             />
             <Route
               path="/profil"
-              element={<ProtectedRoute element={<Profile />} />}
-            />
-            <Route
-              path="/publierOffre"
               element={<ProtectedRoute element={<Profile />} />}
             />
           </Routes>

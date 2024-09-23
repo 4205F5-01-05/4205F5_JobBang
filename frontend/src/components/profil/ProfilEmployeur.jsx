@@ -11,7 +11,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     console.log(`User: ${user}`);
-    const rId = user.rId;
+    const rId = user._id;
     console.log(`User id: ${rId}`);
     const fetchProfile = async () => {
       try {

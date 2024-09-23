@@ -70,14 +70,7 @@ const registerRecruiter = async (req, res, next) => {
   // Si email valide
   const companyAddressValide = companyAddress || "Aucune adresse enregistrée";
 
-  const createdRecruiter = new RECRUITERS({
-    name,
-    company,
-    phone,
-    email,
-    mdp,
-    companyAddress: companyAddressValide,
-  });
+  const createdRecruiter = new RECRUITERS(req.body);
   console.log(`Recruteur inscrit: ${createdRecruiter}`);
 
   try {
@@ -94,7 +87,7 @@ const registerRecruiter = async (req, res, next) => {
   try {
     token = jwt.sign(
       {
-        rId: createdRecruiter.id,
+        _id: createdRecruiter.id,
         email: createdRecruiter.email,
         company: createdRecruiter.company,
       },
@@ -132,19 +125,14 @@ const loginRecruiter = async (req, res, next) => {
     existingRecruiter.mdp !== mdp ||
     existingRecruiter.company !== company
   ) {
-    return next(
-      new HttpError(
-        "Connexion échouée, veuillez vérifier vos identifiants.",
-        401
-      )
-    );
+    return res.status(401).json({ message: "Connexion échouée. Verifiez vos identifiants" });
   } else {
     // Bons credentials
     let token;
     try {
       token = jwt.sign(
         {
-          rId: existingRecruiter.id,
+          _id: existingRecruiter.id,
           email: existingRecruiter.email,
           company: existingRecruiter.company,
         },
@@ -157,7 +145,7 @@ const loginRecruiter = async (req, res, next) => {
     }
 
     res.status(201).json({
-      rId: existingRecruiter.id,
+      _id: existingRecruiter.id,
       email: existingRecruiter.email,
       company: existingRecruiter.company,
       token: token,
@@ -211,9 +199,13 @@ const deleteRecruiter = async (req, res, next) => {
   const rId = req.params.rId;
 
   let recruiter;
-
   try {
     recruiter = await RECRUITERS.findById(rId);
+    if (!recruiter) {
+      return next(
+        new HttpError(`Le recruteur d'id ${rId} n'a pas été trouvé.`, 404)
+      );
+    }
   } catch (e) {
     console.log(e);
     return next(
@@ -221,22 +213,15 @@ const deleteRecruiter = async (req, res, next) => {
     );
   }
 
-  if (!recruiter) {
-    return next(
-      new HttpError(`Le recruteur d'id ${rId} n'a pas été trouvé.`, 404)
-    );
-  }
-
   try {
-    await recruiter.remove();
+    await RECRUITERS.deleteOne({ _id: rId }); 
+    res.json({ message: "Recruteur supprimé." });
   } catch (e) {
     console.log(e);
     return next(
       new HttpError("Échec lors de la suppression du recruteur", 500)
     );
   }
-
-  res.json({ message: "Recruteur supprimé." });
 };
 
 // --- EXPORTS ---

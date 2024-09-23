@@ -15,8 +15,8 @@ const getAllJobOffers = async (req, res, next) => {
     );
   }
 
-  if (!jobOffers || jobOffers.length == 0) {
-    return next(new HttpError("Aucune offre d'emploi trouvée...", 404));
+  if (!jobOffers || jobOffers.length === 0) {
+    return res.status(200).json({ message: "No job offer found." });
   }
 
   res.json({
@@ -128,7 +128,7 @@ const deleteJobOffer = async (req, res, next) => {
   }
 
   try {
-    await jobOffer.remove();
+    await jobOffer.deleteOne({ _id: jId }); 
   } catch (e) {
     console.log(e);
     return next(

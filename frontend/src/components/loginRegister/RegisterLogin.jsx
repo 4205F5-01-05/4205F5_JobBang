@@ -11,7 +11,7 @@ import {
   MdOutlineAddHome,
   MdOutlineTableChart,
 } from "react-icons/md";
-import PublierOffre from "../publierOffre/PublierOffre";
+
 
 export default function RegisterLogin() {
   const [action, setAction] = useState("");
@@ -46,6 +46,7 @@ export default function RegisterLogin() {
       const responseData = await response.json();
       console.log("Here is the reponseData", responseData);
       if (!response.ok) {
+        alert(responseData.message);
         throw new Error(responseData.message);
       }
 
@@ -95,8 +96,15 @@ export default function RegisterLogin() {
         throw new Error(responseData.message);
       }
       console.log("User registered successfully");
+      console.log(responseData);
       // Login
-      auth.login(responseData.recruiter.id, responseData.token);
+      auth.login(responseData.recruiter, responseData.token);
+      console.log("DEBUT, User logged after registration");
+      console.log("User id " + auth.userId);
+      console.log("Token " + auth.token);
+      console.log("User is logged in " + auth.isLoggedIn);
+      console.log("FIN, User logged after registration");
+
       navigate("/publierOffre");
     } catch (err) {
       setError(err.message || "Une erreur est survenue, essayez plus tard.");
