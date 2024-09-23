@@ -57,8 +57,6 @@ const MesOffres = () => {
   return (
     <div>
       <form>
-        <p>Emploi</p>
-
         <Box className="joboffers">
           {jobOffers.length > 0 ? (
             jobOffers.map((job) => (

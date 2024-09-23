@@ -1,13 +1,23 @@
 .joboffer {
-  display: flex; /* If you have inner elements that should be flex as well */
-  padding: 16px; /* Your padding or margin as needed */
-  border: 1px solid #ccc; /* Optional styling for the job offer */
-  border-radius: 8px; /* Optional styling for rounded corners */
-  background-color: #fff; /* Background color for contrast */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
-  max-width: 800px; /* Setting a max-width for your component */
-  margin: auto; /* Center the component horizontally */
+  display: flex;
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 16px auto; /* Added margin to create space between job offers */
 }
+
 .wrappeJobOffer {
-  border: "1px";
+  width: 100%;
+}
+
+.wrappeJobOffer .MuiTypography-subtitle1 {
+  font-size: 20px; 
+  font-weight: bold; 
+}
+
+.wrappeJobOffer .MuiTypography-subtitle2 {
+  font-size: 14px; 
 }

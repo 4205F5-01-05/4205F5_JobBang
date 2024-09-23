@@ -142,13 +142,7 @@ export default function RegisterLogin() {
             />
             <MdOutlinePassword className="icon" />
           </div>
-          <div className="remember-forgot">
-            <label>
-              <input type="checkbox" />
-              Se Souvenir de moi
-            </label>
-            <a href="#">Mot de passe oublier ?</a>
-          </div>
+    
           <button type="submit">Login</button>
           <div className="register-link">
             <p>
@@ -224,13 +218,7 @@ export default function RegisterLogin() {
             />
             <MdOutlineAddHome className="icon" />
           </div>
-
-          <div className="remember-forgot">
-            <label>
-              <input type="checkbox" />
-              J'accept les conditions d'utilisations
-            </label>
-          </div>
+         
           <button type="submit">S'Enregistrer</button>
           <div className="register-link">
             <p>
