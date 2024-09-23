@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
 
     setUser(user);
     setToken(token);
-    setUserId(user.rId);  // Set the userId state
+    setUserId(user._id);  // Set the userId state
 
     localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("token", token);
@@ -71,7 +71,7 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         isLoggedIn,
-        userId: user?.rId || null,
+        userId: user?._id || null,
         user,
         token,
         isEmployer,

@@ -94,7 +94,7 @@ const registerRecruiter = async (req, res, next) => {
   try {
     token = jwt.sign(
       {
-        rId: createdRecruiter.id,
+        _id: createdRecruiter.id,
         email: createdRecruiter.email,
         company: createdRecruiter.company,
       },
@@ -144,7 +144,7 @@ const loginRecruiter = async (req, res, next) => {
     try {
       token = jwt.sign(
         {
-          rId: existingRecruiter.id,
+          _id: existingRecruiter.id,
           email: existingRecruiter.email,
           company: existingRecruiter.company,
         },
@@ -157,7 +157,7 @@ const loginRecruiter = async (req, res, next) => {
     }
 
     res.status(201).json({
-      rId: existingRecruiter.id,
+      _id: existingRecruiter.id,
       email: existingRecruiter.email,
       company: existingRecruiter.company,
       token: token,
