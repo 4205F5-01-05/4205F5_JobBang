@@ -16,6 +16,7 @@ router.post('/create', jobOffersController.createJobOffer);
 router.patch('/:jId', jobOffersController.updateJobOffer);
 router.delete('/:jId', jobOffersController.deleteJobOffer);
 
+
 // Exports
 module.exports = router;
 

@@ -70,14 +70,7 @@ const registerRecruiter = async (req, res, next) => {
   // Si email valide
   const companyAddressValide = companyAddress || "Aucune adresse enregistrée";
 
-  const createdRecruiter = new RECRUITERS({
-    name,
-    company,
-    phone,
-    email,
-    mdp,
-    companyAddress: companyAddressValide,
-  });
+  const createdRecruiter = new RECRUITERS(req.body);
   console.log(`Recruteur inscrit: ${createdRecruiter}`);
 
   try {
@@ -211,9 +204,13 @@ const deleteRecruiter = async (req, res, next) => {
   const rId = req.params.rId;
 
   let recruiter;
-
   try {
     recruiter = await RECRUITERS.findById(rId);
+    if (!recruiter) {
+      return next(
+        new HttpError(`Le recruteur d'id ${rId} n'a pas été trouvé.`, 404)
+      );
+    }
   } catch (e) {
     console.log(e);
     return next(
@@ -221,22 +218,15 @@ const deleteRecruiter = async (req, res, next) => {
     );
   }
 
-  if (!recruiter) {
-    return next(
-      new HttpError(`Le recruteur d'id ${rId} n'a pas été trouvé.`, 404)
-    );
-  }
-
   try {
-    await recruiter.remove();
+    await RECRUITERS.deleteOne({ _id: rId }); 
+    res.json({ message: "Recruteur supprimé." });
   } catch (e) {
     console.log(e);
     return next(
       new HttpError("Échec lors de la suppression du recruteur", 500)
     );
   }
-
-  res.json({ message: "Recruteur supprimé." });
 };
 
 // --- EXPORTS ---
