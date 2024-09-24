@@ -128,7 +128,7 @@ const deleteJobOffer = async (req, res, next) => {
   }
 
   try {
-    await jobOffer.deleteOne({ _id: jId }); 
+    await jobOffer.deleteOne({ _id: jId });
   } catch (e) {
     console.log(e);
     return next(
