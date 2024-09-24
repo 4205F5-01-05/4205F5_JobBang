@@ -1,13 +1,18 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 import "./joboffer.css"; // Import the CSS file
 
-export default function Joboffer({ titre, description }) {
+export default function Joboffer({ titre, description, onDelete }) {
   return (
     <div className="joboffer">
       <Box p={2} className="wrappeJobOffer">
         <Typography variant="subtitle1">{titre}</Typography>
         <Typography variant="subtitle2">{description}</Typography>
+        {onDelete && (
+            <button className="material-symbols-outlined" onClick={onDelete}>
+              Delete
+            </button>
+          )}
       </Box>
     </div>
   );

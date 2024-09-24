@@ -95,6 +95,8 @@ const MesOffres = () => {
                 titre={job.titre}
                 region={job.region}
                 description={job.description}
+                // Pass the delete function as a prop to display the delete button
+                onDelete={() => deleteOffer(job._id)}
               />
             ))
           ) : (
