@@ -4,7 +4,7 @@ import { Box } from "@mui/material";
 import Joboffer from "../joboffer/joboffer";
 
 export default function ListeEmploi() {
-  const [jobOffers, setJobOffers] = useState([]); // Initialize as array
+  const [jobOffers, setJobOffers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -19,22 +19,21 @@ export default function ListeEmploi() {
         });
 
         if (!response.ok) {
-          throw new Error(response.message);
+          throw new Error(response.statusText);
         }
 
         const data = await response.json();
         console.log("Job Offers Data:", data);
 
-        // Assuming the API returns 'jobOffers', update the state
         if (Array.isArray(data.jobOffers)) {
           setJobOffers(data.jobOffers);
         } else {
           console.error("jobOffers is not an array or is undefined");
-          setJobOffers([]); // fallback to an empty array
+          setJobOffers([]);
         }
       } catch (error) {
-        setError(error); // Handle the error
-        console.error("Error fetching job offers:", error); // Log the error for debugging
+        setError(error);
+        console.error("Error fetching job offers:", error);
       } finally {
         setLoading(false);
       }
@@ -42,6 +41,29 @@ export default function ListeEmploi() {
 
     fetchJobOffers();
   }, []);
+
+  const deleteOffer = async (offerId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/jobOffers/${offerId}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (response.ok) {
+        // Met à jour l'état pour retirer l'offre de la liste
+        setJobOffers((prevOffers) =>
+          prevOffers.filter((job) => job._id !== offerId)
+        );
+      } else {
+        const errorData = await response.json();
+        console.error(errorData.message);
+      }
+    } catch (error) {
+      console.error("Erreur lors de la suppression de l'offre:", error);
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -58,10 +80,11 @@ export default function ListeEmploi() {
           {jobOffers.length > 0 ? (
             jobOffers.map((job) => (
               <Joboffer
-                key={job._id} // Use job._id as a key for a more stable identifier
+                key={job._id}
                 titre={job.titre}
                 region={job.region}
                 description={job.description}
+                onDelete={() => deleteOffer(job._id)} // Passer la fonction de suppression en prop
               />
             ))
           ) : (

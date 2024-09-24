@@ -1,14 +1,15 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
-import "./joboffer.css"; // Import the CSS file
 
-export default function Joboffer({ titre, description }) {
+const Joboffer = ({ titre, region, description, onDelete }) => {
   return (
-    <div className="joboffer">
-      <Box p={2} className="wrappeJobOffer">
-        <Typography variant="subtitle1">{titre}</Typography>
-        <Typography variant="subtitle2">{description}</Typography>
-      </Box>
+    <div>
+      <h3>{titre}</h3>
+      <p>{region}</p>
+      <p>{description}</p>
+      <button onClick={onDelete}>Supprimer</button>{" "}
+      {/* Bouton de suppression */}
     </div>
   );
-}
+};
+
+export default Joboffer;
