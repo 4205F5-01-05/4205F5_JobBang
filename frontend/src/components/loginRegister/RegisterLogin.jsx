@@ -1,6 +1,6 @@
+// --- IMPORTS ---
 import { useContext, useState } from "react";
 import "./RegisterLogin.css";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/auth-context";
 import { FaUser } from "react-icons/fa";
@@ -12,7 +12,7 @@ import {
   MdOutlineTableChart,
 } from "react-icons/md";
 
-
+// --- DEFAULT FUNCTION ---
 export default function RegisterLogin() {
   const [action, setAction] = useState("");
   const [error, setError] = useState(null);
@@ -73,7 +73,7 @@ export default function RegisterLogin() {
     }
     event.target.reset();
   }
-  //Function Qui Pour S'enregistrer
+  //Function Pour S'enregistrer
   async function handleSubmitRegister(event) {
     event.preventDefault();
     const fd = new FormData(event.target);
@@ -85,7 +85,7 @@ export default function RegisterLogin() {
         {
           method: "POST",
           headers: {
-            "Content-Type": "application/json", //pour que le bodyParser sache comment faire le parse
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(data),
         }
@@ -150,7 +150,7 @@ export default function RegisterLogin() {
             />
             <MdOutlinePassword className="icon" />
           </div>
-    
+
           <button type="submit">Login</button>
           <div className="register-link">
             <p>
@@ -226,7 +226,7 @@ export default function RegisterLogin() {
             />
             <MdOutlineAddHome className="icon" />
           </div>
-         
+
           <button type="submit">S'Enregistrer</button>
           <div className="register-link">
             <p>

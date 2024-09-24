@@ -1,8 +1,9 @@
+// --- IMPORTS ---
 import React from "react";
-import Profil from "../components/profil";
 import ProfilEmployeur from "./profil/ProfilEmployeur";
 import MesOffres from "./mesOffres/MesOffres";
 
+// --- DEFAULT FUNCTION ---
 const App = () => {
   return (
     <div className="App">

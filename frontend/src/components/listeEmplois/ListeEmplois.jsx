@@ -1,8 +1,10 @@
+// --- IMPORTS ---
 import { useEffect, useState } from "react";
 import "./listeEmploi.css";
 import { Box } from "@mui/material";
 import Joboffer from "../joboffer/joboffer";
 
+// --- DEFAULT FUNCTION ---
 export default function ListeEmploi() {
   const [jobOffers, setJobOffers] = useState([]); // Initialize as array
   const [loading, setLoading] = useState(true);

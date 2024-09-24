@@ -1,6 +1,7 @@
-const JOBOFFERS = require("../models/JobOffers"); // Import the JobOffers model
-const HttpError = require("../util/http-error"); // Import the HttpError class
-const mongoose = require("mongoose"); // Import mongoose
+// --- IMPORTS ---
+const JOBOFFERS = require("../models/JobOffers");
+const HttpError = require("../util/http-error");
+const mongoose = require("mongoose");
 
 // --- GET ALL JOB OFFERS ---
 const getAllJobOffers = async (req, res, next) => {

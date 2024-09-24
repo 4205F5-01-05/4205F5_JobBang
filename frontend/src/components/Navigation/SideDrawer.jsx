@@ -1,8 +1,9 @@
+// --- IMPORTS ---
+import { createPortal } from "react-dom";
+
 import "./SideDrawer.css";
 
-import { createPortal } from "react-dom";
-import { useTransition } from "react";
-
+// --- DEFAULT FUNCTION ---
 const SideDrawer = (props) => {
   const content = (
     <aside className="side-drawer" onClick={props.onClick}>

@@ -1,16 +1,19 @@
+// --- IMPORTS ---
 import { useContext, useState } from "react";
 import { Box } from "@mui/material";
-import Joboffer from "../joboffer/joboffer";
 import { AuthContext } from "../../context/auth-context";
+
 import "./PublierOffre.css";
 
+// --- DEFAULT FUNCTION ---
 export default function PublierOffre() {
   const auth = useContext(AuthContext);
   const [job, setJob] = useState({
     rid: auth.userId, // Recruiter ID
     region: "",
     titre: "",
-    description: "Description du travail :\n\nSalaire :\n\nCompany :\n\nPersonne à contacter :\nEmail :\nTéléphone :",
+    description:
+      "Description du travail :\n\nSalaire :\n\nCompany :\n\nPersonne à contacter :\nEmail :\nTéléphone :",
   });
   const [error, setError] = useState(""); // State for error handling
   const [success, setSuccess] = useState(""); // Optional: To handle success messages

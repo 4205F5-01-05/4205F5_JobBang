@@ -1,11 +1,14 @@
-import React, { useState, useContext, useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+// --- IMPORTS ---
+import React, { useContext } from "react";
+import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../context/auth-context";
 import { FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
+
 import "./NavLinks.css";
 
-const NavLinks = (props) => {
+// --- DEFAULT FUNCTION ---
+const NavLinks = () => {
   const auth = useContext(AuthContext);
   return (
     <ul className="nav-links">

@@ -1,3 +1,4 @@
+// --- IMPORTS ---
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
@@ -7,7 +8,8 @@ import Backdrop from "../UIElements/Backdrop";
 
 import "./MainNavigation.css";
 
-const MainNavigation = (props) => {
+// --- DEFAULT FUNCTION ---
+const MainNavigation = () => {
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
   const openDrawer = () => {
     setDrawerIsOpen(true);

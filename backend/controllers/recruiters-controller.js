@@ -1,7 +1,6 @@
 // --- IMPORTS ---
 const RECRUITERS = require("../models/Recruiters");
 const HttpError = require("../util/http-error");
-const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 
 // --- GET ALL RECRUITERS ---
@@ -70,7 +69,14 @@ const registerRecruiter = async (req, res, next) => {
   // Si email valide
   const companyAddressValide = companyAddress || "Aucune adresse enregistrée";
 
-  const createdRecruiter = new RECRUITERS(req.body);
+  const createdRecruiter = new RECRUITERS({
+    name,
+    company,
+    phone,
+    email,
+    mdp,
+    companyAddress: companyAddressValide,
+  });
   console.log(`Recruteur inscrit: ${createdRecruiter}`);
 
   try {
@@ -125,7 +131,9 @@ const loginRecruiter = async (req, res, next) => {
     existingRecruiter.mdp !== mdp ||
     existingRecruiter.company !== company
   ) {
-    return res.status(401).json({ message: "Connexion échouée. Verifiez vos identifiants" });
+    return res
+      .status(401)
+      .json({ message: "Connexion échouée. Verifiez vos identifiants" });
   } else {
     // Bons credentials
     let token;
@@ -214,7 +222,7 @@ const deleteRecruiter = async (req, res, next) => {
   }
 
   try {
-    await RECRUITERS.deleteOne({ _id: rId }); 
+    await RECRUITERS.deleteOne({ _id: rId });
     res.json({ message: "Recruteur supprimé." });
   } catch (e) {
     console.log(e);

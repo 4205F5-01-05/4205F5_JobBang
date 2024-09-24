@@ -1,7 +1,9 @@
+// --- IMPORTS ---
 import React from "react";
-import { Box, Typography, Button } from "@mui/material";
-import "./joboffer.css"; // Import the CSS file
+import { Box, Typography } from "@mui/material";
+import "./joboffer.css";
 
+// --- DEFAULT FUNCTION ---
 export default function Joboffer({ titre, description, onDelete }) {
   return (
     <div className="joboffer">
@@ -9,10 +11,10 @@ export default function Joboffer({ titre, description, onDelete }) {
         <Typography variant="subtitle1">{titre}</Typography>
         <Typography variant="subtitle2">{description}</Typography>
         {onDelete && (
-            <button className="material-symbols-outlined" onClick={onDelete}>
-              Delete
-            </button>
-          )}
+          <button className="material-symbols-outlined" onClick={onDelete}>
+            Delete
+          </button>
+        )}
       </Box>
     </div>
   );

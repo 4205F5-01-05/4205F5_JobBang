@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useContext } from "react";
+// --- IMPORTS ---
+import React, { useState, useEffect } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
-//import { AuthContext } from "../../context/auth-context";
 
+// --- DEDFAULT FUNCTION ---
 const UserProfile = () => {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  //const auth = useContext(AuthContext);
   const { user, token } = useAuthContext();
 
   useEffect(() => {

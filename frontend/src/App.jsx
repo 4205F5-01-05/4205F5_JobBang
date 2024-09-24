@@ -1,12 +1,15 @@
+// --- IMPORTS ---
 import React, { useContext } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import RootLayout from "./containers/Roots";
+import { AuthContext, AuthProvider } from "./context/auth-context";
+
 import RegisterLogin from "./components/loginRegister/RegisterLogin";
 import ListeEmplois from "./components/listeEmplois/ListeEmplois";
 import PublierOffre from "./components/publierOffre/PublierOffre";
 import MesOffres from "./components/mesOffres/MesOffres";
 import Profile from "./components/profil/ProfilEmployeur";
-import { AuthContext, AuthProvider } from "./context/auth-context";
+
 import styled from "styled-components";
 import "./App.css";
 
@@ -21,6 +24,7 @@ const ProtectedRoute = ({ element, ...rest }) => {
   return isLoggedIn ? element : <Navigate to="/signup" />;
 };
 
+// --- DEFAULT FUNCTION ---
 const App = () => {
   return (
     <AuthProvider>
@@ -31,7 +35,7 @@ const App = () => {
             <Route path="/" element={<Navigate to="/offreEmploi" />} />
             <Route path="/signup" element={<RegisterLogin />} />
             <Route path="/offreEmploi" element={<ListeEmplois />} />
-            {/* Les routes protégées */}          
+            {/* Les routes protégées */}
             <Route
               path="/publierOffre"
               element={<ProtectedRoute element={<PublierOffre />} />}

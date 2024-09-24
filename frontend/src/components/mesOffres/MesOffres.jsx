@@ -1,8 +1,10 @@
+// --- IMPORTS ---
 import { useEffect, useState, useContext } from "react";
 import { Box } from "@mui/material";
 import Joboffer from "../joboffer/joboffer";
 import { AuthContext } from "../../context/auth-context";
 
+// --- DEFAULT FUNCTION ---
 const MesOffres = () => {
   const auth = useContext(AuthContext);
   const [jobOffers, setJobOffers] = useState([]);

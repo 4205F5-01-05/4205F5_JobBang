@@ -1,9 +1,8 @@
-import { useState, useCallback } from "react";
-
+// --- IMPORTS ---
 import MainNavigation from "../components/Navigation/MainNavigation";
 import { Outlet } from "react-router-dom";
-import { AuthContext } from "../context/auth-context";
 
+// --- DEFAULT FUNCTION ---
 export default function RootLayout() {
   return (
     <>

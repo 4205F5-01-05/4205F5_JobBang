@@ -7,15 +7,6 @@ body {
   align-items: center;
   min-height: 100vh;
   background: rgb(0, 0, 0);
-  /*background: url("https://wallpapercave.com/wp/wp5849941.jpg") no-repeat;*/
-  /* background-image: linear-gradient( SVP NE PAS SUPPRIMER CE CODE, Je teste plusieurs couleurs pr le background
-    to right top,
-    #5d43a8,
-    #563bb8,
-    #4b32c9,
-    #3a28da,
-    #121ceb
-  );*/
 }
 
 * {
@@ -25,7 +16,8 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
 }
 
 .wrapper {
