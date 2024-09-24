@@ -27,9 +27,8 @@ const MesOffres = () => {
         console.log("Job Offers Data:", data);
 
         if (Array.isArray(data.jobOffers)) {
-          // Filter job offers based on auth.userId
           const filteredJobOffers = data.jobOffers.filter(
-            (job) => job.rid === auth.userId // Adjust to the correct property name
+            (job) => job.rid === auth.userId
           );
           setJobOffers(filteredJobOffers);
         } else {
@@ -54,6 +53,36 @@ const MesOffres = () => {
   if (error) {
     return <div>Error: {error.message}</div>;
   }
+
+  const deleteOffer = async (offerId) => {
+    const previousOffers = [...jobOffers];
+    setJobOffers((prevOffers) =>
+      prevOffers.filter((job) => job._id !== offerId)
+    );
+
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/jobOffers/${offerId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${auth.token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Erreur de l'API:", errorData.message);
+        setJobOffers(previousOffers);
+      } else {
+        console.log("Offre supprimée avec succès:", offerId);
+      }
+    } catch (error) {
+      console.error("Erreur lors de la suppression de l'offre:", error);
+      setJobOffers(previousOffers);
+    }
+  };
 
   return (
     <div>

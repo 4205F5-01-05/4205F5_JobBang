@@ -14,8 +14,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
-  
-  // No need for a separate `isLoggedIn` state, derive it from `user` and `token`
+
   const isLoggedIn = !!user && !!token;
 
   useEffect(() => {
@@ -27,15 +26,13 @@ export const AuthProvider = ({ children }) => {
       console.log("Stored token in useEffect: ", storedToken);
 
       if (storedUser && storedToken) {
-        // Check if the storedUser is a valid JSON string before parsing
         const parsedUser = JSON.parse(storedUser);
         setUser(parsedUser);
         setToken(storedToken);
-        setUserId(parsedUser.rId);  // Set userId based on the user data
+        setUserId(parsedUser.rId);
       }
     } catch (error) {
       console.error("Error parsing stored user data:", error);
-      // Clear the invalid data from localStorage
       localStorage.removeItem("user");
       localStorage.removeItem("token");
     }
@@ -51,7 +48,7 @@ export const AuthProvider = ({ children }) => {
 
     setUser(user);
     setToken(token);
-    setUserId(user._id);  // Set the userId state
+    setUserId(user._id);
 
     localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("token", token);
