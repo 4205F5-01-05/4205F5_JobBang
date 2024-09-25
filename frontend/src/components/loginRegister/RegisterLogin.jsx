@@ -34,7 +34,7 @@ export default function RegisterLogin() {
     console.log(JSON.stringify(data));
     try {
       const response = await fetch(
-        `https://jobbang-ke8e.onrender.com/api/recruiters/login`,
+        `http://localhost:5000/api/recruiters/login`,
         {
           method: "POST",
           headers: {
@@ -81,7 +81,7 @@ export default function RegisterLogin() {
 
     try {
       const response = await fetch(
-        `https://jobbang-ke8e.onrender.com/api/recruiters/register`,
+        `http://localhost:5000/api/recruiters/register`,
         {
           method: "POST",
           headers: {

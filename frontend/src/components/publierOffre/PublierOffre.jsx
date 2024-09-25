@@ -29,7 +29,7 @@ export default function PublierOffre() {
 
     try {
       const response = await fetch(
-        `https://jobbang-ke8e.onrender.com/api/jobOffers/create`,
+        `http://localhost:5000/api/jobOffers/create`,
         {
           method: "POST",
           headers: {
