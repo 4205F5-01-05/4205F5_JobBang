@@ -5,6 +5,7 @@ const errorHandler = require("./handler/error-handler");
 
 const recruitersRoutes = require("./routes/recruiters-routes");
 const jobOffersRoutes = require("./routes/jobOffers-routes");
+const candidatureRoutes = require("./routes/candidature-routes");
 
 // --- CRÉATION DE L'APP ---
 const app = express();
@@ -23,6 +24,8 @@ app.use((req, res, next) => {
 
 app.use("/api/recruiters", recruitersRoutes);
 app.use("/api/jobOffers", jobOffersRoutes);
+app.use("/api/candidatures", candidatureRoutes);
+
 
 // --- GESTION ERREURS ---
 app.use((req, res, next) => {
