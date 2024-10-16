@@ -3,6 +3,8 @@ import { useEffect, useState, useContext } from "react";
 import { Box } from "@mui/material";
 import Joboffer from "../joboffer/joboffer";
 import { AuthContext } from "../../context/auth-context";
+import { useNavigate } from "react-router-dom";
+import UpdateJob from "../updateJob/UpdateJob";
 
 // --- DEFAULT FUNCTION ---
 const MesOffres = () => {
@@ -10,6 +12,7 @@ const MesOffres = () => {
   const [jobOffers, setJobOffers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate(); // Use navigate hook to redirect
 
   useEffect(() => {
     const fetchJobOffers = async () => {
@@ -86,6 +89,10 @@ const MesOffres = () => {
     }
   };
 
+  const updateOffer = (offerId) => {
+    navigate(`/modifierOffre/${offerId}`);
+  };
+
   return (
     <div>
       <form>
@@ -99,6 +106,7 @@ const MesOffres = () => {
                 description={job.description}
                 // Pass the delete function as a prop to display the delete button
                 onDelete={() => deleteOffer(job._id)}
+                onEdit={() => updateOffer(job._id)}
               />
             ))
           ) : (
