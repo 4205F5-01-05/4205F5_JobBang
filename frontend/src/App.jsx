@@ -9,6 +9,7 @@ import ListeEmplois from "./components/listeEmplois/ListeEmplois";
 import PublierOffre from "./components/publierOffre/PublierOffre";
 import MesOffres from "./components/mesOffres/MesOffres";
 import Profile from "./components/profil/ProfilEmployeur";
+import UpdateJob from "./components/updateJob/UpdateJob";
 
 import styled from "styled-components";
 import "./App.css";
@@ -47,6 +48,10 @@ const App = () => {
             <Route
               path="/profil"
               element={<ProtectedRoute element={<Profile />} />}
+            />
+            <Route
+              path="/modifierOffre/:id"
+              element={<ProtectedRoute element={<UpdateJob />} />}
             />
           </Routes>
         </Container>
