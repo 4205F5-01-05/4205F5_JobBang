@@ -9,6 +9,11 @@ const router = express.Router();
 router.get("/", employeesController.getAllEmployees);
 
 router.post("/register", employeesController.registerEmployee);
+router.post("/login", employeesController.loginEmployee);
+
+// Routes accessibles seulement si connecté
+router.use(checkAuth);
+router.get("/:eId", employeesController.getEmployeeById);
 
 // --- EXPORTS ---
 module.exports = router;
