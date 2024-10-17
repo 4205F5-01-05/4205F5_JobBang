@@ -36,6 +36,9 @@ const NavLinks = () => {
           <li>
             <NavLink to="/Signup">Publier Offres/Entreprise</NavLink>
           </li>
+          <li>
+            <NavLink to="signupCandidat">Postuler/Candidat</NavLink>
+          </li>
         </>
       )}
     </ul>

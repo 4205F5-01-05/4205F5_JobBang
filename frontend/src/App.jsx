@@ -5,6 +5,7 @@ import RootLayout from "./containers/Roots";
 import { AuthContext, AuthProvider } from "./context/auth-context";
 
 import RegisterLogin from "./components/loginRegister/RegisterLogin";
+import RegisterLoginCandidat from "./components/loginRegister/RegisterLogin_Candidat";
 import ListeEmplois from "./components/listeEmplois/ListeEmplois";
 import PublierOffre from "./components/publierOffre/PublierOffre";
 import MesOffres from "./components/mesOffres/MesOffres";
@@ -35,6 +36,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Navigate to="/offreEmploi" />} />
             <Route path="/signup" element={<RegisterLogin />} />
+            <Route path="/signupCandidat" element={<RegisterLoginCandidat />} />
             <Route path="/offreEmploi" element={<ListeEmplois />} />
             {/* Les routes protégées */}
             <Route
