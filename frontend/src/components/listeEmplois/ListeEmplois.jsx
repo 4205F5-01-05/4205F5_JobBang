@@ -1,12 +1,10 @@
-// --- IMPORTS ---
 import { useEffect, useState } from "react";
 import "./listeEmploi.css";
 import { Box } from "@mui/material";
 import Joboffer from "../joboffer/joboffer";
 
-// --- DEFAULT FUNCTION ---
 export default function ListeEmploi() {
-  const [jobOffers, setJobOffers] = useState([]); // Initialize as array
+  const [jobOffers, setJobOffers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -27,16 +25,15 @@ export default function ListeEmploi() {
         const data = await response.json();
         console.log("Job Offers Data:", data);
 
-        // Assuming the API returns 'jobOffers', update the state
         if (Array.isArray(data.jobOffers)) {
           setJobOffers(data.jobOffers);
         } else {
           console.error("jobOffers is not an array or is undefined");
-          setJobOffers([]); // fallback to an empty array
+          setJobOffers([]);
         }
       } catch (error) {
-        setError(error); // Handle the error
-        console.error("Error fetching job offers:", error); // Log the error for debugging
+        setError(error);
+        console.error("Error fetching job offers:", error);
       } finally {
         setLoading(false);
       }
@@ -60,9 +57,9 @@ export default function ListeEmploi() {
           {jobOffers.length > 0 ? (
             jobOffers.map((job) => (
               <Joboffer
-                key={job._id} // Use job._id as a key for a more stable identifier
+                key={job._id}
+                id={job._id}
                 titre={job.titre}
-                region={job.region}
                 description={job.description}
               />
             ))

@@ -1,0 +1,24 @@
+.joboffer {
+  display: flex;
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 16px auto; /* Added margin to create space between job offers */
+}
+
+.wrappeJobOffer {
+  width: 100%;
+}
+
+.wrappeJobOffer .MuiTypography-subtitle1 {
+  font-size: 20px; 
+  font-weight: bold; 
+}
+
+.wrappeJobOffer .MuiTypography-subtitle2 {
+  font-size: 14px; 
+}
+
