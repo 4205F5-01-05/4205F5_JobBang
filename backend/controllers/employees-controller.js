@@ -163,6 +163,26 @@ const updateEmployee = async (req, res, next) => {
     }
 };
 
+// --- SUPPRESSION ---
+const delEmployee = async (req, res, next) => {
+    const eId = req.params.eId;
+
+    let employee;
+    try {
+        employee = await EMPLOYEES.findByIdAndDelete(eId);
+
+        if (!employee) {
+            return next(new HttpError(`Candidat d'id ${eId} introuvable.`, 404));
+        }
+
+        res.status(200).json({ message: `Le candidat d'id ${eId} a été supprimé avec succès!` });
+
+    } catch (e) {
+        console.log(e);
+        return next(new HttpError("Échec lors de la suppression du compte.", 500));
+    }
+};
+
 // --- EXPORTS ---
 exports.getAllEmployees = getAllEmployees;
 exports.getEmployeeById = getEmployeeById;
@@ -171,3 +191,4 @@ exports.registerEmployee = registerEmployee;
 exports.loginEmployee = loginEmployee;
 
 exports.updateEmployee = updateEmployee;
+exports.delEmployee = delEmployee;

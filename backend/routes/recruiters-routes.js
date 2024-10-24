@@ -12,7 +12,8 @@ router.post("/login", recruitersController.loginRecruiter);
 router.get("/", recruitersController.getAllRecruiters);
 
 // Routes accessibles seulement si connecté
-router.use(checkAuth);
+//router.use(checkAuth);
+
 router.get("/:rId", recruitersController.getRecruiterById);
 router.delete("/:rId", recruitersController.deleteRecruiter);
 router.patch("/:rId", recruitersController.updateRecruiter);
