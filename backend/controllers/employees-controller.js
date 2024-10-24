@@ -46,14 +46,7 @@ const getEmployeeById = async (req, res, next) => {
 const registerEmployee = async (req, res, next) => {
     const { name, phone, email, mdp, homeAddress } = req.body;
 
-    let existingEmployee;
-    try {
-        // Vérifier si l'email est déjà utilisé
-        existingEmployee = await EMPLOYEES.findOne({ email: email });
-    } catch (e) {
-        console.log(e);
-        return next(new HttpError("Erreur lors de la validation du courriel.", 500));
-    }
+    const existingEmployee = await emailUnique(email);
 
     if (existingEmployee) {
         return next(new HttpError(`L'adresse courriel ${email} est déjà utilisée.`, 422));
@@ -146,6 +139,13 @@ const updateEmployee = async (req, res, next) => {
     const eId = req.params.eId;
     const updatedInfo = req.body;
 
+    // Valider le nouveau email
+    const email = updatedInfo.email;
+    const existingEmployee = await emailUnique(email);
+    if (existingEmployee && existingEmployee._id != eId) {
+        return next(new HttpError(`L'adresse courriel ${email} est déjà utilisée.`, 422));
+    }
+
     try {
         const updatedEmployee = await EMPLOYEES.findByIdAndUpdate(eId, updatedInfo, {
             new: true,
@@ -182,6 +182,20 @@ const delEmployee = async (req, res, next) => {
         return next(new HttpError("Échec lors de la suppression du compte.", 500));
     }
 };
+
+// --- MÉTHODES PRIVÉES ---
+async function emailUnique(email) {
+    let existingEmployee;
+    try {
+        // Vérifier si l'email est déjà utilisé
+        existingEmployee = await EMPLOYEES.findOne({ email: email });
+    } catch (e) {
+        console.log(e);
+        return next(new HttpError("Erreur lors de la validation du courriel.", 500));
+    }
+
+    return existingEmployee;
+}
 
 // --- EXPORTS ---
 exports.getAllEmployees = getAllEmployees;

@@ -51,16 +51,7 @@ const getRecruiterById = async (req, res, next) => {
 const registerRecruiter = async (req, res, next) => {
   const { name, company, phone, email, mdp, companyAddress } = req.body;
 
-  let existingRecruiter;
-  try {
-    // Vérifier si l'email est déjà utilisé
-    existingRecruiter = await RECRUITERS.findOne({ email: email });
-  } catch (e) {
-    console.log(e);
-    return next(
-      new HttpError("Erreur lors de la validation du courriel.", 500)
-    );
-  }
+  const existingRecruiter = await emailUnique(email);
 
   if (existingRecruiter) {
     return next(new HttpError("L'adresse courriel est déjà utilisée.", 422));
@@ -166,6 +157,13 @@ const updateRecruiter = async (req, res, next) => {
   const rId = req.params.rId;
   const updatedInfo = req.body;
 
+  // Valider le nouveau email
+  const email = updatedInfo.email;
+  const existingRecruiter = await emailUnique(email);
+  if (existingRecruiter && existingRecruiter._id != rId) {
+    return next (new HttpError(`L'adresse courriel ${email} est déjà utilisée.`, 422));
+  }
+
   try {
     const updatedRecruiter = await RECRUITERS.findByIdAndUpdate(rId, updatedInfo, {
       new: true,
@@ -210,6 +208,22 @@ const deleteRecruiter = async (req, res, next) => {
   }
 
 };
+
+// --- MÉTHODES PRIVÉES ---
+async function emailUnique(email) {
+  let existingRecruiter;
+  try {
+    // Vérifier si l'email est déjà utilisé
+    existingRecruiter = await RECRUITERS.findOne({ email: email });
+  } catch (e) {
+    console.log(e);
+    return next(
+      new HttpError("Erreur lors de la validation du courriel.", 500)
+    );
+  }
+
+  return existingRecruiter;
+}
 
 // --- EXPORTS ---
 exports.getAllRecruiters = getAllRecruiters;
