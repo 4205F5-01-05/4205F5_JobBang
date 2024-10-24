@@ -13,7 +13,9 @@ router.post("/login", employeesController.loginEmployee);
 
 // Routes accessibles seulement si connecté
 router.use(checkAuth);
+
 router.get("/:eId", employeesController.getEmployeeById);
+router.patch("/:eId", employeesController.updateEmployee);
 
 // --- EXPORTS ---
 module.exports = router;

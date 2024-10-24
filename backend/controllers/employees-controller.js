@@ -141,9 +141,33 @@ const loginEmployee = async (req, res, next) => {
     }
 };
 
+// --- MODIFICATION ---
+const updateEmployee = async (req, res, next) => {
+    const eId = req.params.eId;
+    const updatedInfo = req.body;
+
+    try {
+        const updatedEmployee = await EMPLOYEES.findByIdAndUpdate(eId, updatedInfo, {
+            new: true,
+        });
+
+        if (!updatedEmployee) {
+            return next(new HttpError(`Le candidat d'id ${eId} n'a pas été trouvé.`, 404));
+        }
+
+        res.status(200).json({ employee: updatedEmployee.toObject({ getters: true }) });
+
+    } catch (e) {
+        console.log(e);
+        return next(new HttpError("ÉChec lors de la mise à jour du candidat.", 500));
+    }
+};
+
 // --- EXPORTS ---
 exports.getAllEmployees = getAllEmployees;
 exports.getEmployeeById = getEmployeeById;
 
 exports.registerEmployee = registerEmployee;
 exports.loginEmployee = loginEmployee;
+
+exports.updateEmployee = updateEmployee;
