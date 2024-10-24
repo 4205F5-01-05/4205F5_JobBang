@@ -54,11 +54,11 @@ const MesOffres = () => {
   }, [auth]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>Chargement...</div>;
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <div>Erreur: {error.message}</div>;
   }
 
   const deleteOffer = async (offerId) => {
@@ -154,12 +154,12 @@ const MesOffres = () => {
                   onEdit={() => updateOffer(job._id)}
                 />
                 <Button onClick={() => handleCandidateClick(job)}>
-                  Voir les candidats
+                  Voir les candidatures
                 </Button>
               </Box>
             ))
           ) : (
-            <div>No job offers found.</div>
+            <div>Pas d'offre d'emploi trouvée.</div>
           )}
         </Box>
       </form>
