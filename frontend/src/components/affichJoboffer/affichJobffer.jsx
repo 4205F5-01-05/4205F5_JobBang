@@ -1,13 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom"; 
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 import "./afficheJobOffer.css";
+import { AuthContext } from "../../context/auth-context";
 
 export default function AfficheJobOffer() {
   const { id } = useParams(); 
   const [job, setJob] = useState(null); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
+  const auth = useContext(AuthContext); 
 
   useEffect(() => {
     const fetchJobDetails = async () => {
@@ -15,7 +18,7 @@ export default function AfficheJobOffer() {
         const response = await fetch(`http://localhost:5000/api/jobOffers/${id}`, {
           method: "GET",
           headers: {
-            "Content-Type": "application/json",
+            Authorization: `Bearer ${auth.token}`,
           },
         });
 
@@ -24,39 +27,52 @@ export default function AfficheJobOffer() {
         }
 
         const data = await response.json();
-        setJob(data); // Assuming API returns the job details directly
+        setJob({
+          region: data.jobOffer.region || "",
+          titre: data.jobOffer.titre || "",
+          description: data.jobOffer.description || ""
+        });
       } catch (error) {
         setError(error);
-        console.error("Error fetching job details:", error);
       } finally {
         setLoading(false);
       }
     };
 
     fetchJobDetails();
-  }, [id]); // Dependency array includes job ID
+  }, [id, auth.token]); 
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="loading">Loading...</div>;
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <div className="error">Error: {error.message}</div>;
   }
 
   if (!job) {
     return <div>No job found.</div>;
   }
 
+ 
+  const isCandidate = auth.role === 'candidate'; 
+
   return (
-    <Box p={2} className="afficheJobOffer">
+    <div className="afficheJobOffer">
       <Typography variant="h4">{job.titre}</Typography>
-      <Typography variant="subtitle1" style={{ marginTop: "10px" }}>
+      <Typography variant="subtitle1" className="region">
         Région: {job.region}
       </Typography>
-      <Typography variant="body1" style={{ marginTop: "20px" }}>
+      <Typography variant="body1" className="description">
         {job.description}
       </Typography>
-    </Box>
+      
+
+      {isCandidate && (
+        <Button variant="contained" color="primary" style={{ marginTop: '20px' }}>
+          Apply for Job
+        </Button>
+      )}
+    </div>
   );
 }
