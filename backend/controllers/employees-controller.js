@@ -81,11 +81,13 @@ const registerEmployee = async (req, res, next) => {
 
     // Connexion
     let token;
+    
     try {
         token = jwt.sign(
             {
                 _id: existingEmployee.id,
-                email: existingEmployee.email
+                email: existingEmployee.email,
+                isEmployer: false
             },
             "JaiFes,Cqcl!",
             {expiresIn: "24h" }
@@ -98,6 +100,7 @@ const registerEmployee = async (req, res, next) => {
     res.status(201).json({
         employee: createdEmployee.toObject({ getters: true }),
         token: token,
+        isEmployer: false,  // Pourquoi false? Parce que c'est un candidat qui se connecte ici et non un recruteur
     });
 };
 
@@ -123,7 +126,8 @@ const loginEmployee = async (req, res, next) => {
             token = jwt.sign(
                 {
                     _id: existingEmployee.id,
-                    email: existingEmployee.email
+                    email: existingEmployee.email,
+                    isEmployer: false
                 },
                 "JaiFes,Cqcl!",
                 { expiresIn: "24h" },
@@ -132,11 +136,15 @@ const loginEmployee = async (req, res, next) => {
             console.log(e);
             return next(new HttpError("La connexion a échoué.", 500));
         }
+        console.log("Connexion réussie.");
+        // Retourner les données
+        console.log(`Employé connecté: ${existingEmployee}`);
 
         res.status(201).json({
             _id: existingEmployee.id,
             email: existingEmployee.email,
             token: token,
+            isEmployer: false,  // Pourquoi false? Parce que c'est un candidat qui se connecte ici et non un recruteur
         });
     }
 };

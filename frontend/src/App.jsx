@@ -19,12 +19,13 @@ const Container = styled.div``;
 
 // Component pour les routes protégées
 const ProtectedRoute = ({ element, ...rest }) => {
-  const { isLoggedIn, user, token } = useContext(AuthContext);
+  const { isLoggedIn, user, token, isEmployer } = useContext(AuthContext);
   if (user === null && token === null) {
     return <div>Loading...</div>;
   }
   return isLoggedIn ? element : <Navigate to="/signup" />;
 };
+
 
 // --- DEFAULT FUNCTION ---
 const App = () => {
