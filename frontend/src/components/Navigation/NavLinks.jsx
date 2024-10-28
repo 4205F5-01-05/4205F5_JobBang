@@ -10,19 +10,23 @@ import "./NavLinks.css";
 // --- DEFAULT FUNCTION ---
 const NavLinks = () => {
   const auth = useContext(AuthContext);
+
   return (
     <ul className="nav-links">
       {auth.isLoggedIn && (
         <>
-          <li>
-            <NavLink to="/publierOffre">Publier une offre</NavLink>
-          </li>
-          <li>
-            <NavLink to="/mesOffres">Mes Offres</NavLink>
-          </li>
-          <li>
-            <NavLink to="/profil">Profil</NavLink>
-          </li>
+          {auth.isEmployer ? (
+            <>
+              <li><NavLink to="/publierOffre">Publier une offre</NavLink></li>
+              <li><NavLink to="/mesOffres">Mes Offres</NavLink></li>
+              <li><NavLink to="/profil">Profil</NavLink></li>
+            </>
+          ) : (
+            <>
+              <li><NavLink to="/mesCandidatures">Mes Candidatures</NavLink></li>
+              <li><NavLink to="/profil">Profil</NavLink></li>
+            </>
+          )}
           <li>
             <Link to="/offreEmploi">
               <button onClick={auth.logout}>Se déconnecter</button>
@@ -33,12 +37,8 @@ const NavLinks = () => {
       )}
       {!auth.isLoggedIn && (
         <>
-          <li>
-            <NavLink to="/Signup">Publier Offres/Entreprise</NavLink>
-          </li>
-          <li>
-            <NavLink to="signupCandidat">Postuler/Candidat</NavLink>
-          </li>
+          <li><NavLink to="/signup">Publier Offres/Entreprise</NavLink></li>
+          <li><NavLink to="/signupCandidat">Postuler/Candidat</NavLink></li>
         </>
       )}
     </ul>

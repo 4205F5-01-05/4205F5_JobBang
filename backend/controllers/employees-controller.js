@@ -23,6 +23,25 @@ const getAllEmployees = async (req, res, next) => {
     });
 };
 
+// --- GET SPECIFIC EMPLOYEE ---
+const getEmployeeById = async (req, res, next) => {
+    const eId = req.params.eId;
+
+    let employee;
+    try {
+        employee = await EMPLOYEES.findById(eId);
+    } catch (e) {
+        console.log(e);
+        return next(new HttpError("Échec lors de la récupération de l'utilisateur", 500));
+    }
+
+    if (!employee) {
+        return next(new HttpError(`Le candidat d'id ${eId} n'a pas été trouvé.`, 404));
+    }
+
+    res.json({ employee: employee.toObject({ getters: true }) });
+};
+
 // --- INSCRIPTION ---
 const registerEmployee = async (req, res, next) => {
     const { name, phone, email, mdp, homeAddress } = req.body;
@@ -60,10 +79,79 @@ const registerEmployee = async (req, res, next) => {
         return next(new HttpError("Échec lors de l'inscription du candidat.", 500));
     }
 
-    // TODO: Connexion
-}
+    // Connexion
+    let token;
+    
+    try {
+        token = jwt.sign(
+            {
+                _id: existingEmployee.id,
+                email: existingEmployee.email,
+                isEmployer: false
+            },
+            "JaiFes,Cqcl!",
+            {expiresIn: "24h" }
+        );
+    } catch (e) {
+        console.log(e);
+        console.log("La connexion a échoué.");
+    }
+
+    res.status(201).json({
+        employee: createdEmployee.toObject({ getters: true }),
+        token: token,
+        isEmployer: false,  // Pourquoi false? Parce que c'est un candidat qui se connecte ici et non un recruteur
+    });
+};
+
+// --- CONNEXION ---
+const loginEmployee = async (req, res, next) => {
+    const { email, mdp } = req.body;
+
+    let existingEmployee;
+    try {
+        existingEmployee = await EMPLOYEES.findOne({ email: email });
+    } catch (e) {
+        console.log(e);
+        return next(new HttpError("Erreur lors de la validation du courriel.", 500));
+    }
+
+    // Vérification des credentials
+    if (!existingEmployee || existingEmployee.mdp !== mdp) {
+        return res.status(401).json({ message: "Connexion échouée. Vérifiez vos identifiants."});
+    } else {
+        // Bon credentials
+        let token;
+        try {
+            token = jwt.sign(
+                {
+                    _id: existingEmployee.id,
+                    email: existingEmployee.email,
+                    isEmployer: false
+                },
+                "JaiFes,Cqcl!",
+                { expiresIn: "24h" },
+            );
+        } catch (e) {
+            console.log(e);
+            return next(new HttpError("La connexion a échoué.", 500));
+        }
+        console.log("Connexion réussie.");
+        // Retourner les données
+        console.log(`Employé connecté: ${existingEmployee}`);
+
+        res.status(201).json({
+            _id: existingEmployee.id,
+            email: existingEmployee.email,
+            token: token,
+            isEmployer: false,  // Pourquoi false? Parce que c'est un candidat qui se connecte ici et non un recruteur
+        });
+    }
+};
 
 // --- EXPORTS ---
 exports.getAllEmployees = getAllEmployees;
+exports.getEmployeeById = getEmployeeById;
 
 exports.registerEmployee = registerEmployee;
+exports.loginEmployee = loginEmployee;
