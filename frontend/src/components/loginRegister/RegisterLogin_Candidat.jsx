@@ -81,7 +81,7 @@ export default function RegisterLoginCandidat() {
         localStorage.getItem("token")
       );
 
-      navigate("/");
+      navigate("/offreEmploiCandidat");
     } catch (err) {
       setError(err.message || "Une erreur est survenue, veuillez réessayer plus tard.");
       console.error(err);

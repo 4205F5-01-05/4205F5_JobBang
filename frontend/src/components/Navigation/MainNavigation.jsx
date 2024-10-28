@@ -1,22 +1,31 @@
 // --- IMPORTS ---
 import { Link } from "react-router-dom";
-import { useState } from "react";
-
+import { useState, useContext } from "react";
 import NavLinks from "./NavLinks";
 import SideDrawer from "./SideDrawer";
 import Backdrop from "../UIElements/Backdrop";
-
+import { AuthContext } from "../../context/auth-context";
 import "./MainNavigation.css";
 
 // --- DEFAULT FUNCTION ---
 const MainNavigation = () => {
+  const auth = useContext(AuthContext);
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
+
   const openDrawer = () => {
     setDrawerIsOpen(true);
   };
+
   const closeDrawer = () => {
     setDrawerIsOpen(false);
   };
+
+  // Determine the link based on user status
+  const linkPath = auth.isLoggedIn
+    ? auth.isEmployer
+      ? "/offreEmploi"
+      : "/offreEmploiCandidat"
+    : "/offreEmploi";
 
   return (
     <>
@@ -35,7 +44,7 @@ const MainNavigation = () => {
           <span />
         </button>
         <h1 className="main-navigation__title">
-          <Link to="">
+          <Link to={linkPath}>
             JobBang
             <img
               src="https://baustatikltd.com/wp-content/uploads/2019/01/kisspng-building-drawing-paper-architecture-sketch-5b18166769de96.8841390015283052554337_S.png"
@@ -45,7 +54,6 @@ const MainNavigation = () => {
             />
           </Link>
         </h1>
-        <h2></h2>
 
         <nav className="main-navigation__header-nav">
           <NavLinks />
