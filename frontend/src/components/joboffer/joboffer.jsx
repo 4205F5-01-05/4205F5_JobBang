@@ -3,15 +3,12 @@ import { Box, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import "./joboffer.css";
 
-export default function Joboffer({ id, titre, description, onDelete, onEdit }) {
+export default function Joboffer({ id, titre, description, onDelete, onEdit, onApply }) {
   const navigate = useNavigate(); 
 
   const handleTitleClick = () => {
     navigate(`/offre/${id}`);
   };
-
-// --- DEFAULT FUNCTION ---
-export default function Joboffer({ titre, description, onDelete , onEdit, onApply }) {
 
   return (
     <div className="joboffer">
