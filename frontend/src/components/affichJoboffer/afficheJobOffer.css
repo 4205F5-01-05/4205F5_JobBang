@@ -1,0 +1,40 @@
+.afficheJobOffer {
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  align-items: center; /* Center horizontally */
+  width: 100%; /* Full width */
+  padding: 20px;
+  margin: 20px 0; /* Space above and below */
+  background-color: #ffffff; /* White background */
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.afficheJobOffer h4 {
+  font-size: 2.5rem; /* Larger font for the title */
+  margin: 0; /* Remove default margin */
+  color: #333; /* Dark color */
+  text-align: center; /* Center text */
+}
+
+.afficheJobOffer .region {
+  font-size: 1.2rem; /* Smaller size for region */
+  color: #555; /* Medium color */
+  margin: 10px 0; /* Space above and below */
+  text-align: center; /* Center text */
+}
+
+.afficheJobOffer .description {
+  font-size: 1rem; /* Normal size for description */
+  color: #444; /* Medium-dark color */
+  line-height: 1.6; /* Line height for readability */
+  text-align: center; /* Center text */
+  margin-top: 20px; /* Space above description */
+}
+
+.loading,
+.error {
+  text-align: center; /* Center loading/error messages */
+  font-size: 1.5rem; /* Larger font for visibility */
+  color: #ff5722; /* Error color */
+}

@@ -11,8 +11,8 @@ import PublierOffre from "./components/publierOffre/PublierOffre";
 import MesOffres from "./components/mesOffres/MesOffres";
 import Profile from "./components/profil/ProfilEmployeur";
 import UpdateJob from "./components/updateJob/UpdateJob";
+import AfficheJobOffer from "./components/affichJoboffer/affichJobffer";
 import ListeEmploiCandidat from "./components/listeEmplois/ListeEmploiCandidat";
-
 import styled from "styled-components";
 import "./App.css";
 
@@ -45,6 +45,7 @@ const App = () => {
               path="/publierOffre"
               element={<ProtectedRoute element={<PublierOffre />} />}
             />
+            <Route path="/offre/:id" element={<AfficheJobOffer />} />
             <Route
               path="/mesOffres"
               element={<ProtectedRoute element={<MesOffres />} />}
