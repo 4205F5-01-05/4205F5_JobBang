@@ -7,7 +7,7 @@ export default function ListeEmploi() {
   const [jobOffers, setJobOffers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  
   useEffect(() => {
     const fetchJobOffers = async () => {
       try {
@@ -49,6 +49,7 @@ export default function ListeEmploi() {
   if (error) {
     return <div>Error: {error.message}</div>;
   }
+
 
   return (
     <div>

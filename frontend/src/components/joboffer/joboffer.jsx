@@ -10,6 +10,9 @@ export default function Joboffer({ id, titre, description, onDelete, onEdit }) {
     navigate(`/offre/${id}`);
   };
 
+// --- DEFAULT FUNCTION ---
+export default function Joboffer({ titre, description, onDelete , onEdit, onApply }) {
+
   return (
     <div className="joboffer">
       <Box p={2} className="wrappeJobOffer">
@@ -29,6 +32,11 @@ export default function Joboffer({ id, titre, description, onDelete, onEdit }) {
         {onEdit && (
           <button className="material-symbols-outlined" onClick={onEdit}>
             Edit
+          </button>
+        )}
+        {onApply && (
+          <button className="material-symbols-outlined" onClick={onApply}>
+            Apply
           </button>
         )}
       </Box>

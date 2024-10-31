@@ -5,12 +5,14 @@ import RootLayout from "./containers/Roots";
 import { AuthContext, AuthProvider } from "./context/auth-context";
 
 import RegisterLogin from "./components/loginRegister/RegisterLogin";
+import RegisterLoginCandidat from "./components/loginRegister/RegisterLogin_Candidat";
 import ListeEmplois from "./components/listeEmplois/ListeEmplois";
 import PublierOffre from "./components/publierOffre/PublierOffre";
 import MesOffres from "./components/mesOffres/MesOffres";
 import Profile from "./components/profil/ProfilEmployeur";
 import UpdateJob from "./components/updateJob/UpdateJob";
 import AfficheJobOffer from "./components/affichJoboffer/affichJobffer";
+import ListeEmploiCandidat from "./components/listeEmplois/ListeEmploiCandidat";
 import styled from "styled-components";
 import "./App.css";
 
@@ -18,12 +20,13 @@ const Container = styled.div``;
 
 // Component pour les routes protégées
 const ProtectedRoute = ({ element, ...rest }) => {
-  const { isLoggedIn, user, token } = useContext(AuthContext);
+  const { isLoggedIn, user, token, isEmployer } = useContext(AuthContext);
   if (user === null && token === null) {
     return <div>Loading...</div>;
   }
   return isLoggedIn ? element : <Navigate to="/signup" />;
 };
+
 
 // --- DEFAULT FUNCTION ---
 const App = () => {
@@ -35,6 +38,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Navigate to="/offreEmploi" />} />
             <Route path="/signup" element={<RegisterLogin />} />
+            <Route path="/signupCandidat" element={<RegisterLoginCandidat />} />
             <Route path="/offreEmploi" element={<ListeEmplois />} />
             {/* Les routes protégées */}
             <Route
@@ -53,6 +57,10 @@ const App = () => {
             <Route
               path="/modifierOffre/:id"
               element={<ProtectedRoute element={<UpdateJob />} />}
+            />
+            <Route
+              path="/offreEmploiCandidat"
+              element={<ProtectedRoute element={<ListeEmploiCandidat />} />}
             />
           </Routes>
         </Container>

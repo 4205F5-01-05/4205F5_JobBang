@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const errorHandler = require("./handler/error-handler");
 
 const recruitersRoutes = require("./routes/recruiters-routes");
+const employeesRoutes = require("./routes/employees-routes");
 const jobOffersRoutes = require("./routes/jobOffers-routes");
 const candidatureRoutes = require("./routes/candidature-routes");
 
@@ -23,6 +24,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/recruiters", recruitersRoutes);
+app.use("/api/employees", employeesRoutes);
 app.use("/api/jobOffers", jobOffersRoutes);
 app.use("/api/candidatures", candidatureRoutes);
 
