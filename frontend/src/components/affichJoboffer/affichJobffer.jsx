@@ -73,15 +73,17 @@ export default function AfficheJobOffer() {
                 {job.description}
             </Typography>
 
-            <Button 
-                variant="contained" 
-                color="primary" 
-                style={{ marginTop: '20px' }} 
-                onClick={handleApply}
-            >
-                Apply for Job
-            </Button>
-
+            {!auth.isEmployer && auth.isLoggedIn &&(  // Check if the user is not an employer
+                <Button 
+                    variant="contained" 
+                    color="primary" 
+                    style={{ marginTop: '20px' }} 
+                    onClick={handleApply}
+                >
+                    Apply for Job
+                </Button>
+            )}
+            
             {showApplyForm && (
                 <ApplyJobForm
                     jobTitle={job.titre}
