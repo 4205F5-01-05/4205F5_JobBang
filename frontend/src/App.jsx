@@ -10,6 +10,7 @@ import ListeEmplois from "./components/listeEmplois/ListeEmplois";
 import PublierOffre from "./components/publierOffre/PublierOffre";
 import MesOffres from "./components/mesOffres/MesOffres";
 import Profile from "./components/profil/ProfilEmployeur";
+import UserProfileC from "./components/profil/ProfilCandidat";
 import UpdateJob from "./components/updateJob/UpdateJob";
 import ListeEmploiCandidat from "./components/listeEmplois/ListeEmploiCandidat";
 
@@ -52,6 +53,10 @@ const App = () => {
             <Route
               path="/profil"
               element={<ProtectedRoute element={<Profile />} />}
+            />
+            <Route
+              path="/profil_C"
+              element={<ProtectedRoute element={<UserProfileC />} />}
             />
             <Route
               path="/modifierOffre/:id"
