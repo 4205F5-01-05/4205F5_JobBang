@@ -10,7 +10,9 @@ import ListeEmplois from "./components/listeEmplois/ListeEmplois";
 import PublierOffre from "./components/publierOffre/PublierOffre";
 import MesOffres from "./components/mesOffres/MesOffres";
 import Profile from "./components/profil/ProfilEmployeur";
+import UserProfileC from "./components/profil/ProfilCandidat";
 import UpdateJob from "./components/updateJob/UpdateJob";
+import ListeEmploiCandidat from "./components/listeEmplois/ListeEmploiCandidat";
 
 import styled from "styled-components";
 import "./App.css";
@@ -19,12 +21,13 @@ const Container = styled.div``;
 
 // Component pour les routes protégées
 const ProtectedRoute = ({ element, ...rest }) => {
-  const { isLoggedIn, user, token } = useContext(AuthContext);
+  const { isLoggedIn, user, token, isEmployer } = useContext(AuthContext);
   if (user === null && token === null) {
     return <div>Loading...</div>;
   }
   return isLoggedIn ? element : <Navigate to="/signup" />;
 };
+
 
 // --- DEFAULT FUNCTION ---
 const App = () => {
@@ -52,8 +55,16 @@ const App = () => {
               element={<ProtectedRoute element={<Profile />} />}
             />
             <Route
+              path="/profil_C"
+              element={<ProtectedRoute element={<UserProfileC />} />}
+            />
+            <Route
               path="/modifierOffre/:id"
               element={<ProtectedRoute element={<UpdateJob />} />}
+            />
+            <Route
+              path="/offreEmploiCandidat"
+              element={<ProtectedRoute element={<ListeEmploiCandidat />} />}
             />
           </Routes>
         </Container>

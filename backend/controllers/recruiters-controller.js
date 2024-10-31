@@ -87,6 +87,7 @@ const registerRecruiter = async (req, res, next) => {
         _id: createdRecruiter.id,
         email: createdRecruiter.email,
         company: createdRecruiter.company,
+        isEmployer: true, // Ajout de l'attribut isEmployer
       },
       "JaiFes,Cqcl!",
       { expiresIn: "24h" }
@@ -99,6 +100,7 @@ const registerRecruiter = async (req, res, next) => {
   res.status(201).json({
     recruiter: createdRecruiter.toObject({ getters: true }),
     token: token,
+    isEmployer: true, 
   });
 };
 
@@ -134,6 +136,7 @@ const loginRecruiter = async (req, res, next) => {
           _id: existingRecruiter.id,
           email: existingRecruiter.email,
           company: existingRecruiter.company,
+          isEmployer: true, // Ajout de l'attribut isEmployer
         },
         "JaiFes,Cqcl!",
         { expiresIn: "24h" }
@@ -148,6 +151,7 @@ const loginRecruiter = async (req, res, next) => {
       email: existingRecruiter.email,
       company: existingRecruiter.company,
       token: token,
+      isEmployer: true, // Ajout de l'attribut isEmploy
     });
   }
 };

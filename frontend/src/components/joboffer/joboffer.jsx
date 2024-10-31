@@ -4,7 +4,7 @@ import { Box, Typography } from "@mui/material";
 import "./joboffer.css";
 
 // --- DEFAULT FUNCTION ---
-export default function Joboffer({ titre, description, onDelete , onEdit }) {
+export default function Joboffer({ titre, description, onDelete , onEdit, onApply }) {
   return (
     <div className="joboffer">
       <Box p={2} className="wrappeJobOffer">
@@ -18,6 +18,11 @@ export default function Joboffer({ titre, description, onDelete , onEdit }) {
         {onEdit && (
           <button className="material-symbols-outlined" onClick={onEdit}>
             Edit
+          </button>
+        )}
+        {onApply && (
+          <button className="material-symbols-outlined" onClick={onApply}>
+            Apply
           </button>
         )}
       </Box>
