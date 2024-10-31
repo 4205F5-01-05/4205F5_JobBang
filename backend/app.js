@@ -37,7 +37,7 @@ app.use(errorHandler);
 
 // --- DÉMARRAGE SERVEUR ---
 const port = 5000;
-const uri_melia = "mongodb+srv://admin:Jaiepabs,Cvnac...@jobbang.yb0ee.mongodb.net/?retryWrites=true&w=majority&appName=JobBang";
+const uri_melia = "mongodb://localhost:27017/JobBangLocal";
 const uri_cloud =
   "mongodb+srv://admin:Jaiepabs,Cvnac...@jobbang.yb0ee.mongodb.net/?retryWrites=true&w=majority&appName=JobBang";
 
