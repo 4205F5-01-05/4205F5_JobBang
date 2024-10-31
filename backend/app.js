@@ -8,9 +8,24 @@ const employeesRoutes = require("./routes/employees-routes");
 const jobOffersRoutes = require("./routes/jobOffers-routes");
 const candidatureRoutes = require("./routes/candidature-routes");
 
+const cors = require("cors");
+
 // --- CRÉATION DE L'APP ---
 const app = express();
 app.use(express.json());
+pp.use(
+  cors({
+    origin: "http://localhost:3000", // Remplacez par votre origine en production
+    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: [
+      "Origin",
+      "X-Requested-With",
+      "Content-Type",
+      "Accept",
+      "Authorization",
+    ],
+  })
+);
 
 // --- ROUTES ---
 app.use((req, res, next) => {
@@ -27,7 +42,6 @@ app.use("/api/recruiters", recruitersRoutes);
 app.use("/api/employees", employeesRoutes);
 app.use("/api/jobOffers", jobOffersRoutes);
 app.use("/api/candidatures", candidatureRoutes);
-
 
 // --- GESTION ERREURS ---
 app.use((req, res, next) => {
