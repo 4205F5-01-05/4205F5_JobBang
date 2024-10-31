@@ -3,22 +3,24 @@
   flex-direction: column; /* Stack children vertically */
   align-items: center; /* Center horizontally */
   width: 100%; /* Full width */
+  max-width: 800px; /* Set a maximum width for better readability */
   padding: 20px;
-  margin: 20px 0; /* Space above and below */
+  margin: 20px auto; /* Center with auto left/right margins */
   background-color: #ffffff; /* White background */
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box; /* Include padding in width calculations */
 }
 
 .afficheJobOffer h4 {
-  font-size: 2.5rem; /* Larger font for the title */
+  font-size: 2rem; /* Adjusted size for better fit */
   margin: 0; /* Remove default margin */
   color: #333; /* Dark color */
   text-align: center; /* Center text */
 }
 
 .afficheJobOffer .region {
-  font-size: 1.2rem; /* Smaller size for region */
+  font-size: 1.1rem; /* Slightly smaller size for region */
   color: #555; /* Medium color */
   margin: 10px 0; /* Space above and below */
   text-align: center; /* Center text */
@@ -35,6 +37,14 @@
 .loading,
 .error {
   text-align: center; /* Center loading/error messages */
-  font-size: 1.5rem; /* Larger font for visibility */
+  font-size: 1.2rem; /* Adjusted font size for visibility */
   color: #ff5722; /* Error color */
+  margin-top: 20px; /* Add space above loading/error messages */
+}
+
+/* Button styles for better visibility */
+.afficheJobOffer button {
+  margin-top: 20px; /* Space above button */
+  padding: 10px 20px; /* Add padding for better click area */
+  font-size: 1rem; /* Button font size */
 }
