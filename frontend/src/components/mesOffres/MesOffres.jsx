@@ -130,6 +130,31 @@ const MesOffres = () => {
     setSelectedOfferTitle(offer.titre);
   };
 
+  const downloadCV = async (cvFile) => {
+    try {
+      const response = await fetch(`http://localhost:5000/${cvFile}`, {
+        headers: {
+          Authorization: `Bearer ${auth.token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch CV");
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = cvFile.split('/').pop(); // Get the file name from the path
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    } catch (error) {
+      console.error("Error downloading CV:", error);
+    }
+  };
+
   return (
     <div>
       <form>
@@ -195,6 +220,15 @@ const MesOffres = () => {
                 <Typography variant="h6">{candidate.nomEmploye}</Typography>
                 <Typography>Email: {candidate.emailEmploye}</Typography>
                 <Typography>Téléphone: {candidate.telEmploye}</Typography>
+                {candidate && candidate.cvFile && (
+                  <Button
+                    variant="outlined"
+                    onClick={() => downloadCV(candidate.cvFile)}
+                    sx={{ marginTop: 1 }}
+                  >
+                    Télécharger le CV
+                  </Button>
+                )}
               </Box>
             ))
           ) : (

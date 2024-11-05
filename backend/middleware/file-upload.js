@@ -1,4 +1,6 @@
 const multer = require("multer");
+const path = require("path");
+const express = require("express");
 
 // Define storage settings
 const storage = multer.diskStorage({
@@ -18,6 +20,8 @@ const fileFilter = (req, file, cb) => {
     cb(new Error("Invalid file type. Only PDF and DOC are allowed."), false);
   }
 };
+
+
 
 // Initialize multer with storage and file filter
 const upload = multer({ storage: storage, fileFilter: fileFilter });

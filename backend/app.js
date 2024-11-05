@@ -2,6 +2,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const errorHandler = require("./handler/error-handler");
+const path = require("path");
 
 const recruitersRoutes = require("./routes/recruiters-routes");
 const employeesRoutes = require("./routes/employees-routes");
@@ -13,20 +14,8 @@ const cors = require("cors");
 // --- CRÉATION DE L'APP ---
 const app = express();
 app.use(express.json());
-app.use(
-  cors({
-    origin: "http://localhost:3000", // Remplacez par votre origine en production
-    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: [
-      "Origin",
-      "X-Requested-With",
-      "Content-Type",
-      "Accept",
-      "Authorization",
-    ],
-  })
-);
-app.use(cors())
+app.use(cors());
+app.use("/uploads/cvs", express.static(path.join(__dirname, "uploads/cvs")));
 
 // --- ROUTES ---
 app.use((req, res, next) => {
