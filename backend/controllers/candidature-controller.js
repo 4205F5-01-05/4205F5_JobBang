@@ -21,6 +21,25 @@ const getAllCandidature = async (req, res, next) => {
     res.json({ candidatures: candidatures.map((c) => c.toObject({ getters: true })), });
 };
 
+// GET CANDIDATURE BY ID
+const getCandidatureById = async (req, res, next) => {
+    const cId = req.params.cId;
+
+    let candidature;
+    try {
+        candidature = await CANDIDATURE.findById(cId);
+    } catch (e) {
+        console.log(e);
+        return next(new HttpError("Échec lors de la récupération de la candidature.", 500));
+    }
+
+    if (!candidature) {
+        return next(new HttpError(`"Candidature ${cId} introuvable."`, 404));
+    }
+
+    res.json({ candidature: candidature.toObject({ getters: true }) });
+};
+
 // --- GET ALL CANDIDATURES FROM OFFER ---
 const getAllCandidatureFromOffer = async (req, res, next) => {
     const joId = req.params.joId;
@@ -79,7 +98,69 @@ const createCandidature = async (req, res, next) => {
     res.status(201).json({ candidature: createdCandidature });
 };
 
+// --- DELETE CANDIDATURE ---
+const deleteCandidature = async (req, res, next) => {
+    const cId = req.params.cId;
+
+    let candidature;
+    try {
+        candidature = await CANDIDATURE.findById(cId);
+    } catch (e) {
+        console.log(e);
+        return next(new HttpError("Échec lors de la suppression de la candidature.", 500));
+    }
+
+    if (!candidature) {
+        return next(new HttpError("Candidature introuvable.", 404));
+    }
+
+    try {
+        await candidature.deleteOne({ _id: cId });
+    } catch (e) {
+        console.log(e);
+        return next(new HttpError("Échec lors de la suppression de la candidature.", 500));
+    }
+
+    res.status(200).json({ message: "Candidature supprimée." });
+};
+
+// --- UPDATE CANDIDATURE ---
+const updateCandidature = async (req, res, next) => {
+    const cId = req.params.cId;
+    const { nomEmploye, telEmploye, emailEmploye } = req.body;
+
+    let candidature;
+    try {
+        candidature = await CANDIDATURE.findById(cId);
+    } catch (e) {
+        console.log(e);
+        return next(new HttpError("Échec lors de la mise à jour de la candidature.", 500));
+    }
+
+    if (!candidature) {
+        return next(new HttpError("Candidature introuvable.", 404));
+    }
+
+    candidature.nomEmploye = nomEmploye;
+    candidature.telEmploye = telEmploye;
+    candidature.emailEmploye = emailEmploye;
+
+    try {
+        await candidature.save();
+    } catch (e) {
+        console.log(e);
+        return next(new HttpError("Échec lors de la mise à jour de la candidature.", 500));
+    }
+
+    res.status(200).json({ candidature: candidature.toObject({ getters: true }) });
+};
+
+
+
 // --- EXPORTS ---
 exports.getAllCandidature = getAllCandidature;
 exports.getAllCandidatureFromOffer = getAllCandidatureFromOffer;
 exports.createCandidature = createCandidature;
+exports.deleteCandidature = deleteCandidature;
+exports.updateCandidature = updateCandidature;
+exports.getCandidatureById = getCandidatureById;
