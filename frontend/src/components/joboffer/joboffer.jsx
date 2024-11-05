@@ -1,15 +1,15 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Button} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import "./joboffer.css";
 
-export default function Joboffer({ id, titre, description, onDelete, onEdit, onApply }) {
+export default function Joboffer({ id, jobId, titre, description, onDelete, onEdit, onApply }) {
   const navigate = useNavigate(); 
 
   const handleTitleClick = () => {
     navigate(`/offre/${id}`);
   };
-
+  
   return (
     <div className="joboffer">
       <Box p={2} className="wrappeJobOffer">
@@ -21,21 +21,39 @@ export default function Joboffer({ id, titre, description, onDelete, onEdit, onA
           {titre}
         </Typography>
         <Typography variant="subtitle2">{description}</Typography>
-        {onDelete && (
-          <button className="material-symbols-outlined" onClick={onDelete}>
-            Delete
-          </button>
-        )}
-        {onEdit && (
-          <button className="material-symbols-outlined" onClick={onEdit}>
-            Edit
-          </button>
-        )}
-        {onApply && (
-          <button className="material-symbols-outlined" onClick={onApply}>
-            Apply
-          </button>
-        )}
+
+        <div className="button-group">
+          {onDelete && (
+            <Button
+              variant="outlined"
+              color="error"
+              onClick={onDelete}
+              aria-label="Supprimer l'offre d'emploi"
+            >
+              Delete
+            </Button>
+          )}
+          {onEdit && (
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={onEdit}
+              aria-label="Modifier l'offre d'emploi"
+            >
+              Edit
+            </Button>
+          )}
+          {onApply && (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => onApply(jobId)} // Passez jobId ici
+              aria-label="Postuler à l'offre d'emploi"
+            >
+              Apply
+            </Button>
+          )}
+        </div>
       </Box>
     </div>
   );

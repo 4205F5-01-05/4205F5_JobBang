@@ -16,7 +16,6 @@ const candidatureSchema = new mongoose.Schema({
     emailEmploye: {
         type: String,
         required: true,
-        unique: true,
         lowercase: true,
         validate: {
           validator: function (v) {
@@ -25,6 +24,7 @@ const candidatureSchema = new mongoose.Schema({
           message: (props) => `${props.value} is not a valid email!`,
         },
       },
+    cvFile: { type: String },
     joId: { type: mongoose.Types.ObjectId, required: true, ref: JobOffers },
 });
 
