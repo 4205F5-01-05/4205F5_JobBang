@@ -98,7 +98,7 @@ const MesOffres = () => {
   const fetchCandidatures = async (offerId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/candidatures/${offerId}`,
+        `http://localhost:5000/api/candidatures/offer/${offerId}`,
         {
           method: "GET",
           headers: {

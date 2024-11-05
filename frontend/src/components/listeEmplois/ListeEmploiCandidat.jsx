@@ -74,6 +74,7 @@ const ListeEmploiCandidat = () => {
           jobOffers.map((job) => (
             <Joboffer
               key={job._id}
+              id={job._id}  
               titre={job.titre}
               description={job.description}
               onApply={!auth.isEmployer ? () => handleApply(job) : null}

@@ -15,7 +15,7 @@ router.patch("/:cId", candidatureController.updateCandidature);
 
 // Routes accessibles seulement si connecté
 router.use(checkAuth);
-router.get("/:joId", candidatureController.getAllCandidatureFromOffer);
+router.get("/offer/:joId", candidatureController.getAllCandidatureFromOffer);
 
 // --- EXPORTS ---
 module.exports = router;

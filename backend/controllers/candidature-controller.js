@@ -60,7 +60,7 @@ const getAllCandidatureFromOffer = async (req, res, next) => {
     }
 
     res.json({ candidatures: candidatures.map((c) => c.toObject({ getters: true })) });
-}
+};
 
 const createCandidature = async (req, res, next) => {
     const { nomEmploye, telEmploye, emailEmploye } = req.body;
