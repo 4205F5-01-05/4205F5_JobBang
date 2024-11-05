@@ -13,7 +13,7 @@ const cors = require("cors");
 // --- CRÉATION DE L'APP ---
 const app = express();
 app.use(express.json());
-pp.use(
+app.use(
   cors({
     origin: "http://localhost:3000", // Remplacez par votre origine en production
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],

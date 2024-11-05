@@ -16,7 +16,6 @@ const candidatureSchema = new mongoose.Schema({
     emailEmploye: {
         type: String,
         required: true,
-        unique: true,
         lowercase: true,
         validate: {
           validator: function (v) {

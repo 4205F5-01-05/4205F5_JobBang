@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { AuthContext } from "../../context/auth-context";
+import { useNavigate } from "react-router-dom";
 
 const ApplyJobForm = ({ jobTitle, jobId, onClose }) => {
   const auth = useContext(AuthContext);
@@ -8,6 +9,7 @@ const ApplyJobForm = ({ jobTitle, jobId, onClose }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { user } = useAuthContext(); // Utilisation du contexte d'authentification
+  const navigate = useNavigate();
 
   useEffect(() => {
     const eId = user._id; // Identifiant de l'utilisateur
@@ -55,7 +57,7 @@ const ApplyJobForm = ({ jobTitle, jobId, onClose }) => {
     // Envoi de la candidature à l'API
     try {
       const response = await fetch(
-        `http://localhost:5000/api/${jobId}/postuler`,
+        `http://localhost:5000/api/candidatures/${jobId}/postuler`,
         {
           method: "POST",
           headers: {
@@ -65,6 +67,16 @@ const ApplyJobForm = ({ jobTitle, jobId, onClose }) => {
           body: JSON.stringify(candidature), // Convertir l'objet en JSON
         }
       );
+
+      if (response.status === 409) {
+        alert("Vous avez déjà postulé pour cet emploi.");
+        onClose(); // Close the form
+        return;
+    }
+      console.log("Candidature:", candidature);
+      console.log("Réponse de l'API:", response);
+      console.log("Statut de la réponse:", response.status);
+      console.log("JOB OFFER ID", jobId);
 
       if (!response.ok) {
         throw new Error("Erreur lors de la soumission de la candidature");
@@ -76,6 +88,8 @@ const ApplyJobForm = ({ jobTitle, jobId, onClose }) => {
 
       // Fermer le formulaire après soumission
       onClose();
+      // Rediriger l'utilisateur vers les offres d'emploi
+      navigate("/listeEmploisCandidat");
     } catch (error) {
       console.error("Erreur:", error);
       // Gérer l'affichage d'un message d'erreur si nécessaire
@@ -103,10 +117,7 @@ const ApplyJobForm = ({ jobTitle, jobId, onClose }) => {
           Adresse Email:
           <input type="email" defaultValue={candidat.email || ""} required />
         </label>
-        <label>
-          CV:
-          <input type="file" required />
-        </label>
+        
         <button type="submit">Soumettre la candidature</button>
       </form>
     </div>

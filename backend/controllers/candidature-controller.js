@@ -42,10 +42,22 @@ const getAllCandidatureFromOffer = async (req, res, next) => {
     res.json({ candidatures: candidatures.map((c) => c.toObject({ getters: true })) });
 }
 
-// --- CRÉER CANDIDATURE ---
 const createCandidature = async (req, res, next) => {
     const { nomEmploye, telEmploye, emailEmploye } = req.body;
     const joId = req.params.joId;
+
+    // Check if the user has already applied for the same job
+    let existingCandidature;
+    try {
+        existingCandidature = await CANDIDATURE.findOne({ emailEmploye, joId });
+    } catch (e) {
+        console.log(e);
+        return next(new HttpError("Erreur lors de la vérification de la candidature.", 500));
+    }
+
+    if (existingCandidature) {
+        return res.status(409).json({ message: "Vous avez déjà postulé pour cet emploi." });
+    }
 
     const createdCandidature = new CANDIDATURE({
         nomEmploye,
