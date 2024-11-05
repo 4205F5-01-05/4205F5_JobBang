@@ -97,7 +97,21 @@ const ApplyJobForm = ({ jobTitle, jobId, onClose }) => {
 
   // Assurez-vous que candidat n'est pas null avant d'accéder à ses propriétés
   return (
-    <div className="apply-job-form">
+    <div className="apply-job-form" style={{ position: 'relative' }}>
+      <button
+        style={{
+          position: 'absolute',
+          top: '10px',
+          right: '10px',
+          background: 'blue',
+          border: 'none',
+          fontSize: '20px',
+          cursor: 'pointer',
+        }}
+        onClick={onClose}
+      >
+        &times; 
+      </button>
       <h3>Postuler pour: {jobTitle}</h3>
       <form onSubmit={handleSubmit}>
         <label>
