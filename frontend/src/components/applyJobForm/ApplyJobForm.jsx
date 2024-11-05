@@ -80,11 +80,10 @@ const ApplyJobForm = ({ jobTitle, jobId, onClose }) => {
       // Traiter la réponse si besoin
       const result = await response.json();
       console.log("Candidature soumise avec succès:", result);
+      alert("Candidature soumise avec succès.");
 
       // Fermer le formulaire après soumission
       onClose();
-      // Rediriger l'utilisateur vers les offres d'emploi
-      
     } catch (error) {
       console.error("Erreur:", error);
       // Gérer l'affichage d'un message d'erreur si nécessaire

@@ -1,7 +1,7 @@
 // --- IMPORTS ---
 import { useEffect, useState, useContext } from "react";
 import "./listeEmploi.css";
-import { Box } from "@mui/material";
+import { Box, Modal } from "@mui/material";
 import Joboffer from "../joboffer/joboffer";
 import { AuthContext } from "../../context/auth-context";
 import ApplyJobForm from "../applyJobForm/ApplyJobForm";
@@ -83,19 +83,34 @@ const ListeEmploiCandidat = () => {
         )}
       </Box>
 
-      {showApplyForm &&
-        selectedJob && ( // Check if showApplyForm and selectedJob are defined
-          <ApplyJobForm
-            jobTitle={selectedJob.titre} // Pass the job title
-            jobId={selectedJob._id} // Pass the job ID
-            onClose={closeApplyForm}
-            candidateInfo={{
-              name: auth.user?.name,
-              phone: auth.user?.phone,
-              email: auth.user?.email,
-            }}
-          />
-        )}
+      <Modal open={showApplyForm} onClose={closeApplyForm}>
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            bgcolor: 'background.paper',
+            boxShadow: 24,
+            p: 4,
+            borderRadius: 2,
+          }}
+        >
+          {selectedJob && (
+            <ApplyJobForm
+              jobTitle={selectedJob.titre} 
+              jobId={selectedJob._id} 
+              onClose={closeApplyForm}
+              candidateInfo={{
+                name: auth.user?.name,
+                phone: auth.user?.phone,
+                email: auth.user?.email,
+              }}
+            />
+          )}
+        </Box>
+      </Modal>
     </div>
   );
 };
