@@ -47,12 +47,12 @@ const ApplyJobForm = ({ jobTitle, jobId, onClose }) => {
     e.preventDefault();
 
     // Récupération des données du formulaire
-    const candidature = {
-      nomEmploye: candidat.name,
-      telEmploye: candidat.phone,
-      emailEmploye: candidat.email,
-      joId: jobId, // Assurez-vous d'avoir accès à jobId
-    };
+    const formData = new FormData();
+  formData.append("nomEmploye", e.target[0].value);
+  formData.append("telEmploye", e.target[1].value);
+  formData.append("emailEmploye", e.target[2].value);
+  formData.append("cvFile", e.target.cvFile.files[0]); // Append the CV file
+  formData.append("jobId", jobId);
 
     // Envoi de la candidature à l'API
     try {
@@ -61,10 +61,9 @@ const ApplyJobForm = ({ jobTitle, jobId, onClose }) => {
         {
           method: "POST",
           headers: {
-            "Content-Type": "application/json", // Spécifiez le type de contenu
-            Authorization: `Bearer ${auth.token}`, // Utilisation du token pour l'authentification
+            Authorization: `Bearer ${auth.token}`, // Add token for authentication
           },
-          body: JSON.stringify(candidature), // Convertir l'objet en JSON
+          body: formData, // Send FormData as the body
         }
       );
 
@@ -73,11 +72,7 @@ const ApplyJobForm = ({ jobTitle, jobId, onClose }) => {
         onClose(); // Close the form
         return;
     }
-      console.log("Candidature:", candidature);
-      console.log("Réponse de l'API:", response);
-      console.log("Statut de la réponse:", response.status);
-      console.log("JOB OFFER ID", jobId);
-
+      
       if (!response.ok) {
         throw new Error("Erreur lors de la soumission de la candidature");
       }
@@ -89,7 +84,7 @@ const ApplyJobForm = ({ jobTitle, jobId, onClose }) => {
       // Fermer le formulaire après soumission
       onClose();
       // Rediriger l'utilisateur vers les offres d'emploi
-      navigate("/listeEmploisCandidat");
+      
     } catch (error) {
       console.error("Erreur:", error);
       // Gérer l'affichage d'un message d'erreur si nécessaire
@@ -116,8 +111,11 @@ const ApplyJobForm = ({ jobTitle, jobId, onClose }) => {
         <label>
           Adresse Email:
           <input type="email" defaultValue={candidat.email || ""} required />
-        </label>
-        
+        </label>    
+        <label>
+          CV:
+          <input type="file" name="cvFile" id="cvFile"/>
+        </label>   
         <button type="submit">Soumettre la candidature</button>
       </form>
     </div>

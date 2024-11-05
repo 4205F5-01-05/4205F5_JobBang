@@ -26,6 +26,7 @@ app.use(
     ],
   })
 );
+app.use(cors())
 
 // --- ROUTES ---
 app.use((req, res, next) => {

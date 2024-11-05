@@ -1,6 +1,7 @@
 // --- IMPORTS ---
 const CANDIDATURE = require ("../models/Candidatures");
 const HttpError = require("../util/http-error");
+const upload = require("../middleware/file-upload");
 
 // --- GET ALL CANDIDATURES ---
 const getAllCandidature = async (req, res, next) => {
@@ -45,6 +46,7 @@ const getAllCandidatureFromOffer = async (req, res, next) => {
 const createCandidature = async (req, res, next) => {
     const { nomEmploye, telEmploye, emailEmploye } = req.body;
     const joId = req.params.joId;
+    const cvFile = req.file ? req.file.path : null;
 
     // Check if the user has already applied for the same job
     let existingCandidature;
@@ -63,6 +65,7 @@ const createCandidature = async (req, res, next) => {
         nomEmploye,
         telEmploye,
         emailEmploye,
+        cvFile,
         joId,
     });
 
