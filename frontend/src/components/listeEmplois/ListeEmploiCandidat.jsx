@@ -1,4 +1,4 @@
-// --- IMPORTS ---
+
 import { useEffect, useState, useContext } from "react";
 import "./listeEmploi.css";
 import { Box, Modal } from "@mui/material";
@@ -7,6 +7,7 @@ import { AuthContext } from "../../context/auth-context";
 import ApplyJobForm from "../applyJobForm/ApplyJobForm";
 
 const ListeEmploiCandidat = () => {
+
   const [jobOffers, setJobOffers] = useState([]); // Initialize as array
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -82,7 +83,6 @@ const ListeEmploiCandidat = () => {
           <div>No job offers found.</div>
         )}
       </Box>
-
       <Modal open={showApplyForm} onClose={closeApplyForm}>
         <Box
           sx={{
@@ -114,5 +114,4 @@ const ListeEmploiCandidat = () => {
     </div>
   );
 };
-
 export default ListeEmploiCandidat;
