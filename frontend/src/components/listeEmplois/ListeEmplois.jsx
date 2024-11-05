@@ -60,8 +60,7 @@ export default function ListeEmploi() {
               <Joboffer
                 key={job._id}
                 id={job._id}
-                titre={job.titre}
-                description={job.description}
+                titre={job.titre}           
               />
             ))
           ) : (

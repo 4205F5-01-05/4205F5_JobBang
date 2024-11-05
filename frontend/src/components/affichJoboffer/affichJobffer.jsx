@@ -87,6 +87,7 @@ export default function AfficheJobOffer() {
             {showApplyForm && (
                 <ApplyJobForm
                     jobTitle={job.titre}
+                    jobId={id}
                     onClose={closeApplyForm}
                     candidateInfo={{ 
                         name: auth.user?.name, 
