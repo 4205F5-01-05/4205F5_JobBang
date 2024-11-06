@@ -15,7 +15,6 @@ const ApplyJobForm = ({ jobTitle, jobId, onClose }) => {
     const eId = user._id; // Identifiant de l'utilisateur
     const fetchProfile = async () => {
       try {
-        console.log("Fetching profile data...");
         const response = await fetch(
           `http://localhost:5000/api/employees/${eId}`,
           {
@@ -32,7 +31,6 @@ const ApplyJobForm = ({ jobTitle, jobId, onClose }) => {
           throw new Error("Failed to fetch profile data");
         }
         const data = await response.json();
-        console.log("Profile data:", data); // Log profile data
         setCandidat(data.employee); // Stockage des données du candidat
       } catch (error) {
         setError("Failed to load profile data");
@@ -44,8 +42,6 @@ const ApplyJobForm = ({ jobTitle, jobId, onClose }) => {
 
     fetchProfile();
   }, [auth, user]); // Ajout de 'user' comme dépendance
-
-  console.log("Job ID:", jobId);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -59,12 +55,9 @@ const ApplyJobForm = ({ jobTitle, jobId, onClose }) => {
     if (file) {
       formData.append("cvFile", file);
     } else {
-      console.log("No file selected");
       alert("Please select a file.");
       return;
     }
-
-    console.log("Form data before submission:", formData);
 
     try {
       const response = await fetch(

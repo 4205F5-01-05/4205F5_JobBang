@@ -30,7 +30,6 @@ const ListeEmploiCandidat = () => {
         }
 
         const data = await response.json();
-        console.log("Job Offers Data:", data);
 
         if (Array.isArray(data.jobOffers)) {
           setJobOffers(data.jobOffers);

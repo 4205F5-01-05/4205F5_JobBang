@@ -112,7 +112,6 @@ const MesOffres = () => {
       }
 
       const data = await response.json();
-      console.log("Données de l'API:", data);
       return data.candidatures || [];
     } catch (error) {
       console.error("Erreur lors de la récupération des candidatures:", error);

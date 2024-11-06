@@ -33,7 +33,6 @@ const UpdateJob = () => {
         }
 
         const data = await response.json();
-        console.log("Données de l'offre récupérées:", data);
 
         // Remplir l'état "job" avec les données récupérées
         setJob({
