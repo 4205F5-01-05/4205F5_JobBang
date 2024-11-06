@@ -124,15 +124,14 @@ export default function RegisterLoginCandidat() {
       console.log("User registered successfully");
       console.log(responseData);
 
-      // Login
-      auth.login(responseData.employee, responseData.token);
       console.log("DEBUT, User logged after registration");
       console.log("User id " + auth.userId);
       console.log("Token " + auth.token);
       console.log("User is logged in " + auth.isLoggedIn);
       console.log("FIN, User logged after registration");
 
-      navigate("/offreEmploiCandidat");
+      alert("Compte créé avec succès, veuillez vous connecter."); 
+      navigate("/");
     } catch (err) {
       setError(
         err.message || "Une erreur est survenue, veuillez réessayer plus tard."
