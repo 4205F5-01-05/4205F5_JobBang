@@ -12,6 +12,7 @@ import MesOffres from "./components/mesOffres/MesOffres";
 import Profile from "./components/profil/ProfilEmployeur";
 import UserProfileC from "./components/profil/ProfilCandidat";
 import UpdateJob from "./components/updateJob/UpdateJob";
+import AfficheMesOffres from "./components/afficheMesOffres/AfficheMesOffres";
 import AfficheJobOffer from "./components/affichJoboffer/affichJobffer";
 import ListeEmploiCandidat from "./components/listeEmplois/ListeEmploiCandidat";
 import styled from "styled-components";
@@ -27,7 +28,6 @@ const ProtectedRoute = ({ element, ...rest }) => {
   }
   return isLoggedIn ? element : <Navigate to="/signup" />;
 };
-
 
 // --- DEFAULT FUNCTION ---
 const App = () => {
@@ -45,6 +45,10 @@ const App = () => {
             <Route
               path="/publierOffre"
               element={<ProtectedRoute element={<PublierOffre />} />}
+            />
+            <Route
+              path="/mesCandidatures"
+              element={<ProtectedRoute element={<AfficheMesOffres />} />} // Route pour afficher les candidatures de l'utilisateur
             />
             <Route path="/offre/:id" element={<AfficheJobOffer />} />
             <Route

@@ -15,6 +15,7 @@ const ApplyJobForm = ({ jobTitle, jobId, onClose }) => {
     const eId = user._id; // Identifiant de l'utilisateur
     const fetchProfile = async () => {
       try {
+        console.log("Fetching profile data...");
         const response = await fetch(
           `http://localhost:5000/api/employees/${eId}`,
           {
@@ -26,10 +27,12 @@ const ApplyJobForm = ({ jobTitle, jobId, onClose }) => {
           }
         );
 
+        console.log("Profile fetch response status:", response.status);
         if (!response.ok) {
           throw new Error("Failed to fetch profile data");
         }
         const data = await response.json();
+        console.log("Profile data:", data); // Log profile data
         setCandidat(data.employee); // Stockage des données du candidat
       } catch (error) {
         setError("Failed to load profile data");
@@ -42,93 +45,96 @@ const ApplyJobForm = ({ jobTitle, jobId, onClose }) => {
     fetchProfile();
   }, [auth, user]); // Ajout de 'user' comme dépendance
 
-  console.log(jobId);
+  console.log("Job ID:", jobId);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Récupération des données du formulaire
     const formData = new FormData();
-  formData.append("nomEmploye", e.target[0].value);
-  formData.append("telEmploye", e.target[1].value);
-  formData.append("emailEmploye", e.target[2].value);
-  formData.append("cvFile", e.target.cvFile.files[0]); // Append the CV file
-  formData.append("jobId", jobId);
+    formData.append("nomEmploye", e.target[0].value);
+    formData.append("telEmploye", e.target[1].value);
+    formData.append("emailEmploye", e.target[2].value);
+    const file = e.target.cvFile.files[0];
 
-    // Envoi de la candidature à l'API
+    if (file) {
+      formData.append("cvFile", file);
+    } else {
+      console.log("No file selected");
+      alert("Please select a file.");
+      return;
+    }
+
+    console.log("Form data before submission:", formData);
+
     try {
       const response = await fetch(
         `http://localhost:5000/api/candidatures/${jobId}/postuler`,
         {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${auth.token}`, // Add token for authentication
+            Authorization: `Bearer ${auth.token}`,
           },
-          body: formData, // Send FormData as the body
+          body: formData,
         }
       );
 
       if (response.status === 409) {
         alert("Vous avez déjà postulé pour cet emploi.");
-        onClose(); // Close the form
+        onClose();
         return;
-    }
-      
+      }
+
       if (!response.ok) {
         throw new Error("Erreur lors de la soumission de la candidature");
       }
 
-      // Traiter la réponse si besoin
       const result = await response.json();
       console.log("Candidature soumise avec succès:", result);
       alert("Candidature soumise avec succès.");
-
-      // Fermer le formulaire après soumission
       onClose();
     } catch (error) {
       console.error("Erreur:", error);
-      // Gérer l'affichage d'un message d'erreur si nécessaire
+      alert("Erreur lors de la soumission de la candidature.");
     }
   };
 
-  // Affichage de l'état de chargement ou d'erreur
   if (loading) return <div>Chargement...</div>;
   if (error) return <div>Erreur: {error}</div>;
 
-  // Assurez-vous que candidat n'est pas null avant d'accéder à ses propriétés
   return (
-    <div className="apply-job-form" style={{ position: 'relative' }}>
+    <div className="apply-job-form" style={{ position: "relative" }}>
       <button
         style={{
-          position: 'absolute',
-          top: '10px',
-          right: '10px',
-          background: 'blue',
-          border: 'none',
-          fontSize: '20px',
-          cursor: 'pointer',
+          position: "absolute",
+          top: "10px",
+          right: "10px",
+          background: "blue",
+          border: "none",
+          fontSize: "20px",
+          cursor: "pointer",
         }}
         onClick={onClose}
       >
-        &times; 
+        &times;
       </button>
       <h3>Postuler pour: {jobTitle}</h3>
       <form onSubmit={handleSubmit}>
         <label>
           Nom du Candidat:
-          <input type="text" defaultValue={candidat.name || ""} required />
+          <input type="text" defaultValue={candidat?.name || ""} required />
         </label>
         <label>
           Numéro de Téléphone:
-          <input type="text" defaultValue={candidat.phone || ""} required />
+          <input type="text" defaultValue={candidat?.phone || ""} required />
         </label>
         <label>
           Adresse Email:
-          <input type="email" defaultValue={candidat.email || ""} required />
-        </label>    
+          <input type="email" defaultValue={candidat?.email || ""} required />
+        </label>
         <label>
           CV:
-          <input type="file" name="cvFile" id="cvFile"/>
-        </label>   
+          <input type="file" name="cvFile" id="cvFile" />
+        </label>
         <button type="submit">Soumettre la candidature</button>
       </form>
     </div>
