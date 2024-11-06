@@ -13,7 +13,8 @@ module.exports = (req, res, next) => {
     }
 
     const tokenDecode = jwt.verify(token, "JaiFes,Cqcl!");
-    req.userData = { userId: tokenDecode.userId };
+    req.userData = { userId: tokenDecode.userId, isEmployer: tokenDecode.isEmployer };
+    console.log("Type de l'utilisateur connecté: ", req.userData.isEmployer ? "Recruteur" : "Candidat");
     console.log("Validation de l'authentification: ", req.userData);
 
     next();

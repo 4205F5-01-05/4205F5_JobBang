@@ -58,9 +58,7 @@ export default function PublierOffre() {
     <Box>
       <h1>Ajouter une offre d'emploi :</h1>
       {error && <p style={{ color: "red" }}>{error}</p>}{" "}
-      {/* Display error if any */}
       {success && <p style={{ color: "green" }}>{success}</p>}{" "}
-      {/* Display success message */}
       <form onSubmit={handleSubmit}>
         <input
           type="text"
