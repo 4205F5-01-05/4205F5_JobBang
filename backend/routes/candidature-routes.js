@@ -9,13 +9,13 @@ const router = express.Router();
 
 router.get("/", candidatureController.getAllCandidature);
 router.get("/:cId", candidatureController.getCandidatureById);
-router.post("/:joId/postuler", upload.single("cvFile"), candidatureController.createCandidature);
-router.delete("/:cId", candidatureController.deleteCandidature);
-router.patch("/:cId", candidatureController.updateCandidature);
 
 // Routes accessibles seulement si connecté
 router.use(checkAuth);
 router.get("/offer/:joId", candidatureController.getAllCandidatureFromOffer);
+router.post("/:joId/postuler", upload.single("cvFile"), candidatureController.createCandidature);
+router.delete("/:cId", candidatureController.deleteCandidature);
+router.patch("/:cId", candidatureController.updateCandidature);
 
 // --- EXPORTS ---
 module.exports = router;
