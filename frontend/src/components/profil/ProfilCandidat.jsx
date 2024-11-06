@@ -18,7 +18,7 @@ export default function UserProfileC() {
     const getLoggedUser = async () => {
         try {
             const resData = await sendRequest(
-                `https://jobbang-ke8e.onrender.com/api/employees/${cId}`,
+                `http://localhost:5000/api/employees/${cId}`,
                 "GET",
                 null,
                 {

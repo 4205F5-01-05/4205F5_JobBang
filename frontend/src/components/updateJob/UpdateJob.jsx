@@ -21,7 +21,7 @@ const UpdateJob = () => {
   useEffect(() => {
     const fetchJob = async () => {
       try {
-        const response = await fetch(`https://jobbang-ke8e.onrender.com/api/jobOffers/${offerId}`, {
+        const response = await fetch(`http://localhost:5000/api/jobOffers/${offerId}`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${auth.token}`, // Ajoute le token pour l'autorisation
@@ -63,7 +63,7 @@ const UpdateJob = () => {
     setSuccess(null);
 
     try {
-      const response = await fetch(`https://jobbang-ke8e.onrender.com/api/jobOffers/${offerId}`, {
+      const response = await fetch(`http://localhost:5000/api/jobOffers/${offerId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

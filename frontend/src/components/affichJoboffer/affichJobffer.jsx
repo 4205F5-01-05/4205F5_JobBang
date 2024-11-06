@@ -16,7 +16,7 @@ export default function AfficheJobOffer() {
     useEffect(() => {
         const fetchJobDetails = async () => {
             try {
-                const response = await fetch(`https://jobbang-ke8e.onrender.com/api/jobOffers/${id}`, {
+                const response = await fetch(`http://localhost:5000/api/jobOffers/${id}`, {
                     method: "GET",
                     headers: {
                         Authorization: `Bearer ${auth.token}`,
