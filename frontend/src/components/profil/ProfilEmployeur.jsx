@@ -16,7 +16,7 @@ const UserProfile = () => {
     const fetchProfile = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/recruiters/${rId}`,
+          `https://jobbang-ke8e.onrender.com/api/recruiters/${rId}`,
           {
             method: "GET",
             headers: {
