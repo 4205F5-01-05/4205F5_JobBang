@@ -132,7 +132,7 @@ export default function RegisterLoginCandidat() {
       console.log("User is logged in " + auth.isLoggedIn);
       console.log("FIN, User logged after registration");
 
-      navigate("/");
+      navigate("/offreEmploiCandidat");
     } catch (err) {
       setError(
         err.message || "Une erreur est survenue, veuillez réessayer plus tard."
