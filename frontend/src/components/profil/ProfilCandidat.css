@@ -1,9 +1,22 @@
 .btnPopup {
     margin-top: 50px;
+}
+
+#maj {
+    color: blue;
+    margin-bottom: 10px;
+}
+
+#maj:hover {
+    cursor: pointer;
+    text-shadow: 2px 2px 2px rgb(190, 194, 230);
+}
+
+#del {
     color: red;
 }
 
-.btnPopup:hover {
+#del:hover {
     cursor: pointer;
     text-shadow: 2px 2px 2px rgb(230, 190, 190);
 }

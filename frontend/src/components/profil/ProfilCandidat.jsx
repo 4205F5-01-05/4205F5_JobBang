@@ -1,6 +1,6 @@
 // --- IMPORTS ---
 import React, { useState, useEffect } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useHttpClient } from "../../hooks/http-hook";
 
@@ -94,11 +94,17 @@ export default function UserProfileC() {
       )}
     </div>
 
-    {/* Suppression */}
-    <div 
-        className="btnPopup"
-        onClick={() => (btnDel ? setBtnDel(false) : setBtnDel(true)) }>
-        Supprimer le compte
+    <div className="btnPopup">
+        {/* MAJ */}
+        <Link to="majC"><div id="maj">
+            Modifier le profil
+        </div></Link>
+        {/* Suppression */}
+        <div 
+            id="del"
+            onClick={() => (btnDel ? setBtnDel(false) : setBtnDel(true)) }>
+            Supprimer le compte
+        </div>
     </div>
 
     {btnDel ? 
