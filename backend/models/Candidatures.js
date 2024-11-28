@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const JobOffers = require("./JobOffers");
+const Employees = require("./Employees");
 
 const candidatureSchema = new mongoose.Schema({
     nomEmploye: { type: String, required: true },
