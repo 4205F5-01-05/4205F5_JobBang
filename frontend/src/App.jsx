@@ -11,7 +11,6 @@ import PublierOffre from "./components/publierOffre/PublierOffre";
 import MesOffres from "./components/mesOffres/MesOffres";
 import Profile from "./components/profil/ProfilEmployeur";
 import UserProfileC from "./components/profil/ProfilCandidat";
-import majProfilC from "./components/profil/UpdateProfilCandidat";
 import UpdateJob from "./components/updateJob/UpdateJob";
 import AfficheJobOffer from "./components/affichJoboffer/affichJobffer";
 import ListeEmploiCandidat from "./components/listeEmplois/ListeEmploiCandidat";
@@ -59,10 +58,6 @@ const App = () => {
             <Route
               path="/profil_C"
               element={<ProtectedRoute element={<UserProfileC />} />}
-            />
-            <Route
-              path="/majC"
-              element={<ProtectedRoute element={<majProfilC />} />}
             />
             <Route
               path="/modifierOffre/:id"

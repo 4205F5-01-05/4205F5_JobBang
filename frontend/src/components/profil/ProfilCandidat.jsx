@@ -1,6 +1,6 @@
 // --- IMPORTS ---
 import React, { useState, useEffect } from "react";
-import { Navigate, Link } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useHttpClient } from "../../hooks/http-hook";
 
@@ -95,10 +95,6 @@ export default function UserProfileC() {
     </div>
 
     <div className="btnPopup">
-        {/* MAJ */}
-        <Link to="majC"><div id="maj">
-            Modifier le profil
-        </div></Link>
         {/* Suppression */}
         <div 
             id="del"
