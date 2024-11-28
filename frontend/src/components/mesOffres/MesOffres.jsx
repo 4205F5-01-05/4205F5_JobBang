@@ -5,6 +5,7 @@ import Joboffer from "../joboffer/joboffer";
 import { AuthContext } from "../../context/auth-context";
 import { useNavigate } from "react-router-dom";
 import UpdateJob from "../updateJob/UpdateJob";
+import { RadioGroup, FormControlLabel, Radio } from "@mui/material";
 
 // --- DEFAULT FUNCTION ---
 const MesOffres = () => {
@@ -31,12 +32,14 @@ const MesOffres = () => {
         }
 
         const data = await response.json();
-        console.log("Job Offers Data:", data);
-
         if (Array.isArray(data.jobOffers)) {
-          const filteredJobOffers = data.jobOffers.filter(
-            (job) => job.rid === auth.userId
-          );
+          // Ajout du champ `show` par défaut si nécessaire
+          const filteredJobOffers = data.jobOffers
+            .filter((job) => job.rid === auth.userId)
+            .map((job) => ({
+              ...job,
+              show: job.show !== undefined ? job.show : true, // Assurez-vous que `show` est défini
+            }));
           setJobOffers(filteredJobOffers);
         } else {
           console.error("jobOffers is not an array or is undefined");
@@ -145,7 +148,7 @@ const MesOffres = () => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = cvFile.split('/').pop(); // Get the file name from the path
+      a.download = cvFile.split("/").pop(); // Get the file name from the path
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -180,6 +183,22 @@ const MesOffres = () => {
                 <Button onClick={() => handleCandidateClick(job)}>
                   Voir les candidatures
                 </Button>
+                <RadioGroup
+                  row
+                  value={job.show === false ? "hidden" : "visible"} // Affichage de "hidden" si `show` est false, sinon "visible"
+                  disabled
+                >
+                  <FormControlLabel
+                    value="visible"
+                    control={<Radio />}
+                    label="Visible"
+                  />
+                  <FormControlLabel
+                    value="hidden"
+                    control={<Radio />}
+                    label="Masquée"
+                  />
+                </RadioGroup>
               </Box>
             ))
           ) : (

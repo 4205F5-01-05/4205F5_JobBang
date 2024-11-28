@@ -50,13 +50,14 @@ const getJobOfferById = async (req, res, next) => {
 
 // --- CREATE JOB OFFER ---
 const createJobOffer = async (req, res, next) => {
-  const { region, description, titre, rid } = req.body;
+  const { region, description, titre, rid, show } = req.body; // Ajout de `show` avec une valeur par défaut à `true`
 
   const createdJobOffer = new JOBOFFERS({
     region,
     description,
     titre,
     rid,
+    show, // Ajoutez `show` à l'objet créé
   });
 
   try {
@@ -74,7 +75,7 @@ const createJobOffer = async (req, res, next) => {
 // --- UPDATE JOB OFFER ---
 const updateJobOffer = async (req, res, next) => {
   const jId = req.params.jId;
-  const { region, titre, description } = req.body;
+  const { region, titre, description, show } = req.body;
 
   let jobOffer;
   try {
@@ -95,6 +96,7 @@ const updateJobOffer = async (req, res, next) => {
   jobOffer.region = region;
   jobOffer.description = description;
   jobOffer.titre = titre;
+  jobOffer.show = show;
 
   try {
     await jobOffer.save();
@@ -140,10 +142,39 @@ const deleteJobOffer = async (req, res, next) => {
   res.json({ message: "Offre d'emploi supprimée." });
 };
 
+// --- GET ONLY VISIBLE JOB OFFERS ---
+const getVisibleJobOffers = async (req, res, next) => {
+  let jobOffers;
+
+  try {
+    // Filtrer les offres avec show === true
+    jobOffers = await JOBOFFERS.find({ show: true });
+  } catch (e) {
+    console.log(e);
+    return next(
+      new HttpError(
+        "Échec lors de la récupération des offres d'emploi visibles",
+        500
+      )
+    );
+  }
+
+  if (!jobOffers || jobOffers.length === 0) {
+    return res
+      .status(200)
+      .json({ message: "Aucune offre d'emploi visible trouvée." });
+  }
+
+  res.json({
+    jobOffers: jobOffers.map((j) => j.toObject({ getters: true })),
+  });
+};
+
 // --- EXPORTS ---
 exports.getAllJobOffers = getAllJobOffers;
 exports.getJobOfferById = getJobOfferById;
 exports.createJobOffer = createJobOffer;
 exports.updateJobOffer = updateJobOffer;
 exports.deleteJobOffer = deleteJobOffer;
+exports.getVisibleJobOffers = getVisibleJobOffers;
 // Compare this snippet from backend/routes/jobOffers-routes.js:

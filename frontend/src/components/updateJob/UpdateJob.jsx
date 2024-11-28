@@ -2,6 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Box } from "@mui/material";
 import { AuthContext } from "../../context/auth-context";
+import { RadioGroup, FormControlLabel, Radio } from "@mui/material";
 
 const UpdateJob = () => {
   const { id: offerId } = useParams(); // Récupère l'ID de l'offre à partir de l'URL
@@ -10,7 +11,8 @@ const UpdateJob = () => {
   const [job, setJob] = useState({
     region: "",
     titre: "",
-    description: ""
+    description: "",
+    show: false, // Ajouté par défaut
   });
 
   const [loading, setLoading] = useState(true);
@@ -21,12 +23,15 @@ const UpdateJob = () => {
   useEffect(() => {
     const fetchJob = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/jobOffers/${offerId}`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${auth.token}`, // Ajoute le token pour l'autorisation
-          },
-        });
+        const response = await fetch(
+          `http://localhost:5000/api/jobOffers/${offerId}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${auth.token}`, // Ajoute le token pour l'autorisation
+            },
+          }
+        );
 
         if (!response.ok) {
           throw new Error("Erreur lors de la récupération de l'offre");
@@ -38,9 +43,9 @@ const UpdateJob = () => {
         setJob({
           region: data.jobOffer.region || "",
           titre: data.jobOffer.titre || "",
-          description: data.jobOffer.description || ""
+          description: data.jobOffer.description || "",
+          show: data.jobOffer.show || false, // Assurez-vous que show existe
         });
-   
       } catch (error) {
         setError(error.message);
       } finally {
@@ -56,6 +61,11 @@ const UpdateJob = () => {
     setJob({ ...job, [name]: value });
   };
 
+  const handleVisibilityChange = (e) => {
+    const newShowValue = e.target.value === "visible";
+    setJob({ ...job, show: newShowValue });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -63,14 +73,17 @@ const UpdateJob = () => {
     setSuccess(null);
 
     try {
-      const response = await fetch(`http://localhost:5000/api/jobOffers/${offerId}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${auth.token}`, // Ajoute le token pour l'autorisation
-        },
-        body: JSON.stringify(job), // Envoie les données modifiées
-      });
+      const response = await fetch(
+        `http://localhost:5000/api/jobOffers/${offerId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${auth.token}`, // Ajoute le token pour l'autorisation
+          },
+          body: JSON.stringify(job), // Envoie les données modifiées
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Erreur lors de la mise à jour de l'offre");
@@ -119,6 +132,23 @@ const UpdateJob = () => {
           onChange={handleChange}
           required
         />
+        {/* Boutons radio pour déterminer la visibilité */}
+        <RadioGroup
+          row
+          value={job.show ? "visible" : "hidden"} // Utiliser "hidden" par défaut si `show` est undefined
+          onChange={handleVisibilityChange} // Utilisation de la nouvelle fonction `handleVisibilityChange`
+        >
+          <FormControlLabel
+            value="visible"
+            control={<Radio />}
+            label="Visible"
+          />
+          <FormControlLabel
+            value="hidden"
+            control={<Radio />}
+            label="Masquée"
+          />
+        </RadioGroup>
         <button type="submit">Mettre à jour l'offre</button>
       </form>
     </Box>

@@ -28,7 +28,6 @@ const candidatureSchema = new mongoose.Schema({
   cvFile: { type: String },
   joId: { type: mongoose.Types.ObjectId, required: true, ref: JobOffers },
   eId: { type: mongoose.Types.ObjectId, required: true, ref: Employees },
-  show: { type: Boolean, default: true }, // Champ booléen pour la visibilité de l'offre
 });
 
 module.exports = mongoose.model("Candidatures", candidatureSchema);
