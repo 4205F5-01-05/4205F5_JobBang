@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const JobOffers = require("./JobOffers");
+const Employees = require("./Employees");
 
 const candidatureSchema = new mongoose.Schema({
     nomEmploye: { type: String, required: true },
@@ -26,6 +27,7 @@ const candidatureSchema = new mongoose.Schema({
       },
     cvFile: { type: String },
     joId: { type: mongoose.Types.ObjectId, required: true, ref: JobOffers },
+    eId: { type: mongoose.Types.ObjectId, required: true, ref: Employees },
 });
 
 module.exports = mongoose.model("Candidatures", candidatureSchema);
