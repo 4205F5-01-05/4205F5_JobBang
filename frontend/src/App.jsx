@@ -17,6 +17,7 @@ import AfficheJobOffer from "./components/affichJoboffer/affichJobffer";
 import ListeEmploiCandidat from "./components/listeEmplois/ListeEmploiCandidat";
 import styled from "styled-components";
 import "./App.css";
+import AfficherMesCandidatures from "./components/afficherMesCandidatures/AfficheMesCandidatures";
 
 const Container = styled.div``;
 
@@ -62,6 +63,10 @@ const App = () => {
             <Route
               path="/profil_C"
               element={<ProtectedRoute element={<UserProfileC />} />}
+            />
+             <Route
+              path="/mesCandidatures_c"
+              element={<ProtectedRoute element={<AfficherMesCandidatures />} />} // Route pour afficher les candidatures de l'utilisateur
             />
             <Route
               path="/modifierOffre/:id"

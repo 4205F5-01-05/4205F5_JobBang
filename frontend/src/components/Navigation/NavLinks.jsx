@@ -25,6 +25,7 @@ const NavLinks = () => {
             <>
               {/* <li><NavLink to="/mesCandidatures">Mes Candidatures</NavLink></li> */}
               <li><NavLink to="/profil_C">Profil</NavLink></li>
+              <li><NavLink to="/mesCandidatures_c">Mes Candidatures</NavLink></li>
             </>
           )}
           <li>

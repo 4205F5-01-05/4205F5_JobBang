@@ -11,7 +11,8 @@ router.get("/", candidatureController.getAllCandidature);
 router.get("/:cId", candidatureController.getCandidatureById);
 
 // Routes accessibles seulement si connecté
-//router.use(checkAuth);
+
+router.use(checkAuth);
 
 router.get("/offer/:joId", candidatureController.getAllCandidatureFromOffer);
 router.get("/candidatures/:eId", candidatureController.getAllCandidatureFromEmployee);
