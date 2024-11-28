@@ -26,6 +26,7 @@ const candidatureSchema = new mongoose.Schema({
       },
     cvFile: { type: String },
     joId: { type: mongoose.Types.ObjectId, required: true, ref: JobOffers },
+    eId: { type: mongoose.Types.ObjectId, required: true, ref: Employees },
 });
 
 module.exports = mongoose.model("Candidatures", candidatureSchema);
