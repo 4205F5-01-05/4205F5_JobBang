@@ -11,8 +11,11 @@ router.get("/", candidatureController.getAllCandidature);
 router.get("/:cId", candidatureController.getCandidatureById);
 
 // Routes accessibles seulement si connecté
-router.use(checkAuth);
+//router.use(checkAuth);
+
 router.get("/offer/:joId", candidatureController.getAllCandidatureFromOffer);
+router.get("/candidatures/:eId", candidatureController.getAllCandidatureFromEmployee);
+
 router.post("/:joId/postuler", upload.single("cvFile"), candidatureController.createCandidature);
 router.delete("/:cId", candidatureController.deleteCandidature);
 router.patch("/:cId", candidatureController.updateCandidature);

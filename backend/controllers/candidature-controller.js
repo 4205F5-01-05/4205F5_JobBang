@@ -62,6 +62,28 @@ const getAllCandidatureFromOffer = async (req, res, next) => {
     res.json({ candidatures: candidatures.map((c) => c.toObject({ getters: true })) });
 };
 
+// --- GET ALL CANDIDATURES FROM EMPLOYEE ---
+const getAllCandidatureFromEmployee = async (req, res, next) => {
+    const eId = req.params.eId;
+
+    let candidatures;
+    try {
+        candidatures = await CANDIDATURE.find({ eId: eId });
+    } catch (e) {
+        console.log(e);
+        return next(new HttpError("Échec lors de la récupération des candidatures", 500));
+    }
+
+    if (candidatures.length === 0) {
+        return res.status(200).json({ message: "Aucune candidature pour le moment." });
+    }
+    else if (!candidatures) {
+        return next(new HttpError(`L'employé d'id ${eId} n'a pas été trouvé.`, 404));
+    }
+
+    res.json({ candidatures: candidatures.map((c) => c.toObject({ getters: true })) });
+};
+
 // --- CREATE CANDIDATURE ---
 const createCandidature = async (req, res, next) => {
     const { eId, nomEmploye, telEmploye, emailEmploye } = req.body;
@@ -161,8 +183,10 @@ const updateCandidature = async (req, res, next) => {
 
 // --- EXPORTS ---
 exports.getAllCandidature = getAllCandidature;
+exports.getCandidatureById = getCandidatureById;
 exports.getAllCandidatureFromOffer = getAllCandidatureFromOffer;
+exports.getAllCandidatureFromEmployee = getAllCandidatureFromEmployee;
+
 exports.createCandidature = createCandidature;
 exports.deleteCandidature = deleteCandidature;
 exports.updateCandidature = updateCandidature;
-exports.getCandidatureById = getCandidatureById;
