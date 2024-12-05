@@ -5,21 +5,21 @@ import { AuthContext } from "../../context/auth-context";
 import { RadioGroup, FormControlLabel, Radio } from "@mui/material";
 
 const UpdateJob = () => {
-  const { id: offerId } = useParams(); // Récupère l'ID de l'offre à partir de l'URL
-  const auth = useContext(AuthContext); // Contexte d'authentification pour l'API
-  const navigate = useNavigate(); // Pour rediriger après mise à jour
+  const { id: offerId } = useParams(); 
+  const auth = useContext(AuthContext); 
+  const navigate = useNavigate(); 
   const [job, setJob] = useState({
     region: "",
     titre: "",
     description: "",
-    show: false, // Ajouté par défaut
+    show: false, 
   });
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
-  // Récupérer les informations de l'offre pour pré-remplir le formulaire
+  // --- OBTENIR INFOS ACTUELLES OFFRE ---
   useEffect(() => {
     const fetchJob = async () => {
       try {
@@ -28,7 +28,7 @@ const UpdateJob = () => {
           {
             method: "GET",
             headers: {
-              Authorization: `Bearer ${auth.token}`, // Ajoute le token pour l'autorisation
+              Authorization: `Bearer ${auth.token}`, 
             },
           }
         );
@@ -39,12 +39,11 @@ const UpdateJob = () => {
 
         const data = await response.json();
 
-        // Remplir l'état "job" avec les données récupérées
         setJob({
           region: data.jobOffer.region || "",
           titre: data.jobOffer.titre || "",
           description: data.jobOffer.description || "",
-          show: data.jobOffer.show || false, // Assurez-vous que show existe
+          show: data.jobOffer.show || false, 
         });
       } catch (error) {
         setError(error.message);
@@ -72,6 +71,7 @@ const UpdateJob = () => {
     setError(null);
     setSuccess(null);
 
+    // --- MAJ OFFRE ---
     try {
       const response = await fetch(
         `http://localhost:5000/api/jobOffers/${offerId}`,
@@ -79,9 +79,9 @@ const UpdateJob = () => {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${auth.token}`, // Ajoute le token pour l'autorisation
+            Authorization: `Bearer ${auth.token}`, 
           },
-          body: JSON.stringify(job), // Envoie les données modifiées
+          body: JSON.stringify(job),
         }
       );
 
@@ -90,7 +90,6 @@ const UpdateJob = () => {
       }
 
       setSuccess("Offre mise à jour avec succès !");
-      // Redirige vers la page des offres une fois l'offre mise à jour
       navigate("/mesOffres");
     } catch (error) {
       setError(error.message);
@@ -135,8 +134,8 @@ const UpdateJob = () => {
         {/* Boutons radio pour déterminer la visibilité */}
         <RadioGroup
           row
-          value={job.show ? "visible" : "hidden"} // Utiliser "hidden" par défaut si `show` est undefined
-          onChange={handleVisibilityChange} // Utilisation de la nouvelle fonction `handleVisibilityChange`
+          value={job.show ? "visible" : "hidden"}
+          onChange={handleVisibilityChange} 
         >
           <FormControlLabel
             value="visible"

@@ -1,7 +1,6 @@
 // --- IMPORTS ---
 const JOBOFFERS = require("../models/JobOffers");
 const HttpError = require("../util/http-error");
-const mongoose = require("mongoose");
 
 // --- GET ALL JOB OFFERS ---
 const getAllJobOffers = async (req, res, next) => {
@@ -50,14 +49,14 @@ const getJobOfferById = async (req, res, next) => {
 
 // --- CREATE JOB OFFER ---
 const createJobOffer = async (req, res, next) => {
-  const { region, description, titre, rid, show } = req.body; // Ajout de `show` avec une valeur par défaut à `true`
+  const { region, description, titre, rid, show } = req.body; 
 
   const createdJobOffer = new JOBOFFERS({
     region,
     description,
     titre,
     rid,
-    show, // Ajoutez `show` à l'objet créé
+    show, 
   });
 
   try {
@@ -147,7 +146,6 @@ const getVisibleJobOffers = async (req, res, next) => {
   let jobOffers;
 
   try {
-    // Filtrer les offres avec show === true
     jobOffers = await JOBOFFERS.find({ show: true });
   } catch (e) {
     console.log(e);
@@ -173,8 +171,8 @@ const getVisibleJobOffers = async (req, res, next) => {
 // --- EXPORTS ---
 exports.getAllJobOffers = getAllJobOffers;
 exports.getJobOfferById = getJobOfferById;
+exports.getVisibleJobOffers = getVisibleJobOffers;
+
 exports.createJobOffer = createJobOffer;
 exports.updateJobOffer = updateJobOffer;
 exports.deleteJobOffer = deleteJobOffer;
-exports.getVisibleJobOffers = getVisibleJobOffers;
-// Compare this snippet from backend/routes/jobOffers-routes.js:

@@ -1,8 +1,6 @@
 // --- IMPORTS ---
 import { useContext, useState } from "react";
-import "./RegisterLogin.css";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/auth-context";
 import { FaUser } from "react-icons/fa";
 import {
   MdOutlinePassword,
@@ -11,6 +9,12 @@ import {
   MdOutlineAddHome,
   MdOutlineTableChart,
 } from "react-icons/md";
+
+import { AuthContext } from "../../context/auth-context";
+import ModalMessageErreur from "../UIElements/ModalMessageErreur";
+import Spinner from "../UIElements/LoadingSpinner";
+
+import "./RegisterLogin.css";
 
 // --- DEFAULT FUNCTION ---
 export default function RegisterLogin() {
@@ -25,13 +29,13 @@ export default function RegisterLogin() {
   const loginLink = () => {
     setAction("");
   };
-  //Function pour te login
+  
+  // --- LOGIN ---
   async function handleSubmitLogin(event) {
     event.preventDefault();
     const fd = new FormData(event.target);
     const data = Object.fromEntries(fd.entries());
-    console.log(data);
-    console.log(JSON.stringify(data));
+  
     try {
       const response = await fetch(
         `http://localhost:5000/api/recruiters/login`,
@@ -44,36 +48,22 @@ export default function RegisterLogin() {
         }
       );
       const responseData = await response.json();
-      console.log("Here is the reponseData", responseData);
+
       if (!response.ok) {
-        alert(responseData.message);
         throw new Error(responseData.message);
       }
 
       auth.login(responseData, responseData.token);
 
-      console.log("User logged in successfully");
-      console.log("User id " + auth.userId);
-      console.log("Token " + auth.token);
-      console.log("User is logged in " + auth.isLoggedIn);
-      const userSession = localStorage.getItem("user");
-      console.log("User session " + userSession);
-      console.log(
-        "User stored in localStorage: ",
-        localStorage.getItem("user")
-      );
-      console.log(
-        "Token stored in localStorage: ",
-        localStorage.getItem("token")
-      );
-
       navigate("/publierOffre");
     } catch (err) {
       console.error(err);
+      setError(err.message || "Une erreur est survenue, essayez plus tard.");
     }
     event.target.reset();
   }
-  //Function Pour S'enregistrer
+  
+  // --- REGISTER ---
   async function handleSubmitRegister(event) {
     event.preventDefault();
     const fd = new FormData(event.target);
@@ -91,19 +81,13 @@ export default function RegisterLogin() {
         }
       );
       const responseData = await response.json();
-      console.log(responseData);
+      
       if (!response.ok) {
         throw new Error(responseData.message);
       }
-      console.log("User registered successfully");
-      console.log(responseData);
+
       // Login
       auth.login(responseData.recruiter, responseData.token);
-      console.log("DEBUT, User logged after registration");
-      console.log("User id " + auth.userId);
-      console.log("Token " + auth.token);
-      console.log("User is logged in " + auth.isLoggedIn);
-      console.log("FIN, User logged after registration");
 
       navigate("/publierOffre");
     } catch (err) {
@@ -116,6 +100,12 @@ export default function RegisterLogin() {
   }
 
   return (
+    <>
+      <div>
+          {isLoading && <Spinner />}
+          <ModalMessageErreur message={error} onClose={() => setError(null)} />
+      </div>
+
     <div className={`wrapper${action}`}>
       <div className="form-box login">
         <form action="" onSubmit={handleSubmitLogin}>
@@ -239,5 +229,6 @@ export default function RegisterLogin() {
         </form>
       </div>
     </div>
+    </>
   );
 }

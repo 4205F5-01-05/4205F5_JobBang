@@ -1,9 +1,10 @@
 import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom"; 
-import { Box, Typography, Button } from "@mui/material";
-import "./afficheJobOffer.css";
+import { Typography, Button } from "@mui/material";
 import { AuthContext } from "../../context/auth-context";
 import ApplyJobForm from "../applyJobForm/ApplyJobForm";
+
+import "./afficheJobOffer.css";
 
 export default function AfficheJobOffer() {
     const { id } = useParams(); 
@@ -73,7 +74,7 @@ export default function AfficheJobOffer() {
                 {job.description}
             </Typography>
 
-            {!auth.isEmployer && auth.isLoggedIn &&(  // Check if the user is not an employer
+            {!auth.isEmployer && auth.isLoggedIn &&(  
                 <Button 
                     variant="contained" 
                     color="primary" 

@@ -1,20 +1,21 @@
 import { useContext, useState } from "react";
 import { Box, RadioGroup, FormControlLabel, Radio } from "@mui/material";
 import { AuthContext } from "../../context/auth-context";
+
 import "./PublierOffre.css";
 
 export default function PublierOffre() {
   const auth = useContext(AuthContext);
   const [job, setJob] = useState({
-    rid: auth.userId, // Recruiter ID
+    rid: auth.userId, 
     region: "",
     titre: "",
     description:
       "Description du travail :\n\nSalaire :\n\nCompany :\n\nPersonne à contacter :\nEmail :\nTéléphone :",
-    show: true, // Default visibility is true (visible)
+    show: true, 
   });
-  const [error, setError] = useState(""); // Error state
-  const [success, setSuccess] = useState(""); // Success state
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(""); 
 
   // Handle changes to form inputs
   const handleChange = (e) => {
@@ -25,14 +26,12 @@ export default function PublierOffre() {
   // Handle radio button change for visibility
   const handleRadioChange = (e) => {
     const newValue = e.target.value === "visible" ? true : false;
-    console.log("Radio changed to:", newValue); // Debugging
     setJob({ ...job, show: newValue });
   };
 
-  // Handle form submission
+  // --- PUBLIER OFFRE ---
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted with:", job); // Debugging before submitting
 
     try {
       const response = await fetch(
@@ -43,12 +42,11 @@ export default function PublierOffre() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${auth.token}`,
           },
-          body: JSON.stringify(job), // Send the entire job object including visibility (show)
+          body: JSON.stringify(job), 
         }
       );
 
       const responseData = await response.json();
-      console.log("API Response:", responseData); // Add logging for response data
 
       if (!response.ok) {
         throw new Error(responseData.message);
@@ -62,7 +60,7 @@ export default function PublierOffre() {
         region: "",
         titre: "",
         description: "",
-        show: true, // Reset visibility to "visible" by default
+        show: true,
       });
 
       setSuccess("L'offre d'emploi a été publiée avec succès!");
@@ -70,8 +68,6 @@ export default function PublierOffre() {
       setError(err.message || "Une erreur est survenue, essayez plus tard.");
     }
   };
-
-  console.log("Current job state:", job); // Debugging
 
   return (
     <Box>
@@ -109,8 +105,8 @@ export default function PublierOffre() {
         {/* Radio buttons for visibility */}
         <RadioGroup
           row
-          value={job.show ? "visible" : "hidden"} // Dynamically set value based on show state
-          onChange={handleRadioChange} // Handle radio button changes
+          value={job.show ? "visible" : "hidden"} 
+          onChange={handleRadioChange} 
         >
           <FormControlLabel
             value="visible"

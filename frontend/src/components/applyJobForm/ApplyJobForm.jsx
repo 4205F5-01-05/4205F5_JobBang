@@ -1,18 +1,17 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { AuthContext } from "../../context/auth-context";
-import { useNavigate } from "react-router-dom";
 
 const ApplyJobForm = ({ jobTitle, jobId, onClose }) => {
   const auth = useContext(AuthContext);
   const [candidat, setCandidat] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { user } = useAuthContext(); // Utilisation du contexte d'authentification
-  const navigate = useNavigate();
+  const { user } = useAuthContext(); 
+
 
   useEffect(() => {
-    const eId = user._id; // Identifiant de l'utilisateur
+    const eId = user._id;
     const fetchProfile = async () => {
       try {
         const response = await fetch(
@@ -26,22 +25,21 @@ const ApplyJobForm = ({ jobTitle, jobId, onClose }) => {
           }
         );
 
-        console.log("Profile fetch response status:", response.status);
         if (!response.ok) {
           throw new Error("Failed to fetch profile data");
         }
         const data = await response.json();
-        setCandidat(data.employee); // Stockage des données du candidat
+        setCandidat(data.employee); 
       } catch (error) {
         setError("Failed to load profile data");
         console.log(error);
       } finally {
-        setLoading(false); // Fin du chargement
+        setLoading(false); 
       }
     };
 
     fetchProfile();
-  }, [auth, user]); // Ajout de 'user' comme dépendance
+  }, [auth, user]); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();

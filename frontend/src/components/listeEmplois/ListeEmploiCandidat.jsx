@@ -1,12 +1,13 @@
 import { useEffect, useState, useContext } from "react";
-import "./listeEmploi.css";
 import { Box, Modal } from "@mui/material";
 import Joboffer from "../joboffer/joboffer";
 import { AuthContext } from "../../context/auth-context";
 import ApplyJobForm from "../applyJobForm/ApplyJobForm";
 
+import "./listeEmploi.css";
+
 const ListeEmploiCandidat = () => {
-  const [jobOffers, setJobOffers] = useState([]); // Initialize as array
+  const [jobOffers, setJobOffers] = useState([]); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const auth = useContext(AuthContext);
@@ -30,11 +31,9 @@ const ListeEmploiCandidat = () => {
         const data = await response.json();
 
         if (Array.isArray(data.jobOffers)) {
-          // Filtrer les offres pour ne garder que celles qui sont visibles
           const visibleOffers = data.jobOffers.filter((job) => job.show);
           setJobOffers(visibleOffers);
         } else {
-          console.error("jobOffers is not an array or is undefined");
           setJobOffers([]);
         }
       } catch (error) {
@@ -49,8 +48,8 @@ const ListeEmploiCandidat = () => {
   }, []);
 
   const handleApply = (job) => {
-    setSelectedJob(job); // Store the selected job
-    setShowApplyForm(true); // Show the application form
+    setSelectedJob(job); 
+    setShowApplyForm(true); 
   };
 
   const closeApplyForm = () => {

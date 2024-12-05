@@ -5,6 +5,7 @@ import NavLinks from "./NavLinks";
 import SideDrawer from "./SideDrawer";
 import Backdrop from "../UIElements/Backdrop";
 import { AuthContext } from "../../context/auth-context";
+
 import "./MainNavigation.css";
 
 // --- DEFAULT FUNCTION ---
@@ -20,7 +21,6 @@ const MainNavigation = () => {
     setDrawerIsOpen(false);
   };
 
-  // Determine the link based on user status
   const linkPath = auth.isLoggedIn
     ? auth.isEmployer
       ? "/offreEmploi"

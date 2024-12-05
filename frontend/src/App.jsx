@@ -16,8 +16,9 @@ import AfficheMesOffres from "./components/afficheMesOffres/AfficheMesOffres";
 import AfficheJobOffer from "./components/affichJoboffer/affichJobffer";
 import ListeEmploiCandidat from "./components/listeEmplois/ListeEmploiCandidat";
 import styled from "styled-components";
-import "./App.css";
 import AfficherMesCandidatures from "./components/afficherMesCandidatures/AfficheMesCandidatures";
+
+import "./App.css";
 
 const Container = styled.div``;
 
@@ -49,7 +50,7 @@ const App = () => {
             />
             <Route
               path="/mesCandidatures"
-              element={<ProtectedRoute element={<AfficheMesOffres />} />} // Route pour afficher les candidatures de l'utilisateur
+              element={<ProtectedRoute element={<AfficheMesOffres />} />} 
             />
             <Route path="/offre/:id" element={<AfficheJobOffer />} />
             <Route
@@ -66,7 +67,7 @@ const App = () => {
             />
              <Route
               path="/mesCandidatures_c"
-              element={<ProtectedRoute element={<AfficherMesCandidatures />} />} // Route pour afficher les candidatures de l'utilisateur
+              element={<ProtectedRoute element={<AfficherMesCandidatures />} />} 
             />
             <Route
               path="/modifierOffre/:id"

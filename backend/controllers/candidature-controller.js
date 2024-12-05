@@ -1,7 +1,6 @@
 // --- IMPORTS ---
 const CANDIDATURE = require ("../models/Candidatures");
 const HttpError = require("../util/http-error");
-const upload = require("../middleware/file-upload");
 
 // --- GET ALL CANDIDATURES ---
 const getAllCandidature = async (req, res, next) => {

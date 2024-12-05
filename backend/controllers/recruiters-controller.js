@@ -87,7 +87,7 @@ const registerRecruiter = async (req, res, next) => {
         _id: createdRecruiter.id,
         email: createdRecruiter.email,
         company: createdRecruiter.company,
-        isEmployer: true, // Ajout de l'attribut isEmployer
+        isEmployer: true, 
       },
       "JaiFes,Cqcl!",
       { expiresIn: "24h" }
@@ -136,7 +136,7 @@ const loginRecruiter = async (req, res, next) => {
           _id: existingRecruiter.id,
           email: existingRecruiter.email,
           company: existingRecruiter.company,
-          isEmployer: true, // Ajout de l'attribut isEmployer
+          isEmployer: true, 
         },
         "JaiFes,Cqcl!",
         { expiresIn: "24h" }
@@ -151,7 +151,7 @@ const loginRecruiter = async (req, res, next) => {
       email: existingRecruiter.email,
       company: existingRecruiter.company,
       token: token,
-      isEmployer: true, // Ajout de l'attribut isEmploy
+      isEmployer: true, 
     });
   }
 };
@@ -235,5 +235,6 @@ exports.getRecruiterById = getRecruiterById;
 
 exports.registerRecruiter = registerRecruiter;
 exports.loginRecruiter = loginRecruiter;
+
 exports.updateRecruiter = updateRecruiter;
 exports.deleteRecruiter = deleteRecruiter;

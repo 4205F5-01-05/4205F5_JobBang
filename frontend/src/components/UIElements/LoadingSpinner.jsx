@@ -1,5 +1,5 @@
 import React from "react";
-import "./LoadingSpinner.css"; // Assurez-vous que le chemin d'accès est correct
+import "./LoadingSpinner.css"; 
 
 const Spinner = () => (
   <div

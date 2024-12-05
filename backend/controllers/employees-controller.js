@@ -93,7 +93,7 @@ const registerEmployee = async (req, res, next) => {
     res.status(201).json({
         employee: createdEmployee.toObject({ getters: true }),
         token: token,
-        isEmployer: false,  // Pourquoi false? Parce que c'est un candidat qui se connecte ici et non un recruteur
+        isEmployer: false, 
     });
 };
 
@@ -137,7 +137,7 @@ const loginEmployee = async (req, res, next) => {
             _id: existingEmployee.id,
             email: existingEmployee.email,
             token: token,
-            isEmployer: false,  // Pourquoi false? Parce que c'est un candidat qui se connecte ici et non un recruteur
+            isEmployer: false,
         });
     }
 };

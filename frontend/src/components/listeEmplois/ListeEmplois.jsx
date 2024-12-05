@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import "./listeEmploi.css";
 import { Box } from "@mui/material";
 import Joboffer from "../joboffer/joboffer";
+
+import "./listeEmploi.css";
 
 export default function ListeEmploi() {
   const [jobOffers, setJobOffers] = useState([]);
@@ -26,11 +27,9 @@ export default function ListeEmploi() {
         console.log("Job Offers Data:", data);
 
         if (Array.isArray(data.jobOffers)) {
-          // Filtrer les offres pour ne garder que celles qui sont visibles
           const visibleOffers = data.jobOffers.filter((job) => job.show);
           setJobOffers(visibleOffers);
         } else {
-          console.error("jobOffers is not an array or is undefined");
           setJobOffers([]);
         }
       } catch (error) {
