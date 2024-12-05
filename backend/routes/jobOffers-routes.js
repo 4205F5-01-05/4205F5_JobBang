@@ -9,6 +9,7 @@ const router = express.Router();
 // Routes
 router.get("/", jobOffersController.getAllJobOffers);
 router.get("/:jId", jobOffersController.getJobOfferById);
+router.get("/visible", jobOffersController.getVisibleJobOffers);
 
 // Routes accessibles seulement si connecté
 router.use(checkAuth);

@@ -1,4 +1,3 @@
-
 import { useEffect, useState, useContext } from "react";
 import "./listeEmploi.css";
 import { Box, Modal } from "@mui/material";
@@ -7,7 +6,6 @@ import { AuthContext } from "../../context/auth-context";
 import ApplyJobForm from "../applyJobForm/ApplyJobForm";
 
 const ListeEmploiCandidat = () => {
-
   const [jobOffers, setJobOffers] = useState([]); // Initialize as array
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -32,7 +30,9 @@ const ListeEmploiCandidat = () => {
         const data = await response.json();
 
         if (Array.isArray(data.jobOffers)) {
-          setJobOffers(data.jobOffers);
+          // Filtrer les offres pour ne garder que celles qui sont visibles
+          const visibleOffers = data.jobOffers.filter((job) => job.show);
+          setJobOffers(visibleOffers);
         } else {
           console.error("jobOffers is not an array or is undefined");
           setJobOffers([]);
@@ -73,7 +73,7 @@ const ListeEmploiCandidat = () => {
           jobOffers.map((job) => (
             <Joboffer
               key={job._id}
-              id={job._id}  
+              id={job._id}
               titre={job.titre}
               onApply={!auth.isEmployer ? () => handleApply(job) : null}
             />
@@ -85,12 +85,12 @@ const ListeEmploiCandidat = () => {
       <Modal open={showApplyForm} onClose={closeApplyForm}>
         <Box
           sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
             width: 400,
-            bgcolor: 'background.paper',
+            bgcolor: "background.paper",
             boxShadow: 24,
             p: 4,
             borderRadius: 2,
@@ -98,8 +98,8 @@ const ListeEmploiCandidat = () => {
         >
           {selectedJob && (
             <ApplyJobForm
-              jobTitle={selectedJob.titre} 
-              jobId={selectedJob._id} 
+              jobTitle={selectedJob.titre}
+              jobId={selectedJob._id}
               onClose={closeApplyForm}
               candidateInfo={{
                 name: auth.user?.name,
@@ -113,4 +113,5 @@ const ListeEmploiCandidat = () => {
     </div>
   );
 };
+
 export default ListeEmploiCandidat;

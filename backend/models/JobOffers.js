@@ -6,6 +6,7 @@ const jobOffersSchema = new mongoose.Schema({
   titre: { type: String, required: true },
   description: { type: String },
   rid: { type: mongoose.Types.ObjectId, required: true, ref: Recruiters },
+  show: { type: Boolean, default: true }, // Champ pour la visibilité de l'offre d'emploi
 });
 
 module.exports = mongoose.model("JobOffers", jobOffersSchema);
