@@ -1,7 +1,6 @@
 // --- IMPORTS ---
 const JOBOFFERS = require("../models/JobOffers");
 const HttpError = require("../util/http-error");
-const mongoose = require("mongoose");
 
 // --- GET ALL JOB OFFERS ---
 const getAllJobOffers = async (req, res, next) => {
@@ -50,13 +49,14 @@ const getJobOfferById = async (req, res, next) => {
 
 // --- CREATE JOB OFFER ---
 const createJobOffer = async (req, res, next) => {
-  const { region, description, titre, rid } = req.body;
+  const { region, description, titre, rid, show } = req.body; 
 
   const createdJobOffer = new JOBOFFERS({
     region,
     description,
     titre,
     rid,
+    show, 
   });
 
   try {
@@ -74,7 +74,7 @@ const createJobOffer = async (req, res, next) => {
 // --- UPDATE JOB OFFER ---
 const updateJobOffer = async (req, res, next) => {
   const jId = req.params.jId;
-  const { region, titre, description } = req.body;
+  const { region, titre, description, show } = req.body;
 
   let jobOffer;
   try {
@@ -95,6 +95,7 @@ const updateJobOffer = async (req, res, next) => {
   jobOffer.region = region;
   jobOffer.description = description;
   jobOffer.titre = titre;
+  jobOffer.show = show;
 
   try {
     await jobOffer.save();
@@ -140,10 +141,38 @@ const deleteJobOffer = async (req, res, next) => {
   res.json({ message: "Offre d'emploi supprimée." });
 };
 
+// --- GET ONLY VISIBLE JOB OFFERS ---
+const getVisibleJobOffers = async (req, res, next) => {
+  let jobOffers;
+
+  try {
+    jobOffers = await JOBOFFERS.find({ show: true });
+  } catch (e) {
+    console.log(e);
+    return next(
+      new HttpError(
+        "Échec lors de la récupération des offres d'emploi visibles",
+        500
+      )
+    );
+  }
+
+  if (!jobOffers || jobOffers.length === 0) {
+    return res
+      .status(200)
+      .json({ message: "Aucune offre d'emploi visible trouvée." });
+  }
+
+  res.json({
+    jobOffers: jobOffers.map((j) => j.toObject({ getters: true })),
+  });
+};
+
 // --- EXPORTS ---
 exports.getAllJobOffers = getAllJobOffers;
 exports.getJobOfferById = getJobOfferById;
+exports.getVisibleJobOffers = getVisibleJobOffers;
+
 exports.createJobOffer = createJobOffer;
 exports.updateJobOffer = updateJobOffer;
 exports.deleteJobOffer = deleteJobOffer;
-// Compare this snippet from backend/routes/jobOffers-routes.js:

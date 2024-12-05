@@ -9,10 +9,10 @@ const UserProfile = () => {
   const [error, setError] = useState(null);
   const { user, token } = useAuthContext();
 
+  // --- OBTENIR PROFIL ---
   useEffect(() => {
-    console.log(`User: ${user}`);
     const rId = user._id;
-    console.log(`User id: ${rId}`);
+
     const fetchProfile = async () => {
       try {
         const response = await fetch(

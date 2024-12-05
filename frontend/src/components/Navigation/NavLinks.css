@@ -12,7 +12,7 @@
 
 .sub-menu {
   position: absolute;
-  top: 75%; /* Déplace le sous-menu vers le bas par rapport à l'élément parent */
+  top: 75%;
 
   /* Styles supplémentaires pour le sous-menu */
   background-color: white;

@@ -2,7 +2,6 @@ import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../context/auth-context";
 import { Box, Typography, Button } from "@mui/material";
 import { Link } from "react-router-dom";
-import "./AfficheMesOffres.css";
 
 const AfficheMesOffres = () => {
   const auth = useContext(AuthContext);

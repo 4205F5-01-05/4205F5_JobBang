@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Typography, Button} from "@mui/material";
 import { useNavigate } from "react-router-dom";
+
 import "./joboffer.css";
 
 export default function Joboffer({ id, jobId, titre, description, onDelete, onEdit, onApply }) {
@@ -47,7 +48,7 @@ export default function Joboffer({ id, jobId, titre, description, onDelete, onEd
             <Button
               variant="contained"
               color="primary"
-              onClick={() => onApply(jobId)} // Passez jobId ici
+              onClick={() => onApply(jobId)} 
               aria-label="Postuler à l'offre d'emploi"
             >
               Apply

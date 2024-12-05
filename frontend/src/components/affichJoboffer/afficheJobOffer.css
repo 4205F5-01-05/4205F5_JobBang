@@ -1,50 +1,49 @@
 .afficheJobOffer {
   display: flex;
-  flex-direction: column; /* Stack children vertically */
-  align-items: center; /* Center horizontally */
-  width: 100%; /* Full width */
-  max-width: 800px; /* Set a maximum width for better readability */
+  flex-direction: column; 
+  align-items: center; 
+  width: 100%; 
+  max-width: 800px; 
   padding: 20px;
-  margin: 20px auto; /* Center with auto left/right margins */
-  background-color: #ffffff; /* White background */
+  margin: 20px auto; 
+  background-color: #ffffff; 
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box; /* Include padding in width calculations */
+  box-sizing: border-box; 
 }
 
 .afficheJobOffer h4 {
-  font-size: 2rem; /* Adjusted size for better fit */
-  margin: 0; /* Remove default margin */
-  color: #333; /* Dark color */
-  text-align: center; /* Center text */
+  font-size: 2rem; 
+  margin: 0; 
+  color: #333; 
+  text-align: center; 
 }
 
 .afficheJobOffer .region {
-  font-size: 1.1rem; /* Slightly smaller size for region */
-  color: #555; /* Medium color */
-  margin: 10px 0; /* Space above and below */
-  text-align: center; /* Center text */
+  font-size: 1.1rem; 
+  color: #555; 
+  margin: 10px 0; 
+  text-align: center;
 }
 
 .afficheJobOffer .description {
-  font-size: 1rem; /* Normal size for description */
-  color: #444; /* Medium-dark color */
-  line-height: 1.6; /* Line height for readability */
-  text-align: center; /* Center text */
-  margin-top: 20px; /* Space above description */
+  font-size: 1rem; 
+  color: #444; 
+  line-height: 1.6; 
+  text-align: center; 
+  margin-top: 20px; 
 }
 
 .loading,
 .error {
-  text-align: center; /* Center loading/error messages */
-  font-size: 1.2rem; /* Adjusted font size for visibility */
-  color: #ff5722; /* Error color */
-  margin-top: 20px; /* Add space above loading/error messages */
+  text-align: center; 
+  font-size: 1.2rem; 
+  color: #ff5722; 
+  margin-top: 20px;
 }
 
-/* Button styles for better visibility */
 .afficheJobOffer button {
-  margin-top: 20px; /* Space above button */
-  padding: 10px 20px; /* Add padding for better click area */
-  font-size: 1rem; /* Button font size */
+  margin-top: 20px; 
+  padding: 10px 20px; 
+  font-size: 1rem; 
 }

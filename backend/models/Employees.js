@@ -7,7 +7,7 @@ const employeesSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: function (v) {
-        return /\d{10}/.test(v); // validation strucutre numero téléphone
+        return /\d{10}/.test(v); 
       },
       message: (props) => `${props.value} is not a valid phone number!`,
     },
@@ -19,7 +19,7 @@ const employeesSchema = new mongoose.Schema({
     lowercase: true,
     validate: {
       validator: function (v) {
-        return /^\S+@\S+\.\S+$/.test(v); // validation de la structure du email
+        return /^\S+@\S+\.\S+$/.test(v); 
       },
       message: (props) => `${props.value} is not a valid email!`,
     },

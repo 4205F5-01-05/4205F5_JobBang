@@ -7,7 +7,6 @@ import {
   MdOutlineAlternateEmail,
   MdOutlinePhoneIphone,
   MdOutlineAddHome,
-  MdOutlineTableChart,
 } from "react-icons/md";
 
 import { AuthContext } from "../../context/auth-context";
@@ -39,8 +38,6 @@ export default function RegisterLoginCandidat() {
     const fd = new FormData(event.target);
     const data = Object.fromEntries(fd.entries());
 
-    console.log(JSON.stringify(data));
-
     try {
       setIsLoading(true);
       const response = await fetch(
@@ -55,30 +52,12 @@ export default function RegisterLoginCandidat() {
       );
 
       const responseData = await response.json();
-      console.log("Here is the reponseData", responseData);
 
       if (!response.ok) {
-        alert(responseData.message);
         throw new Error(responseData.message);
       }
 
       auth.login(responseData, responseData.token);
-
-      console.log("User logged in successfully");
-      console.log("User id " + auth.userId);
-      console.log("Token " + auth.token);
-      console.log("User is logged in " + auth.isLoggedIn);
-
-      const userSession = localStorage.getItem("user");
-      console.log("User session " + userSession);
-      console.log(
-        "User stored in localStorage: ",
-        localStorage.getItem("user")
-      );
-      console.log(
-        "Token stored in localStorage: ",
-        localStorage.getItem("token")
-      );
 
       navigate("/offreEmploiCandidat");
     } catch (err) {
@@ -115,20 +94,10 @@ export default function RegisterLoginCandidat() {
       );
 
       const responseData = await response.json();
-      console.log(responseData);
 
       if (!response.ok) {
         throw new Error(responseData.message);
       }
-
-      console.log("User registered successfully");
-      console.log(responseData);
-
-      console.log("DEBUT, User logged after registration");
-      console.log("User id " + auth.userId);
-      console.log("Token " + auth.token);
-      console.log("User is logged in " + auth.isLoggedIn);
-      console.log("FIN, User logged after registration");
 
       alert("Compte créé avec succès, veuillez vous connecter."); 
       navigate("/");

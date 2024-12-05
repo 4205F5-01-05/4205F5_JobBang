@@ -1,10 +1,10 @@
 // --- IMPORTS ---
 import { useEffect, useState, useContext } from "react";
-import { Box, Modal, Button, Typography } from "@mui/material"; // Importation de Modal, Button, et Typography
+import { Box, Modal, Button, Typography } from "@mui/material";
 import Joboffer from "../joboffer/joboffer";
 import { AuthContext } from "../../context/auth-context";
 import { useNavigate } from "react-router-dom";
-import UpdateJob from "../updateJob/UpdateJob";
+import { RadioGroup, FormControlLabel, Radio } from "@mui/material";
 
 // --- DEFAULT FUNCTION ---
 const MesOffres = () => {
@@ -12,10 +12,11 @@ const MesOffres = () => {
   const [jobOffers, setJobOffers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedCandidates, setSelectedCandidates] = useState(null); // État pour les candidatures
-  const [selectedOfferTitle, setSelectedOfferTitle] = useState(""); // État pour le titre de l'offre
-  const navigate = useNavigate(); // Use navigate hook to redirect
+  const [selectedCandidates, setSelectedCandidates] = useState(null); 
+  const [selectedOfferTitle, setSelectedOfferTitle] = useState(""); 
+  const navigate = useNavigate(); 
 
+  // --- OBTENIR JOB OFFERS ---
   useEffect(() => {
     const fetchJobOffers = async () => {
       try {
@@ -31,15 +32,16 @@ const MesOffres = () => {
         }
 
         const data = await response.json();
-        console.log("Job Offers Data:", data);
 
         if (Array.isArray(data.jobOffers)) {
-          const filteredJobOffers = data.jobOffers.filter(
-            (job) => job.rid === auth.userId
-          );
+          const filteredJobOffers = data.jobOffers
+            .filter((job) => job.rid === auth.userId)
+            .map((job) => ({
+              ...job,
+              show: job.show !== undefined ? job.show : true, 
+            }));
           setJobOffers(filteredJobOffers);
         } else {
-          console.error("jobOffers is not an array or is undefined");
           setJobOffers([]);
         }
       } catch (error) {
@@ -61,6 +63,7 @@ const MesOffres = () => {
     return <div>Erreur: {error.message}</div>;
   }
 
+  // --- DELETE OFFER ---
   const deleteOffer = async (offerId) => {
     const previousOffers = [...jobOffers];
     setJobOffers((prevOffers) =>
@@ -80,21 +83,24 @@ const MesOffres = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.error("Erreur de l'API:", errorData.message);
+        console.error("Une erreur est survenue: ", errorData.message);
         setJobOffers(previousOffers);
       } else {
         console.log("Offre supprimée avec succès:", offerId);
       }
     } catch (error) {
       console.error("Erreur lors de la suppression de l'offre:", error);
+      setError(error.message || "Une erreur est survenue, essayez plus tard.");
       setJobOffers(previousOffers);
     }
   };
 
+  // --- UPDATE OFFER ---
   const updateOffer = (offerId) => {
     navigate(`/modifierOffre/${offerId}`);
   };
 
+  // --- OBTENIR CANDIDATURES ---
   const fetchCandidatures = async (offerId) => {
     try {
       const response = await fetch(
@@ -115,20 +121,18 @@ const MesOffres = () => {
       return data.candidatures || [];
     } catch (error) {
       console.error("Erreur lors de la récupération des candidatures:", error);
+      setError(error.message || "Une erreur est survenue, essayez plus tard.");
       return [];
     }
   };
 
   const handleCandidateClick = async (offer) => {
     const candidatures = await fetchCandidatures(offer._id);
-    console.log(
-      "Candidatures récupérées dans handleCandidateClick:",
-      candidatures
-    );
     setSelectedCandidates(candidatures);
     setSelectedOfferTitle(offer.titre);
   };
 
+  // --- DOWNLOAD CV ---
   const downloadCV = async (cvFile) => {
     try {
       const response = await fetch(`https://jobbang-ke8e.onrender.com/${cvFile}`, {
@@ -145,12 +149,13 @@ const MesOffres = () => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = cvFile.split('/').pop(); // Get the file name from the path
+      a.download = cvFile.split("/").pop(); 
       document.body.appendChild(a);
       a.click();
       a.remove();
     } catch (error) {
       console.error("Error downloading CV:", error);
+      setError(error.message || "Une erreur est survenue, essayez plus tard.");
     }
   };
 
@@ -180,6 +185,22 @@ const MesOffres = () => {
                 <Button onClick={() => handleCandidateClick(job)}>
                   Voir les candidatures
                 </Button>
+                <RadioGroup
+                  row
+                  value={job.show === false ? "hidden" : "visible"} 
+                  disabled
+                >
+                  <FormControlLabel
+                    value="visible"
+                    control={<Radio />}
+                    label="Visible"
+                  />
+                  <FormControlLabel
+                    value="hidden"
+                    control={<Radio />}
+                    label="Masquée"
+                  />
+                </RadioGroup>
               </Box>
             ))
           ) : (

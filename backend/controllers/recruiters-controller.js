@@ -51,16 +51,7 @@ const getRecruiterById = async (req, res, next) => {
 const registerRecruiter = async (req, res, next) => {
   const { name, company, phone, email, mdp, companyAddress } = req.body;
 
-  let existingRecruiter;
-  try {
-    // Vérifier si l'email est déjà utilisé
-    existingRecruiter = await RECRUITERS.findOne({ email: email });
-  } catch (e) {
-    console.log(e);
-    return next(
-      new HttpError("Erreur lors de la validation du courriel.", 500)
-    );
-  }
+  const existingRecruiter = await emailUnique(email);
 
   if (existingRecruiter) {
     return next(new HttpError("L'adresse courriel est déjà utilisée.", 422));
@@ -96,7 +87,7 @@ const registerRecruiter = async (req, res, next) => {
         _id: createdRecruiter.id,
         email: createdRecruiter.email,
         company: createdRecruiter.company,
-        isEmployer: true, // Ajout de l'attribut isEmployer
+        isEmployer: true, 
       },
       "JaiFes,Cqcl!",
       { expiresIn: "24h" }
@@ -145,7 +136,7 @@ const loginRecruiter = async (req, res, next) => {
           _id: existingRecruiter.id,
           email: existingRecruiter.email,
           company: existingRecruiter.company,
-          isEmployer: true, // Ajout de l'attribut isEmployer
+          isEmployer: true, 
         },
         "JaiFes,Cqcl!",
         { expiresIn: "24h" }
@@ -160,7 +151,7 @@ const loginRecruiter = async (req, res, next) => {
       email: existingRecruiter.email,
       company: existingRecruiter.company,
       token: token,
-      isEmployer: true, // Ajout de l'attribut isEmploy
+      isEmployer: true, 
     });
   }
 };
@@ -168,34 +159,26 @@ const loginRecruiter = async (req, res, next) => {
 // --- MODIFICATION ---
 const updateRecruiter = async (req, res, next) => {
   const rId = req.params.rId;
-  const { name, company, phone, email, mdp, companyAddress } = req.body;
+  const updatedInfo = req.body;
 
-  let recruiter;
-
-  try {
-    recruiter = await RECRUITERS.findById(rId);
-  } catch (e) {
-    console.log(e);
-    return next(
-      new HttpError("Échec lors de la récupération du recruteur", 500)
-    );
+  // Valider le nouveau email
+  const email = updatedInfo.email;
+  const existingRecruiter = await emailUnique(email);
+  if (existingRecruiter && existingRecruiter._id != rId) {
+    return next (new HttpError(`L'adresse courriel ${email} est déjà utilisée.`, 422));
   }
 
-  if (!recruiter) {
-    return next(
-      new HttpError(`Le recruteur d'id ${rId} n'a pas été trouvé.`, 404)
-    );
-  }
-
-  recruiter.name = name;
-  recruiter.company = company;
-  recruiter.phone = phone;
-  recruiter.email = email;
-  recruiter.mdp = mdp;
-  recruiter.companyAddress = companyAddress;
-
   try {
-    await recruiter.save();
+    const updatedRecruiter = await RECRUITERS.findByIdAndUpdate(rId, updatedInfo, {
+      new: true,
+    });
+
+    if (!updatedRecruiter) {
+      return next(new HttpError(`Le recruteur d'id ${rId} n'a pas été trouvé.`, 404));
+    }
+
+    res.status(200).json({ recruiter: updatedRecruiter.toObject({ getters: true }) });
+
   } catch (e) {
     console.log(e);
     return next(
@@ -203,8 +186,7 @@ const updateRecruiter = async (req, res, next) => {
     );
   }
 
-  res.json({ recruiter: recruiter.toObject({ getters: true }) });
-};
+  };
 
 // --- SUPPRESSION ---
 const deleteRecruiter = async (req, res, next) => {
@@ -212,12 +194,16 @@ const deleteRecruiter = async (req, res, next) => {
 
   let recruiter;
   try {
-    recruiter = await RECRUITERS.findById(rId);
+    recruiter = await RECRUITERS.findByIdAndDelete(rId);
+
     if (!recruiter) {
       return next(
         new HttpError(`Le recruteur d'id ${rId} n'a pas été trouvé.`, 404)
       );
     }
+
+    res.status(200).json({ message: `Le recruteur d'id ${rId} a été supprimé avec succès!` });
+
   } catch (e) {
     console.log(e);
     return next(
@@ -225,16 +211,23 @@ const deleteRecruiter = async (req, res, next) => {
     );
   }
 
+};
+
+// --- MÉTHODES PRIVÉES ---
+async function emailUnique(email) {
+  let existingRecruiter;
   try {
-    await RECRUITERS.deleteOne({ _id: rId });
-    res.json({ message: "Recruteur supprimé." });
+    // Vérifier si l'email est déjà utilisé
+    existingRecruiter = await RECRUITERS.findOne({ email: email });
   } catch (e) {
     console.log(e);
     return next(
-      new HttpError("Échec lors de la suppression du recruteur", 500)
+      new HttpError("Erreur lors de la validation du courriel.", 500)
     );
   }
-};
+
+  return existingRecruiter;
+}
 
 // --- EXPORTS ---
 exports.getAllRecruiters = getAllRecruiters;
@@ -242,5 +235,6 @@ exports.getRecruiterById = getRecruiterById;
 
 exports.registerRecruiter = registerRecruiter;
 exports.loginRecruiter = loginRecruiter;
+
 exports.updateRecruiter = updateRecruiter;
 exports.deleteRecruiter = deleteRecruiter;

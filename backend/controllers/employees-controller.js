@@ -46,14 +46,7 @@ const getEmployeeById = async (req, res, next) => {
 const registerEmployee = async (req, res, next) => {
     const { name, phone, email, mdp, homeAddress } = req.body;
 
-    let existingEmployee;
-    try {
-        // Vérifier si l'email est déjà utilisé
-        existingEmployee = await EMPLOYEES.findOne({ email: email });
-    } catch (e) {
-        console.log(e);
-        return next(new HttpError("Erreur lors de la validation du courriel.", 500));
-    }
+    const existingEmployee = await emailUnique(email);
 
     if (existingEmployee) {
         return next(new HttpError(`L'adresse courriel ${email} est déjà utilisée.`, 422));
@@ -100,7 +93,7 @@ const registerEmployee = async (req, res, next) => {
     res.status(201).json({
         employee: createdEmployee.toObject({ getters: true }),
         token: token,
-        isEmployer: false,  // Pourquoi false? Parce que c'est un candidat qui se connecte ici et non un recruteur
+        isEmployer: false, 
     });
 };
 
@@ -144,10 +137,73 @@ const loginEmployee = async (req, res, next) => {
             _id: existingEmployee.id,
             email: existingEmployee.email,
             token: token,
-            isEmployer: false,  // Pourquoi false? Parce que c'est un candidat qui se connecte ici et non un recruteur
+            isEmployer: false,
         });
     }
 };
+
+// --- MODIFICATION ---
+const updateEmployee = async (req, res, next) => {
+    const eId = req.params.eId;
+    const updatedInfo = req.body;
+
+    // Valider le nouveau email
+    const email = updatedInfo.email;
+    const existingEmployee = await emailUnique(email);
+    if (existingEmployee && existingEmployee._id != eId) {
+        return next(new HttpError(`L'adresse courriel ${email} est déjà utilisée.`, 422));
+    }
+
+    try {
+        const updatedEmployee = await EMPLOYEES.findByIdAndUpdate(eId, updatedInfo, {
+            new: true,
+        });
+
+        if (!updatedEmployee) {
+            return next(new HttpError(`Le candidat d'id ${eId} n'a pas été trouvé.`, 404));
+        }
+
+        res.status(200).json({ employee: updatedEmployee.toObject({ getters: true }) });
+
+    } catch (e) {
+        console.log(e);
+        return next(new HttpError("ÉChec lors de la mise à jour du candidat.", 500));
+    }
+};
+
+// --- SUPPRESSION ---
+const delEmployee = async (req, res, next) => {
+    const eId = req.params.eId;
+
+    let employee;
+    try {
+        employee = await EMPLOYEES.findByIdAndDelete(eId);
+
+        if (!employee) {
+            return next(new HttpError(`Candidat d'id ${eId} introuvable.`, 404));
+        }
+
+        res.status(200).json({ message: `Le candidat d'id ${eId} a été supprimé avec succès!` });
+
+    } catch (e) {
+        console.log(e);
+        return next(new HttpError("Échec lors de la suppression du compte.", 500));
+    }
+};
+
+// --- MÉTHODES PRIVÉES ---
+async function emailUnique(email) {
+    let existingEmployee;
+    try {
+        // Vérifier si l'email est déjà utilisé
+        existingEmployee = await EMPLOYEES.findOne({ email: email });
+    } catch (e) {
+        console.log(e);
+        return next(new HttpError("Erreur lors de la validation du courriel.", 500));
+    }
+
+    return existingEmployee;
+}
 
 // --- EXPORTS ---
 exports.getAllEmployees = getAllEmployees;
@@ -155,3 +211,6 @@ exports.getEmployeeById = getEmployeeById;
 
 exports.registerEmployee = registerEmployee;
 exports.loginEmployee = loginEmployee;
+
+exports.updateEmployee = updateEmployee;
+exports.delEmployee = delEmployee;

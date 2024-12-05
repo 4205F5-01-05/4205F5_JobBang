@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import "./listeEmploi.css";
 import { Box } from "@mui/material";
 import Joboffer from "../joboffer/joboffer";
+
+import "./listeEmploi.css";
 
 export default function ListeEmploi() {
   const [jobOffers, setJobOffers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+
   useEffect(() => {
     const fetchJobOffers = async () => {
       try {
@@ -26,9 +27,9 @@ export default function ListeEmploi() {
         console.log("Job Offers Data:", data);
 
         if (Array.isArray(data.jobOffers)) {
-          setJobOffers(data.jobOffers);
+          const visibleOffers = data.jobOffers.filter((job) => job.show);
+          setJobOffers(visibleOffers);
         } else {
-          console.error("jobOffers is not an array or is undefined");
           setJobOffers([]);
         }
       } catch (error) {
@@ -50,18 +51,13 @@ export default function ListeEmploi() {
     return <div>Error: {error.message}</div>;
   }
 
-
   return (
     <div>
       <form>
         <Box className="joboffers">
           {jobOffers.length > 0 ? (
             jobOffers.map((job) => (
-              <Joboffer
-                key={job._id}
-                id={job._id}
-                titre={job.titre}           
-              />
+              <Joboffer key={job._id} id={job._id} titre={job.titre} />
             ))
           ) : (
             <div>No job offers found.</div>

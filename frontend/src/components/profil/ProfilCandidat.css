@@ -1,0 +1,42 @@
+.btnPopup {
+    margin-top: 50px;
+}
+
+#maj {
+    color: blue;
+    margin-bottom: 10px;
+}
+
+#maj:hover {
+    cursor: pointer;
+    text-shadow: 2px 2px 2px rgb(190, 194, 230);
+}
+
+#del {
+    color: red;
+}
+
+#del:hover {
+    cursor: pointer;
+    text-shadow: 2px 2px 2px rgb(230, 190, 190);
+}
+
+/* Confirm */
+.confirm {
+    color: black;
+}
+
+.confirm p {
+    font-size: 120%;
+}
+
+.confirm div {
+    display: inline;
+    margin-right: 30px;
+}
+
+.oui:hover {
+    font-weight: bold;
+    cursor: pointer;
+    text-shadow: 2px 2px 2px rgb(158, 154, 154);
+}
