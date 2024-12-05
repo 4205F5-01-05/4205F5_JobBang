@@ -22,7 +22,7 @@ export default function UserProfileC() {
   const delAccount = async () => {
     try {
         const resData = await sendRequest(
-            `http://localhost:5000/api/employees/${user._id}`,
+            `https://jobbang-ke8e.onrender.com/api/employees/${user._id}`,
             "DELETE",
             null,
             {
@@ -47,7 +47,7 @@ export default function UserProfileC() {
     const getLoggedUser = async () => {
         try {
             const resData = await sendRequest(
-                `http://localhost:5000/api/employees/${cId}`,
+                `https://jobbang-ke8e.onrender.com/api/employees/${cId}`,
                 "GET",
                 null,
                 {

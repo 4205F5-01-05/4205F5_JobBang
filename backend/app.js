@@ -47,12 +47,12 @@ const uri = "mongodb+srv://admin:Jaiepabs,Cvnac...@jobbang.yb0ee.mongodb.net/?re
 const uri_local = "mongodb://localhost:27017/JobBangLocal";
 
 mongoose
-  .connect(uri_local)
+  .connect(uri)
   .then(() => {
     app.listen(port);
-    console.log(`Connexion à la BD [${uri_local}] sur le port ${port} réussie.`);
+    console.log(`Connexion à la BD [${uri}] sur le port ${port} réussie.`);
   })
   .catch((e) => {
-    console.log(`Connexion à la BD [${uri_local} sur le port ${port} échouée.]`);
+    console.log(`Connexion à la BD [${uri} sur le port ${port} échouée.]`);
     console.log(e);
   });

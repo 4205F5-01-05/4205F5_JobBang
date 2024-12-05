@@ -20,7 +20,7 @@ const MesOffres = () => {
   useEffect(() => {
     const fetchJobOffers = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/jobOffers/", {
+        const response = await fetch("https://jobbang-ke8e.onrender.com/api/jobOffers/", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${auth.token}`,
@@ -72,7 +72,7 @@ const MesOffres = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/jobOffers/${offerId}`,
+        `https://jobbang-ke8e.onrender.com/api/jobOffers/${offerId}`,
         {
           method: "DELETE",
           headers: {
@@ -104,7 +104,7 @@ const MesOffres = () => {
   const fetchCandidatures = async (offerId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/candidatures/offer/${offerId}`,
+        `https://jobbang-ke8e.onrender.com/api/candidatures/offer/${offerId}`,
         {
           method: "GET",
           headers: {
@@ -135,7 +135,7 @@ const MesOffres = () => {
   // --- DOWNLOAD CV ---
   const downloadCV = async (cvFile) => {
     try {
-      const response = await fetch(`http://localhost:5000/${cvFile}`, {
+      const response = await fetch(`https://jobbang-ke8e.onrender.com/${cvFile}`, {
         headers: {
           Authorization: `Bearer ${auth.token}`,
         },

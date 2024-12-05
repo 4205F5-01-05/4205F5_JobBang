@@ -15,7 +15,7 @@ const ApplyJobForm = ({ jobTitle, jobId, onClose }) => {
     const fetchProfile = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/employees/${eId}`,
+          `https://jobbang-ke8e.onrender.com/api/employees/${eId}`,
           {
             method: "GET",
             headers: {
@@ -72,7 +72,7 @@ const ApplyJobForm = ({ jobTitle, jobId, onClose }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/candidatures/${jobId}/postuler`,
+        `https://jobbang-ke8e.onrender.com/api/candidatures/${jobId}/postuler`,
         {
           method: "POST",
           headers: {

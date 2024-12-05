@@ -41,7 +41,7 @@ export default function RegisterLoginCandidat() {
     try {
       setIsLoading(true);
       const response = await fetch(
-        `http://localhost:5000/api/employees/login`,
+        `https://jobbang-ke8e.onrender.com/api/employees/login`,
         {
           method: "POST",
           headers: {
@@ -83,7 +83,7 @@ export default function RegisterLoginCandidat() {
       setIsLoading(true);
 
       const response = await fetch(
-        `http://localhost:5000/api/employees/register`,
+        `https://jobbang-ke8e.onrender.com/api/employees/register`,
         {
           method: "POST",
           headers: {

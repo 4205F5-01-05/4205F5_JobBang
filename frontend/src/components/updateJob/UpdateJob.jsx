@@ -24,7 +24,7 @@ const UpdateJob = () => {
     const fetchJob = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/jobOffers/${offerId}`,
+          `https://jobbang-ke8e.onrender.com/api/jobOffers/${offerId}`,
           {
             method: "GET",
             headers: {
@@ -74,7 +74,7 @@ const UpdateJob = () => {
     // --- MAJ OFFRE ---
     try {
       const response = await fetch(
-        `http://localhost:5000/api/jobOffers/${offerId}`,
+        `https://jobbang-ke8e.onrender.com/api/jobOffers/${offerId}`,
         {
           method: "PATCH",
           headers: {

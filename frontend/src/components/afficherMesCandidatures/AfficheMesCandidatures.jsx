@@ -13,7 +13,7 @@ const AfficherMesCandidatures = () => {
   useEffect(() => {
     const fetchAllCandidatures = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/candidatures", {
+        const response = await fetch("https://jobbang-ke8e.onrender.com/api/candidatures", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${auth.token}`,
@@ -34,7 +34,7 @@ const AfficherMesCandidatures = () => {
 
         const jobOffersPromises = filteredCandidatures.map(async (candidature) => {
           const jobOfferResponse = await fetch(
-            `http://localhost:5000/api/jobOffers/${candidature.joId}`
+            `https://jobbang-ke8e.onrender.com/api/jobOffers/${candidature.joId}`
           );
 
           if (!jobOfferResponse.ok) {
@@ -60,7 +60,7 @@ const AfficherMesCandidatures = () => {
 
   const deleteCandidature = async (candidatureId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/candidatures/${candidatureId}`, {
+      const response = await fetch(`https://jobbang-ke8e.onrender.com/api/candidatures/${candidatureId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${auth.token}`,
