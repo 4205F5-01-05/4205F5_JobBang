@@ -9,7 +9,7 @@ const AfficherMesCandidatures = () => {
   const [candidatures, setCandidatures] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [jobOffers, setJobOffers] = useState([]); // New state to store job offers
+  const [jobOffers, setJobOffers] = useState([]);
 
   useEffect(() => {
     const fetchAllCandidatures = async () => {
@@ -27,14 +27,12 @@ const AfficherMesCandidatures = () => {
 
         const data = await response.json();
 
-        // Filter candidatures associated with the connected employer
         const filteredCandidatures = data.candidatures.filter(
           (candidature) => candidature.emailEmploye === auth.user.email
         );
 
         setCandidatures(filteredCandidatures);
 
-        // Fetch job offers for each candidature based on joId
         const jobOffersPromises = filteredCandidatures.map(async (candidature) => {
           const jobOfferResponse = await fetch(
             `http://localhost:5000/api/jobOffers/${candidature.joId}`
@@ -48,10 +46,8 @@ const AfficherMesCandidatures = () => {
           return jobOfferData.jobOffer;
         });
 
-        // Wait for all job offers to be fetched
         const allJobOffers = await Promise.all(jobOffersPromises);
         setJobOffers(allJobOffers);
-
       } catch (error) {
         setError("Erreur lors de la récupération des candidatures ou des offres.");
         console.log(error);
@@ -62,6 +58,28 @@ const AfficherMesCandidatures = () => {
 
     fetchAllCandidatures();
   }, [auth.token, auth.user._id]);
+
+  const deleteCandidature = async (candidatureId) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/candidatures/${candidatureId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${auth.token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Erreur lors de la suppression de la candidature.");
+      }
+
+      setCandidatures((prevCandidatures) =>
+        prevCandidatures.filter((candidature) => candidature._id !== candidatureId)
+      );
+    } catch (error) {
+      setError("Erreur lors de la suppression de la candidature.");
+      console.log(error);
+    }
+  };
 
   if (loading) {
     return <div>Chargement...</div>;
@@ -89,14 +107,13 @@ const AfficherMesCandidatures = () => {
               Candidat: <strong>{candidature.nomEmploye}</strong>
             </Typography>
 
-            {/* Display job offer title if available */}
             {jobOffers[index] && (
               <Typography variant="body2">
                 Offre: <strong>{jobOffers[index].titre}</strong>
               </Typography>
             )}
 
-            <Link to={`/candidature/${candidature._id}`}>
+            <Link to={`/offre/${candidature._id}`}>
               <Button
                 variant="outlined"
                 color="primary"
@@ -105,6 +122,14 @@ const AfficherMesCandidatures = () => {
                 Voir les détails
               </Button>
             </Link>
+            <Button
+              variant="outlined"
+              color="error"
+              style={{ marginTop: "10px" }}
+              onClick={() => deleteCandidature(candidature._id)}
+            >
+              Supprimer ma candidature
+            </Button>
           </div>
         ))}
       </Box>
