@@ -50,7 +50,9 @@ const ApplyJobForm = ({ jobTitle, jobId, onClose }) => {
     formData.append("nomEmploye", e.target[0].value);
     formData.append("telEmploye", e.target[1].value);
     formData.append("emailEmploye", e.target[2].value);
+    formData.append("eId", user._id);
     const file = e.target.cvFile.files[0];
+    
 
     if (file) {
       formData.append("cvFile", file);
