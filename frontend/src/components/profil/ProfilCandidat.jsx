@@ -1,6 +1,6 @@
 // --- IMPORTS ---
 import React, { useState, useEffect } from "react";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useHttpClient } from "../../hooks/http-hook";
 
@@ -15,6 +15,7 @@ export default function UserProfileC() {
   const [retour, setRetour] = useState(false);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const { user, token, logout } = useAuthContext();
+  const navigate = useNavigate();
 
   // --- SUPPRESSION ---
   const [btnDel, setBtnDel] = useState(false);
@@ -34,6 +35,7 @@ export default function UserProfileC() {
     } finally {
         setRetour(true);
         logout();
+        navigate("/offreEmploi");
     }
 
   }
