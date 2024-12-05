@@ -89,6 +89,21 @@ const createCandidature = async (req, res, next) => {
     const joId = req.params.joId;
     const cvFile = req.file ? req.file.path : null;
 
+    // Validate file type and size
+    if (req.file) {
+        const fileType = req.file.mimetype;
+        const fileSize = req.file.size;
+
+        if (fileType !== "application/pdf") {
+            return next(new HttpError("Le CV doit être au format PDF.", 400));
+        }
+        if (fileSize > 10 * 1024 * 1024) { // 10 Mo
+            return next(new HttpError("La taille du CV ne doit pas dépasser 10 Mo.", 400));
+        }
+    } else {
+        return next(new HttpError("Veuillez soumettre un fichier CV.", 400));
+    }
+
     // Check if the user has already applied for the same job
     let existingCandidature;
     try {

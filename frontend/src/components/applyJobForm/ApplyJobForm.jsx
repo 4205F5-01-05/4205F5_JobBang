@@ -52,12 +52,23 @@ const ApplyJobForm = ({ jobTitle, jobId, onClose }) => {
     const file = e.target.cvFile.files[0];
     
 
-    if (file) {
-      formData.append("cvFile", file);
-    } else {
-      alert("Please select a file.");
+    if (!file) {
+      alert("Veuillez sélectionner un fichier.");
       return;
     }
+
+    // Validate file type and size
+    const validFileTypes = ["application/pdf"];
+    if (!validFileTypes.includes(file.type)) {
+        alert("Le fichier doit être au format PDF.");
+        return;
+    }
+    if (file.size > 10 * 1024 * 1024) { // 10 MB
+        alert("La taille du fichier ne doit pas dépasser 10 Mo.");
+        return;
+    }
+
+    formData.append("cvFile", file);
 
     try {
       const response = await fetch(
